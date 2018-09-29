@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="IdentitasItems">
+        <item>KTP / Identity Card</item>
+        <item>Paspor / Passport</item>
+        <item>SIM / Driver's License</item>
+        <item>Akta / Certificate of Birth</item>
+    </string-array>
+    <string-array name="JenisKelaminItems">
+        <item>Laki-laki</item>
+        <item>Perempuan</item>
+    </string-array>
+</resources>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FragmentRegistrasi"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/tv_jk"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Jenis Kelamin"
+        android:textSize="12sp"
+        android:paddingLeft="4dp"
+
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <Spinner
+        android:id="@+id/spin_jk"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/JenisKelaminItems"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="@id/tv_jk"
+        app:layout_constraintStart_toStartOf="@id/tv_jk"
+        app:layout_constraintTop_toBottomOf="@id/tv_jk"/>
+
+    <TextView
+    android:id="@+id/tv_opt_idt"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:text="Identitas"
+    android:textSize="12sp"
+    android:layout_marginTop="10dp"
+    android:paddingLeft="4dp"
+    app:layout_constraintEnd_toEndOf="@id/tv_jk"
+    app:layout_constraintStart_toStartOf="@id/tv_jk"
+    app:layout_constraintTop_toBottomOf="@id/spin_jk"/>
+
+    <Spinner
+    android:id="@+id/spin_idt"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:entries="@array/IdentitasItems"
+    android:padding="10dp"
+    app:layout_constraintEnd_toEndOf="@id/tv_jk"
+    app:layout_constraintStart_toStartOf="@id/tv_jk"
+    app:layout_constraintTop_toBottomOf="@id/tv_opt_idt"/>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:id="@+id/ti_idt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintEnd_toEndOf="@id/tv_jk"
+        app:layout_constraintStart_toStartOf="@id/tv_jk"
+        app:layout_constraintTop_toBottomOf="@id/spin_idt">
+
+        <EditText
+            android:id="@+id/edt_nomberPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:hint="Nomor Identitas"
+            android:inputType="number"
+            android:outlineProvider="none"
+            android:singleLine="true"
+            tools:text="12312313" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+    android:id="@+id/ti_phone"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="@id/tv_jk"
+    app:layout_constraintStart_toStartOf="@id/tv_jk"
+
+    app:layout_constraintTop_toBottomOf="@id/ti_idt">
+
+    <EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fontFamily="sans-serif"
+    android:hint="Telpon"
+    android:outlineProvider="none"
+    android:singleLine="true"
+    tools:text="089"
+    android:inputType="number" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+</android.support.constraint.ConstraintLayout>

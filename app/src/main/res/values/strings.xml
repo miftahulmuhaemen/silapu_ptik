@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Silapu</string>
+    <string name="daftar">Anda tidak punya akun? <b>Daftar</b>.</string>
+    <string name="masuk">Anda sudah punya akun? <b>Masuk</b></string>
+    <string name="lupa_katasandi">Lupa Katasandi?</string>
+    <string name="logo">Logo</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
