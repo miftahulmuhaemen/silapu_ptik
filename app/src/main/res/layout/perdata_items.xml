@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/items"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/small_margin_globally"
+    android:layout_marginBottom="@dimen/small_margin_globally"
+    android:layout_marginLeft="@dimen/small_margin_globally"
+    android:layout_marginRight="@dimen/small_margin_globally"
+    app:cardCornerRadius="10dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingRight="@dimen/small_margin_globally"
+        android:layout_margin="@dimen/medium_margin_globally">
+
+        <ImageView
+            android:id="@+id/profile_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/round_btn"
+            android:src="@drawable/ic_mood_black_24dp"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_more_horiz_black_24dp"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:id="@+id/tv_sender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textStyle="bold"
+            tools:text="Miftahul Muhaemen"
+            android:textColor="@android:color/black"
+            android:layout_marginLeft="@dimen/medium_margin_globally"
+            android:layout_toRightOf="@id/profile_img"
+            />
+
+        <TextView
+            android:id="@+id/tv_purpose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Untuk permohonan KTM"
+
+            android:layout_marginLeft="@dimen/medium_margin_globally"
+            android:layout_toRightOf="@id/profile_img"
+            android:layout_below="@id/tv_sender"
+            />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="I like the bold encasement of the avatar, can we try a few more color treatments?"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:layout_marginTop="@dimen/small_margin_globally"
+            android:layout_marginLeft="@dimen/medium_margin_globally"
+            android:layout_toRightOf="@id/profile_img"
+            android:layout_below="@id/tv_purpose"
+            />
+
+        <TextView
+            android:id="@+id/tv_classification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Mengambil langsung ke ULM"
+            android:textColor="@android:color/black"
+            android:textSize="8sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="@dimen/medium_margin_globally"
+            android:layout_toRightOf="@id/profile_img"
+            android:layout_below="@id/tv_content"
+            android:drawableLeft="@drawable/ic_fiber_manual_record_black_24dp"
+            />
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.unlam.developerstudentclub.silapu.Utils.LockableViewPager
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toTopOf="@id/ntb"
+        app:layout_constraintEnd_toEndOf="@id/ntb"
+        app:layout_constraintStart_toStartOf="@id/ntb"
+        app:layout_constraintTop_toTopOf="parent"
+        ></com.unlam.developerstudentclub.silapu.Utils.LockableViewPager>
+
+    <devlight.io.library.ntb.NavigationTabBar
+        android:id="@+id/ntb"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:ntb_animation_duration="200"
+        app:ntb_preview_colors="@array/color"
+        app:ntb_active_color="#fff"
+        app:ntb_inactive_color="#000"
+        app:ntb_scaled="true"
+        app:ntb_tinted="true"
+        app:ntb_title_mode="all"
+        app:ntb_badge_position="right"
+        app:ntb_badge_gravity="top"
+        app:ntb_badge_bg_color="#ffff0000"
+        app:ntb_badge_title_color="#ffffffff"
+        app:ntb_swiped="true"
+        app:ntb_bg_color="#000"
+        app:ntb_icon_size_fraction="0.7"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_add_item"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_add_black_24dp"
+
+        android:layout_marginRight="@dimen/large_margin_globally"
+        android:layout_marginBottom="@dimen/large_margin_globally"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ntb"
+        />
+
+</android.support.constraint.ConstraintLayout>

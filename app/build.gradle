@@ -41,4 +41,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
     compileOnly 'org.projectlombok:lombok:1.18.2'
+
+    implementation 'devlight.io:navigationtabbar:1.2.5'
 }
