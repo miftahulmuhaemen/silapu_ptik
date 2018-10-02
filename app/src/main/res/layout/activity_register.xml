@@ -11,20 +11,16 @@
         android:id="@+id/bg_logo"
         android:layout_width="0dp"
         android:layout_height="100dp"
-
-
         android:contentDescription="@string/logo"
         android:src="@drawable/base"
         app:layout_constraintBottom_toTopOf="@+id/viewpager"
         app:layout_constraintEnd_toEndOf="@id/viewpager"
         app:layout_constraintHorizontal_bias="0.0"
-
-
         app:layout_constraintStart_toStartOf="@+id/viewpager"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <android.support.v4.view.ViewPager
+    <com.unlam.developerstudentclub.silapu.Utils.LockableViewPager
         android:id="@+id/viewpager"
         android:layout_width="0dp"
         android:layout_height="350dp"
@@ -79,27 +75,14 @@
         app:layout_constraintTop_toBottomOf="@id/viewpager"
         />
 
-
-
-
-
-
-
-    <!--<Button-->
-        <!--android:id="@+id/btn_login"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:backgroundTint="@color/colorSecondary"-->
-        <!--android:text="Masuk"-->
-        <!--android:textAllCaps="false"-->
-        <!--android:textColor="@color/White"-->
-        <!--app:layout_constraintEnd_toStartOf="@id/btn_googleSignOn"-->
-        <!--app:layout_constraintStart_toStartOf="@id/ti_email"-->
-        <!--app:layout_constraintTop_toBottomOf="@id/forgetPassword" />-->
-
-
-
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_masuk"
+        />
 
     <Button
         android:id="@+id/btn_masuk"
@@ -112,6 +95,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
+
+    <Button
+        android:id="@+id/btn_done"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Selesai"
+        android:textAllCaps="false"
+        android:background="@color/colorAccent"
+        android:textColor="@color/White"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/viewpager"
+        app:layout_constraintStart_toStartOf="@id/viewpager"
+        app:layout_constraintTop_toBottomOf="@id/viewpager"/>
 
 
 </android.support.constraint.ConstraintLayout>

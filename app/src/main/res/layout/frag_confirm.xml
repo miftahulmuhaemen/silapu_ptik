@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:paddingTop="@dimen/medium_margin_globally"
+    android:paddingLeft="@dimen/medium_margin_globally"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/tv_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kirim Data?"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_head"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_marginBottom="@dimen/small_margin_globally"
+        android:layout_marginTop="@dimen/small_margin_globally"
+        android:layout_marginRight="@dimen/fragment_vertical_margin"
+        android:text="Pastikan data yang anda masukkan sudah benar. Data akan kami gunakan untuk mempermudah keperluan anda nantinya di aplikasi ini."/>
+
+    <Button
+        android:id="@+id/btn_tidak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tidak"
+        android:textColor="@color/colorAccent"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_below="@id/tv_desc"
+        android:layout_toLeftOf="@id/btn_kirim"
+        android:layout_marginBottom="@dimen/small_margin_globally"
+        />
+
+    <Button
+        android:id="@+id/btn_kirim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kirim"
+        android:textColor="@color/colorAccent"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_below="@id/tv_desc"
+        android:layout_marginRight="@dimen/small_margin_globally"
+        android:layout_marginBottom="@dimen/small_margin_globally"
+        android:layout_alignParentRight="true"
+        />
+
+
+</RelativeLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/check_mark"
+
+        android:layout_marginTop="@dimen/fragment_vertical_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/data_sudah_lengkap"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+
+        android:layout_marginTop="@dimen/fragment_vertical_margin"
+        app:layout_constraintTop_toBottomOf="@+id/check"
+        app:layout_constraintEnd_toEndOf="@id/check"
+        app:layout_constraintStart_toStartOf="@id/check"
+        />
+
+    <TextView
+        android:id="@+id/tv_ds"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/silahkan_tekan_tombol_selesai_untuk_n_melanjutkan"
+        android:textAlignment="center"
+        android:layout_marginTop="@dimen/small_margin_globally"
+        app:layout_constraintEnd_toEndOf="@id/check"
+        app:layout_constraintStart_toStartOf="@id/check"
+        app:layout_constraintTop_toBottomOf="@id/head"
+        />
+
+
+</android.support.constraint.ConstraintLayout>

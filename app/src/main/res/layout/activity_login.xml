@@ -45,52 +45,97 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/ti_password"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:passwordToggleEnabled="true"
+        android:layout_height="44dp"
         app:layout_constraintEnd_toEndOf="@id/ti_email"
         app:layout_constraintStart_toStartOf="@id/ti_email"
-        app:layout_constraintTop_toBottomOf="@id/ti_email">
+        app:layout_constraintTop_toBottomOf="@id/ti_email"
+        app:passwordToggleEnabled="true">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:hint="Katasandi"
-            android:outlineProvider="none"
             android:inputType="textPassword"
+            android:outlineProvider="none"
             android:singleLine="true"
             tools:text="aselole@gmail.com" />
 
     </android.support.design.widget.TextInputLayout>
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginRight="@dimen/small_margin_globally"
+        app:layout_constraintStart_toStartOf="@id/ti_password"
+        app:layout_constraintEnd_toStartOf="@id/dividerAtau"
+        app:layout_constraintTop_toTopOf="@id/dividerAtau"
+        app:layout_constraintBottom_toBottomOf="@id/dividerAtau"
+        />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginLeft="@dimen/small_margin_globally"
+        app:layout_constraintEnd_toEndOf="@id/ti_password"
+        app:layout_constraintStart_toEndOf="@id/dividerAtau"
+        app:layout_constraintTop_toTopOf="@id/dividerAtau"
+        app:layout_constraintBottom_toBottomOf="@id/dividerAtau"
+        />
+
+
+
+    <TextView
+        android:id="@+id/dividerAtau"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/atau"
+        android:layout_marginTop="@dimen/medium_margin_globally"
+        app:layout_constraintEnd_toEndOf="@id/ti_password"
+        app:layout_constraintStart_toStartOf="@id/ti_password"
+        app:layout_constraintTop_toBottomOf="@id/btn_login"/>
+
+
     <TextView
         android:id="@+id/forgetPassword"
         android:layout_width="104dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/medium_margin_globally"
         android:text="@string/lupa_katasandi"
         android:textStyle="italic"
         android:textColor="@color/colorSecondary"
         app:layout_constraintStart_toStartOf="@id/ti_password"
-        app:layout_constraintTop_toBottomOf="@id/ti_password" />
+        app:layout_constraintEnd_toEndOf="@id/ti_password"
+        app:layout_constraintTop_toBottomOf="@id/dividerAtau" />
+
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginTop="@dimen/medium_margin_globally"
         android:background="@color/colorAccent"
         android:text="Masuk"
         android:textAllCaps="false"
         android:textColor="@color/White"
-        app:layout_constraintStart_toEndOf="@id/forgetPassword"
+        app:layout_constraintStart_toStartOf="@id/ti_password"
         app:layout_constraintEnd_toEndOf="@id/ti_email"
         app:layout_constraintTop_toBottomOf="@id/ti_password" />
 
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_daftar"
+        />
 
     <Button
+        android:id="@+id/btn_daftar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
@@ -99,6 +144,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fragment_vertical_margin"
+        app:layout_constraintBottom_toTopOf="@id/btn_daftar"
+        app:layout_constraintEnd_toEndOf="@id/ti_password"
+        app:layout_constraintStart_toStartOf="@id/ti_password"
         />
 
 

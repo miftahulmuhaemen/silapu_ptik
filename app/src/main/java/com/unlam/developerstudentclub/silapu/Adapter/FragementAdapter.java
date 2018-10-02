@@ -1,4 +1,4 @@
-package com.unlam.developerstudentclub.silapu;
+package com.unlam.developerstudentclub.silapu.Adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -1,4 +1,4 @@
-package com.unlam.developerstudentclub.silapu;
+package com.unlam.developerstudentclub.silapu.Fragment;
 
 
 import android.os.Bundle;
@@ -12,13 +12,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.unlam.developerstudentclub.silapu.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentRegistrasi extends Fragment {
+public class Registrasi extends Fragment {
 
     @Nullable @BindView(R.id.edt_email) EditText edt_email;
     @Nullable @BindView(R.id.edt_alamat) EditText edt_alamat;
@@ -29,9 +31,9 @@ public class FragmentRegistrasi extends Fragment {
     @Nullable @BindView(R.id.spin_idt) Spinner spn_Identitas;
     @Nullable @BindView(R.id.edt_nomberPhone) EditText edt_phoneNumber;
 
-    public static String FRAGEMENT_IDENTITY = "first";
+    public static String FRAGEMENT_IDENTITY = "identity";
 
-    public FragmentRegistrasi() {
+    public Registrasi() {
         // Required empty public constructor
     }
 
@@ -39,10 +41,18 @@ public class FragmentRegistrasi extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
         View view;
-        if(getArguments().getInt(FRAGEMENT_IDENTITY,0) == 1)
+        int check = getArguments().getInt(FRAGEMENT_IDENTITY,0);
+
+        if( check == 1)
             view = inflater.inflate(R.layout.frag_regist1st,container,false);
-        else
+        else if(check == 2)
             view = inflater.inflate(R.layout.frag_regist2nd,container,false);
+        else if(check == 3)
+            view = inflater.inflate(R.layout.frag_regist3rd,container,false);
+        else if(check == 4)
+            view = inflater.inflate(R.layout.frag_regist4th,container,false);
+        else
+            view = inflater.inflate(R.layout.frag_regist4th,container,false);
 
         ButterKnife.bind(view);
 
