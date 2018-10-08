@@ -3,13 +3,15 @@
     <string-array name="IdentitasItems">
         <item>KTP / Identity Card</item>
         <item>Paspor / Passport</item>
-        <item>SIM / Driver's License</item>
+        <item>SIM / Drivers License</item>
         <item>Akta / Certificate of Birth</item>
     </string-array>
+
     <string-array name="JenisKelaminItems">
         <item>Laki-laki</item>
         <item>Perempuan</item>
     </string-array>
+
     <string-array name="color">
         <item>@color/colorPrimary</item>
         <item>@color/colorSecondary</item>

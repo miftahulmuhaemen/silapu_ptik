@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -27,6 +28,9 @@ public class Confirmation  extends DialogFragment {
     @Getter
     @Setter
     private OnOptionDialogListener onOptionDialogListener;
+
+    @BindView(R.id.btn_kirim) Button btn_kirim;
+    @BindView(R.id.btn_tidak) Button btn_tidak;
 
     @OnClick({R.id.btn_tidak, R.id.btn_kirim}) void OnClick(Button view){
         switch (view.getId()){
@@ -50,6 +54,7 @@ public class Confirmation  extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.frag_confirm,container);
         ButterKnife.bind(view);
 

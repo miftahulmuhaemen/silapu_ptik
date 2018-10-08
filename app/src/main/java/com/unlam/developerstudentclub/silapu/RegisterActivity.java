@@ -7,11 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.unlam.developerstudentclub.silapu.Adapter.FragementAdapter;
 import com.unlam.developerstudentclub.silapu.Fragment.Confirmation;
-import com.unlam.developerstudentclub.silapu.Fragment.Registrasi;
+import com.unlam.developerstudentclub.silapu.Fragment.Global;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 
 import butterknife.BindView;
@@ -56,10 +55,10 @@ public class RegisterActivity extends AppCompatActivity {
                 int currentPage = viewPager.getCurrentItem();
                 int totalPage = viewPager.getAdapter().getCount();
 
-                if(currentPage < viewPager.getOffscreenPageLimit())
+                if(currentPage < totalPage - 1)
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
 
-                if(currentPage < totalPage - 1){
+                if(currentPage == totalPage - 1){
                     Confirmation confirmationDialog = new Confirmation();
                     confirmationDialog.setOnOptionDialogListener(new Confirmation.OnOptionDialogListener() {
                         @Override
@@ -112,28 +111,28 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         FragementAdapter adapter = new FragementAdapter(getSupportFragmentManager());
-        Registrasi mFragment = new Registrasi();
+        Global mFragment = new Global();
         Bundle bundle = new Bundle();
 
-        bundle.putInt(Registrasi.FRAGEMENT_IDENTITY,1);
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,1);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part1");
 
         bundle = new Bundle();
-        mFragment = new Registrasi();
-        bundle.putInt(Registrasi.FRAGEMENT_IDENTITY,2);
+        mFragment = new Global();
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,2);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part2");
 
         bundle = new Bundle();
-        mFragment = new Registrasi();
-        bundle.putInt(Registrasi.FRAGEMENT_IDENTITY,3);
+        mFragment = new Global();
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,3);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part3");
 
         bundle = new Bundle();
-        mFragment = new Registrasi();
-        bundle.putInt(Registrasi.FRAGEMENT_IDENTITY,4);
+        mFragment = new Global();
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,4);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part4");
 

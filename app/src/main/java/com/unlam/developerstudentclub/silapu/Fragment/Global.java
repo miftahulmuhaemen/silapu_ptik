@@ -4,6 +4,7 @@ package com.unlam.developerstudentclub.silapu.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Registrasi extends Fragment {
+public class Global extends Fragment {
 
     @Nullable @BindView(R.id.edt_email) EditText edt_email;
     @Nullable @BindView(R.id.edt_alamat) EditText edt_alamat;
@@ -31,9 +32,12 @@ public class Registrasi extends Fragment {
     @Nullable @BindView(R.id.spin_idt) Spinner spn_Identitas;
     @Nullable @BindView(R.id.edt_nomberPhone) EditText edt_phoneNumber;
 
+    @Nullable RecyclerView recyclerView;
+
+
     public static String FRAGEMENT_IDENTITY = "identity";
 
-    public Registrasi() {
+    public Global() {
         // Required empty public constructor
     }
 
@@ -51,8 +55,12 @@ public class Registrasi extends Fragment {
             view = inflater.inflate(R.layout.frag_regist3rd,container,false);
         else if(check == 4)
             view = inflater.inflate(R.layout.frag_regist4th,container,false);
+        else if(check == 5){
+            view = inflater.inflate(R.layout.recylerview,container,false);
+
+        }
         else
-            view = inflater.inflate(R.layout.frag_regist4th,container,false);
+            view = inflater.inflate(R.layout.recylerview,container,false);
 
         ButterKnife.bind(view);
 

@@ -6,4 +6,5 @@
     <color name="PlainYellow">#F6F59B</color>
     <color name="EggYellow">#BD5C02</color>
     <color name="White">#FFF</color>
+    <color name="Black">#000</color>
 </resources>

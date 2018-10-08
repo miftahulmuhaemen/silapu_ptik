@@ -24,6 +24,7 @@
             android:layout_height="50dp"
             android:background="@drawable/round_btn"
             android:src="@drawable/ic_mood_black_24dp"
+            android:scaleType="centerCrop"
             android:layout_alignParentLeft="true"
             />
 
