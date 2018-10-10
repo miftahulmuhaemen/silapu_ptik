@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/small_margin_globally"
-    android:layout_marginBottom="@dimen/small_margin_globally"
     android:layout_marginLeft="@dimen/small_margin_globally"
     android:layout_marginRight="@dimen/small_margin_globally"
     app:cardCornerRadius="10dp"
@@ -18,7 +17,7 @@
         android:paddingRight="@dimen/small_margin_globally"
         android:layout_margin="@dimen/medium_margin_globally">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_img"
             android:layout_width="50dp"
             android:layout_height="50dp"

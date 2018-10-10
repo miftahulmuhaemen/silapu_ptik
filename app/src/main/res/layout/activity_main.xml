@@ -9,37 +9,48 @@
     <com.unlam.developerstudentclub.silapu.Utils.LockableViewPager
         android:id="@+id/viewpager"
         android:layout_width="0dp"
-        android:layout_height="522dp"
-        app:layout_constraintBottom_toTopOf="@id/ntb"
-        app:layout_constraintEnd_toEndOf="@id/ntb"
-        app:layout_constraintStart_toStartOf="@id/ntb"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </com.unlam.developerstudentclub.silapu.Utils.LockableViewPager>
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ntb"
+        />
+
     <devlight.io.library.ntb.NavigationTabBar
         android:id="@+id/ntb"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:ntb_animation_duration="200"
         app:ntb_preview_colors="@color/colorSecondary"
         app:ntb_active_color="@color/White"
-        app:ntb_inactive_color="@color/colorSecondary"
+        app:ntb_inactive_color="@color/OldColorSecondary"
         app:ntb_scaled="true"
-        app:ntb_tinted="true"
         app:ntb_title_mode="all"
         app:ntb_swiped="false"
+        app:ntb_titled="true"
         app:ntb_bg_color="@color/colorSecondary"
-        app:ntb_icon_size_fraction="0.7"/>
+        app:ntb_icon_size_fraction="0.5"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_add_item"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@drawable/ic_add_black_24dp"
+        app:backgroundTint="@color/colorSecondary"
 
         android:layout_marginRight="@dimen/large_margin_globally"
         android:layout_marginBottom="@dimen/large_margin_globally"

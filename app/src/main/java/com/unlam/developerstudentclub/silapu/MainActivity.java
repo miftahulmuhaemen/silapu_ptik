@@ -1,11 +1,11 @@
 package com.unlam.developerstudentclub.silapu;
 
-import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.unlam.developerstudentclub.silapu.Adapter.FragementAdapter;
+import com.unlam.developerstudentclub.silapu.Adapter.RecyclerViewAdapter;
 import com.unlam.developerstudentclub.silapu.Fragment.Global;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 
@@ -23,15 +23,18 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.ntb)
     NavigationTabBar navigationTabBar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
+        ButterKnife.bind(this);
         setupViewPager(viewPager);
+        navigationTabBar.setBehaviorEnabled(true);
         navigationTabBar.setViewPager(viewPager);
         navigationTabBar.setModels(tabModel());
+
     }
 
     public ArrayList<NavigationTabBar.Model> tabModel () {
@@ -39,19 +42,25 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
 
         models.add(new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.ic_record_voice_over_black_24dp),
-                        Color.BLACK
-                ).build());
+                        getResources().getDrawable(R.drawable.ic_content_paste_black_24dp),
+                        R.color.colorPrimary
+                ).selectedIcon(getResources().getDrawable(R.drawable.ic_assignment_black_24dp))
+                .title("Permohonan Data")
+                .build());
 
         models.add(new NavigationTabBar.Model.Builder(
                 getResources().getDrawable(R.drawable.ic_pan_tool_black_24dp),
-                Color.BLACK
-        ).build());
+                R.color.colorPrimary
+        )
+                .title("Pengaduan")
+                .build());
 
         models.add(new NavigationTabBar.Model.Builder(
-                getResources().getDrawable(R.drawable.ic_person_black_24dp),
-                Color.BLACK
-        ).build());
+                getResources().getDrawable(R.drawable.ic_person_outline_black_24dp),
+                R.color.colorPrimary
+        ).selectedIcon(getResources().getDrawable(R.drawable.ic_person_black_24dp))
+                .title("Profil")
+                .build());
 
         return models;
     }
@@ -63,19 +72,19 @@ public class MainActivity extends AppCompatActivity {
 
         bundle.putInt(Global.FRAGEMENT_IDENTITY,5);
         mFragment.setArguments(bundle);
-        adapter.addFragment(mFragment, "Part4");
-
-        bundle = new Bundle();
-        mFragment = new Global();
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,6);
-        mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part5");
 
         bundle = new Bundle();
-        mFragment = new Global();
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,7);
-        mFragment.setArguments(bundle);
-        adapter.addFragment(mFragment, "Part6");
+        Global mFragment1 = new Global();
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,6);
+        mFragment1.setArguments(bundle);
+        adapter.addFragment(mFragment1, "Part6");
+
+        bundle = new Bundle();
+        Global mFragment2 = new Global();
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,2);
+        mFragment2.setArguments(bundle);
+        adapter.addFragment(mFragment2, "Part3");
 
         viewPager.setAdapter(adapter);
     }

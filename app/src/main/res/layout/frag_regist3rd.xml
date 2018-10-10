@@ -34,13 +34,12 @@
         app:layout_constraintStart_toStartOf="@id/tv_judul"
         />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/plate_img"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginTop="@dimen/medium_margin_globally"
-        android:src="@drawable/check_mark"
-        android:tint="@color/colorAccent"
+        android:src="@color/colorAccent"
 
         app:layout_constraintTop_toBottomOf="@id/tv_descript"
         app:layout_constraintEnd_toEndOf="@id/tv_judul"

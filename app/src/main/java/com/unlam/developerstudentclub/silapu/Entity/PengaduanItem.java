@@ -5,6 +5,6 @@ import lombok.Setter;
 
 public class PengaduanItem {
 
-    @Getter @Setter String sender, profilImg, filetype, timestamp, content, classification;
+    @Getter @Setter String sender, profilImg, filetype, filename, filedates, content, classification;
 
 }

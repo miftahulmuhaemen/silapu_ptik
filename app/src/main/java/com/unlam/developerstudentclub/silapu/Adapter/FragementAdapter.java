@@ -10,7 +10,6 @@ import java.util.List;
 
 public class FragementAdapter extends FragmentPagerAdapter {
 
-    private final List<View> mViewList = new ArrayList<>();
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
