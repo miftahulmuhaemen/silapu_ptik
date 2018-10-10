@@ -69,8 +69,6 @@ public class Global extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
-
-
         View view;
 
         final int check = getArguments().getInt(FRAGEMENT_IDENTITY,0);
@@ -85,38 +83,20 @@ public class Global extends Fragment {
             case 4 : view = inflater.inflate(R.layout.frag_regist4th, container, false);
                         break;
             case 5 : view = inflater.inflate(R.layout.recylerview,container,false);
-                recyclerView = view.findViewById(R.id.recylerview);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new NpaLiniearLayoutManager(getActivity()));
-                rvAdapterPengaduan = new RecyclerViewAdapter(getContext(),RecyclerViewAdapter.FRAGMENT_PENGADUAN);
-
-                ArrayList<PengaduanItem> items = new ArrayList<>();
-                items.addAll(DummyDataPengaduan.getListData());
-                rvAdapterPengaduan.setFilteredPengaduanItem(items);
-                recyclerView.setAdapter(rvAdapterPengaduan);
+                        PengaduanAdapter(view);
                         break;
             case 6 : view =  inflater.inflate(R.layout.recylerview,container,false);
-                recyclerView = view.findViewById(R.id.recylerview);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new NpaLiniearLayoutManager(getActivity()));
-                tvAdapterPerdata = new RecyclerViewAdapter(getContext(),RecyclerViewAdapter.FRAGMENT_PERDATA);
-
-                ArrayList<PerdataItem> itemses = new ArrayList<>();
-                itemses.addAll(DummyDataPerdata.getListData());
-                tvAdapterPerdata.setFilteredPerdataItem(itemses);
-                recyclerView.setAdapter(tvAdapterPerdata);
+                        PerdataAdapter(view);
                         break;
             default: view =  inflater.inflate(R.layout.recylerview,container,false);
                         break;
         }
-
 
         ButterKnife.bind(view);
 
         if(check == 5 || check == 6){
             searchView = view.findViewById(R.id.searchview);
             btn_add = view.findViewById(R.id.btn_add_item);
-
             searchView.setIconified(false);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
@@ -125,7 +105,6 @@ public class Global extends Fragment {
                         rvAdapterPengaduan.getFilter().filter(query);
                     else
                         tvAdapterPerdata.getFilter().filter(query);
-
                     return false;
                 }
 
@@ -142,11 +121,35 @@ public class Global extends Fragment {
             btn_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("PASS", "KANCUT");
+
                 }
             });
         }
         return view;
+    }
+
+    private void PengaduanAdapter(View view){
+        recyclerView = view.findViewById(R.id.recylerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new NpaLiniearLayoutManager(getActivity()));
+        rvAdapterPengaduan = new RecyclerViewAdapter(getContext(),RecyclerViewAdapter.FRAGMENT_PENGADUAN);
+
+        ArrayList<PengaduanItem> items = new ArrayList<>();
+        items.addAll(DummyDataPengaduan.getListData());
+        rvAdapterPengaduan.setFilteredPengaduanItem(items);
+        recyclerView.setAdapter(rvAdapterPengaduan);
+    }
+
+    private void PerdataAdapter(View view){
+        recyclerView = view.findViewById(R.id.recylerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new NpaLiniearLayoutManager(getActivity()));
+        tvAdapterPerdata = new RecyclerViewAdapter(getContext(),RecyclerViewAdapter.FRAGMENT_PERDATA);
+
+        ArrayList<PerdataItem> itemses = new ArrayList<>();
+        itemses.addAll(DummyDataPerdata.getListData());
+        tvAdapterPerdata.setFilteredPerdataItem(itemses);
+        recyclerView.setAdapter(tvAdapterPerdata);
     }
 
 }

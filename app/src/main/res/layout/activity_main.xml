@@ -31,6 +31,9 @@
         android:id="@+id/ntb"
         android:layout_width="0dp"
         android:layout_height="70dp"
+
+        app:layout_goneMarginBottom="4dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +46,6 @@
         app:ntb_swiped="false"
         app:ntb_titled="true"
         app:ntb_bg_color="@color/colorSecondary"
-        app:ntb_icon_size_fraction="0.5"/>
+        app:ntb_icon_size_fraction="0.4"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -43,22 +43,21 @@ public class MainActivity extends AppCompatActivity {
 
         models.add(new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.ic_content_paste_black_24dp),
-                        R.color.colorPrimary
-                ).selectedIcon(getResources().getDrawable(R.drawable.ic_assignment_black_24dp))
-                .title("Permohonan Data")
+                        R.color.colorPrimary)
+                .selectedIcon(getResources().getDrawable(R.drawable.ic_assignment_black_24dp))
+                .title("Permohonan")
                 .build());
 
         models.add(new NavigationTabBar.Model.Builder(
                 getResources().getDrawable(R.drawable.ic_pan_tool_black_24dp),
-                R.color.colorPrimary
-        )
+                R.color.colorPrimary)
                 .title("Pengaduan")
                 .build());
 
         models.add(new NavigationTabBar.Model.Builder(
                 getResources().getDrawable(R.drawable.ic_person_outline_black_24dp),
-                R.color.colorPrimary
-        ).selectedIcon(getResources().getDrawable(R.drawable.ic_person_black_24dp))
+                R.color.colorPrimary)
+                .selectedIcon(getResources().getDrawable(R.drawable.ic_person_black_24dp))
                 .title("Profil")
                 .build());
 
