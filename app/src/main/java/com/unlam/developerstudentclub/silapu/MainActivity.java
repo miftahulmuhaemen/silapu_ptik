@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.ntb)
     NavigationTabBar navigationTabBar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         navigationTabBar.setBehaviorEnabled(true);
         navigationTabBar.setViewPager(viewPager);
         navigationTabBar.setModels(tabModel());
+
 
     }
 
@@ -75,16 +75,16 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(mFragment, "Part5");
 
         bundle = new Bundle();
-        Global mFragment1 = new Global();
+        mFragment = new Global();
         bundle.putInt(Global.FRAGEMENT_IDENTITY,6);
-        mFragment1.setArguments(bundle);
-        adapter.addFragment(mFragment1, "Part6");
+        mFragment.setArguments(bundle);
+        adapter.addFragment(mFragment, "Part6");
 
         bundle = new Bundle();
-        Global mFragment2 = new Global();
+        mFragment = new Global();
         bundle.putInt(Global.FRAGEMENT_IDENTITY,2);
-        mFragment2.setArguments(bundle);
-        adapter.addFragment(mFragment2, "Part3");
+        mFragment.setArguments(bundle);
+        adapter.addFragment(mFragment, "Part3");
 
         viewPager.setAdapter(adapter);
     }

@@ -45,17 +45,4 @@
         app:ntb_bg_color="@color/colorSecondary"
         app:ntb_icon_size_fraction="0.5"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btn_add_item"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/ic_add_black_24dp"
-        app:backgroundTint="@color/colorSecondary"
-
-        android:layout_marginRight="@dimen/large_margin_globally"
-        android:layout_marginBottom="@dimen/large_margin_globally"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ntb"
-        />
-
 </android.support.constraint.ConstraintLayout>
