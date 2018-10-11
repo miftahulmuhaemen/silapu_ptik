@@ -24,15 +24,18 @@ import butterknife.ButterKnife;
 import lombok.Getter;
 import lombok.Setter;
 
+import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PENGADUAN;
+
 public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.Adapter<RecyclerViewAdapter.RecylerViewAdapterHolder>
             implements Filterable {
 
-    private Context context;
-    @Getter  private ArrayList<PengaduanItem> listPengaduanItem = new ArrayList<>();
-    @Getter  private ArrayList<PerdataItem> listPerdataitem = new ArrayList<>();
-    @Getter  private ArrayList<PengaduanItem> filteredPengaduanItem = new ArrayList<>();
-    @Getter  private ArrayList<PerdataItem> filteredPerdataItem = new ArrayList<>();
+        private Context context;
+        @Getter  private ArrayList<PengaduanItem> listPengaduanItem = new ArrayList<>();
+        @Getter  private ArrayList<PerdataItem> listPerdataitem = new ArrayList<>();
+        @Getter  private ArrayList<PengaduanItem> filteredPengaduanItem = new ArrayList<>();
+        @Getter  private ArrayList<PerdataItem> filteredPerdataItem = new ArrayList<>();
 
+        private int IDENTIFIER;
 
         public void setFilteredPengaduanItem(ArrayList<PengaduanItem> item){
             filteredPengaduanItem = item;
@@ -44,11 +47,7 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
             listPerdataitem = item;
         }
 
-        public static String FRAGMENT_PENGADUAN = "pengaduan";
-        public static String FRAGMENT_PERDATA = "perdata";
-        private String IDENTIFIER;
-
-        public RecyclerViewAdapter(Context context, String Identifier){
+        public RecyclerViewAdapter(Context context, int Identifier){
             this.context = context;
             IDENTIFIER = Identifier;
         }

@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:hint="Alamat"
             android:maxLines="3"
-            tools:text="Jalan Belitung Darat RT.20 No.71 Aselole Jos Jos" />
+            tools:text="@string/jalan" />
 
     </android.support.design.widget.TextInputLayout>
 

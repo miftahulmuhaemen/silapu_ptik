@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.unlam.developerstudentclub.silapu.Adapter.RecyclerViewAdapter;
 import com.unlam.developerstudentclub.silapu.Entity.DummyDataPengaduan;
@@ -54,11 +56,19 @@ public class Global extends Fragment {
     @Nullable @BindView(R.id.spin_idt) Spinner spn_Identitas;
     @Nullable @BindView(R.id.edt_nomberPhone) EditText edt_phoneNumber;
 
-    FloatingActionButton btn_add;
-    SearchView searchView;
-    RecyclerView recyclerView;
-    RecyclerViewAdapter rvAdapterPengaduan;
-    RecyclerViewAdapter tvAdapterPerdata;
+    @Nullable @BindView(R.id.btn_add_item) FloatingActionButton btn_add;
+    @Nullable @BindView(R.id.searchview) SearchView searchView;
+    @Nullable @BindView(R.id.recylerview) RecyclerView recyclerView;
+
+    RecyclerViewAdapter rvAdapter;
+
+    final public static int FRAGMENT_REGISTER_FIRST = 1;
+    final public static int FRAGMENT_REGISTER_SECOND = 2;
+    final public static int FRAGMENT_REGISTER_THIRD = 3;
+    final public static int FRAGMENT_REGISTER_FORTH = 4;
+    final public static int FRAGMENT_PENGADUAN = 5;
+    final public static int FRAGMENT_PERDATA = 6;
+    final public static int FRAGMENT_PROFIL = 7;
 
     public static String FRAGEMENT_IDENTITY = "identity";
 
@@ -69,51 +79,45 @@ public class Global extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
-        View view;
+        final View view;
+        final int CHECK = getArguments().getInt(FRAGEMENT_IDENTITY,0);
 
-        final int check = getArguments().getInt(FRAGEMENT_IDENTITY,0);
-
-        switch (check){
-            case 1 : view = inflater.inflate(R.layout.frag_regist1st, container, false);
+        switch (CHECK){
+            case FRAGMENT_REGISTER_FIRST : view = inflater.inflate(R.layout.frag_regist1st, container, false);
                         break;
-            case 2 : view = inflater.inflate(R.layout.frag_regist2nd,container,false);
+            case FRAGMENT_REGISTER_SECOND : view = inflater.inflate(R.layout.frag_regist2nd,container,false);
                         break;
-            case 3 : view = inflater.inflate(R.layout.frag_regist3rd, container, false);
+            case FRAGMENT_REGISTER_THIRD : view = inflater.inflate(R.layout.frag_regist3rd, container, false);
                         break;
-            case 4 : view = inflater.inflate(R.layout.frag_regist4th, container, false);
+            case FRAGMENT_REGISTER_FORTH : view = inflater.inflate(R.layout.frag_regist4th, container, false);
                         break;
-            case 5 : view = inflater.inflate(R.layout.recylerview,container,false);
-                        PengaduanAdapter(view);
+            case FRAGMENT_PENGADUAN : view = inflater.inflate(R.layout.recylerview,container,false);
                         break;
-            case 6 : view =  inflater.inflate(R.layout.recylerview,container,false);
-                        PerdataAdapter(view);
+            case FRAGMENT_PERDATA : view =  inflater.inflate(R.layout.recylerview,container,false);
                         break;
-            default: view =  inflater.inflate(R.layout.recylerview,container,false);
+            case FRAGMENT_PROFIL : view = inflater.inflate(R.layout.frag_profile,container,false);
+                        break;
+            default: view =  null;
                         break;
         }
 
-        ButterKnife.bind(view);
+        ButterKnife.bind(this,view);
 
-        if(check == 5 || check == 6){
-            searchView = view.findViewById(R.id.searchview);
-            btn_add = view.findViewById(R.id.btn_add_item);
+        if(CHECK == FRAGMENT_PENGADUAN || CHECK == FRAGMENT_PERDATA){
+
+            RecylerViewAdapterConnect(CHECK);
+
             searchView.setIconified(false);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    if(check == 5)
-                        rvAdapterPengaduan.getFilter().filter(query);
-                    else
-                        tvAdapterPerdata.getFilter().filter(query);
+                    rvAdapter.getFilter().filter(query);
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String query) {
-                    if(check == 5)
-                        rvAdapterPengaduan.getFilter().filter(query);
-                    else
-                        tvAdapterPerdata.getFilter().filter(query);
+                    rvAdapter.getFilter().filter(query);
                     return false;
                 }
             });
@@ -122,34 +126,48 @@ public class Global extends Fragment {
                 @Override
                 public void onClick(View view) {
 
+                    view.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+                        @Override
+                        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+
+                        }
+                    });
+
+                }
+            });
+
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    if (!recyclerView.canScrollVertically(1))
+                        btn_add.setVisibility(View.INVISIBLE);
+                    else
+                        btn_add.setVisibility(View.VISIBLE);
                 }
             });
         }
+
         return view;
     }
 
-    private void PengaduanAdapter(View view){
-        recyclerView = view.findViewById(R.id.recylerview);
+    private void RecylerViewAdapterConnect(int Fragment){
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new NpaLiniearLayoutManager(getActivity()));
-        rvAdapterPengaduan = new RecyclerViewAdapter(getContext(),RecyclerViewAdapter.FRAGMENT_PENGADUAN);
+        rvAdapter = new RecyclerViewAdapter(getContext(),Fragment);
 
-        ArrayList<PengaduanItem> items = new ArrayList<>();
-        items.addAll(DummyDataPengaduan.getListData());
-        rvAdapterPengaduan.setFilteredPengaduanItem(items);
-        recyclerView.setAdapter(rvAdapterPengaduan);
-    }
+        if(Fragment == FRAGMENT_PENGADUAN){
+            ArrayList<PengaduanItem> items = new ArrayList<>();
+            items.addAll(DummyDataPengaduan.getListData());
+            rvAdapter.setFilteredPengaduanItem(items);
+        } else if(Fragment == FRAGMENT_PERDATA){
+            ArrayList<PerdataItem> items = new ArrayList<>();
+            items.addAll(DummyDataPerdata.getListData());
+            rvAdapter.setFilteredPerdataItem(items);
+        }
 
-    private void PerdataAdapter(View view){
-        recyclerView = view.findViewById(R.id.recylerview);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new NpaLiniearLayoutManager(getActivity()));
-        tvAdapterPerdata = new RecyclerViewAdapter(getContext(),RecyclerViewAdapter.FRAGMENT_PERDATA);
-
-        ArrayList<PerdataItem> itemses = new ArrayList<>();
-        itemses.addAll(DummyDataPerdata.getListData());
-        tvAdapterPerdata.setFilteredPerdataItem(itemses);
-        recyclerView.setAdapter(tvAdapterPerdata);
+        recyclerView.setAdapter(rvAdapter);
     }
 
 }

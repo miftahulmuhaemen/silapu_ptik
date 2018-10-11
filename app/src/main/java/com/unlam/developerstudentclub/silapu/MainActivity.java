@@ -15,6 +15,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import devlight.io.library.ntb.NavigationTabBar;
 
+import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PENGADUAN;
+import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PERDATA;
+import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PROFIL;
+
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.viewpager)
@@ -33,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
         navigationTabBar.setBehaviorEnabled(true);
         navigationTabBar.setViewPager(viewPager);
         navigationTabBar.setModels(tabModel());
-
-
     }
 
     public ArrayList<NavigationTabBar.Model> tabModel () {
@@ -69,19 +71,19 @@ public class MainActivity extends AppCompatActivity {
         Global mFragment = new Global();
         Bundle bundle = new Bundle();
 
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,5);
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_PENGADUAN);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part5");
 
         bundle = new Bundle();
         mFragment = new Global();
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,6);
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_PERDATA);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part6");
 
         bundle = new Bundle();
         mFragment = new Global();
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,2);
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_PROFIL);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part3");
 

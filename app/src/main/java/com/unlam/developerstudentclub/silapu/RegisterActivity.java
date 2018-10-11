@@ -16,6 +16,12 @@ import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PENGADUAN;
+import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_FIRST;
+import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_FORTH;
+import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_SECOND;
+import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_THIRD;
+
 public class RegisterActivity extends AppCompatActivity {
 
     @BindView(R.id.viewpager)
@@ -89,22 +95,18 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                     int currentPage = viewPager.getCurrentItem();
-
                     if(currentPage > 0)
                         fab_left.setVisibility(View.VISIBLE);
                     else
                         fab_left.setVisibility(View.INVISIBLE);
-
             }
 
             @Override
             public void onPageSelected(int position) {
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
     }
@@ -114,25 +116,25 @@ public class RegisterActivity extends AppCompatActivity {
         Global mFragment = new Global();
         Bundle bundle = new Bundle();
 
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,1);
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_FIRST);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part1");
 
         bundle = new Bundle();
         mFragment = new Global();
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,2);
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_SECOND);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part2");
 
         bundle = new Bundle();
         mFragment = new Global();
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,3);
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_THIRD);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part3");
 
         bundle = new Bundle();
         mFragment = new Global();
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,4);
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_FORTH);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part4");
 
