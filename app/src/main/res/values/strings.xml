@@ -9,7 +9,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="silahkan_tekan_tombol_selesai_untuk_n_melanjutkan">Silahkan tekan tombol `Selesai` untuk  melanjutkan</string>
     <string name="data_sudah_lengkap">Data sudah lengkap!</string>
-    <string name="atau">Atau</string>
+    <string name="atau">atau</string>
     <string name="actionSearch">Contoh : nama pengirim, isi berita, sub-judul, ...</string>
     <string name="jalan">Jalan Belitung Darat RT.20 No.71 Aselole Jos Jos</string>
     <string name="profil">Profil</string>
@@ -19,4 +19,5 @@
     <string name="tidak">Tidak</string>
     <string name="perempuan">Perempuan</string>
     <string name="laki_laki">Laki-Laki</string>
+    <string name="kartu_identitas">Kartu Identitas</string>
 </resources>

@@ -1,11 +1,11 @@
 package com.unlam.developerstudentclub.silapu;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -51,7 +51,17 @@ public class RegisterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setupViewPager(viewPager);
 
+
         viewPager.setSwipeable(false);
+
+        btn_masuk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         fab_left.setOnClickListener(new View.OnClickListener() {
             @Override

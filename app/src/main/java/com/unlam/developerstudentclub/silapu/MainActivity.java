@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         navigationTabBar.setBehaviorEnabled(true);
         navigationTabBar.setViewPager(viewPager);
         navigationTabBar.setModels(tabModel());
+
     }
 
     public ArrayList<NavigationTabBar.Model> tabModel () {
@@ -44,20 +45,20 @@ public class MainActivity extends AppCompatActivity {
 
         models.add(new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.ic_content_paste_black_24dp),
-                        R.color.colorPrimary)
+                        R.color.White)
                 .selectedIcon(getResources().getDrawable(R.drawable.ic_assignment_black_24dp))
                 .title("Permohonan")
                 .build());
 
         models.add(new NavigationTabBar.Model.Builder(
                 getResources().getDrawable(R.drawable.ic_pan_tool_black_24dp),
-                R.color.colorPrimary)
+                R.color.White)
                 .title("Pengaduan")
                 .build());
 
         models.add(new NavigationTabBar.Model.Builder(
                 getResources().getDrawable(R.drawable.ic_person_outline_black_24dp),
-                R.color.colorPrimary)
+                R.color.White)
                 .selectedIcon(getResources().getDrawable(R.drawable.ic_person_black_24dp))
                 .title("Profil")
                 .build());

@@ -20,8 +20,8 @@
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:layout_height="2dp"
+        android:background="@color/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/ntb"
@@ -30,22 +30,21 @@
     <devlight.io.library.ntb.NavigationTabBar
         android:id="@+id/ntb"
         android:layout_width="0dp"
-        android:layout_height="70dp"
-
-        app:layout_goneMarginBottom="4dp"
+        android:layout_height="65dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:ntb_animation_duration="200"
-        app:ntb_preview_colors="@color/colorSecondary"
+        app:layout_goneMarginBottom="4dp"
         app:ntb_active_color="@color/White"
-        app:ntb_inactive_color="@color/OldColorSecondary"
-        app:ntb_scaled="true"
-        app:ntb_title_mode="all"
-        app:ntb_swiped="false"
-        app:ntb_titled="true"
+        app:ntb_inactive_color="@color/White"
+        app:ntb_animation_duration="200"
+        app:ntb_badge_title_color="@color/White"
         app:ntb_bg_color="@color/colorSecondary"
-        app:ntb_icon_size_fraction="0.4"/>
+        app:ntb_icon_size_fraction="0.4"
+        app:ntb_scaled="true"
+        app:ntb_swiped="false"
+        app:ntb_title_mode="active"
+        app:ntb_titled="true" />
 
 </android.support.constraint.ConstraintLayout>

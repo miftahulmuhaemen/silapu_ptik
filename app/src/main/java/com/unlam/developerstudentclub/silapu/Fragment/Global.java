@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -16,9 +17,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.support.v7.widget.PopupMenu;
 import android.widget.PopupWindow;
 
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.unlam.developerstudentclub.silapu.Adapter.RecyclerViewAdapter;
 import com.unlam.developerstudentclub.silapu.Entity.DummyDataPengaduan;
 import com.unlam.developerstudentclub.silapu.Entity.DummyDataPerdata;
@@ -26,12 +27,12 @@ import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
 import com.unlam.developerstudentclub.silapu.R;
 import com.unlam.developerstudentclub.silapu.Utils.NpaLiniearLayoutManager;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
-import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
+
 import static android.support.constraint.Constraints.TAG;
 
 /**
@@ -43,10 +44,12 @@ public class Global extends Fragment {
     @Nullable @BindView(R.id.edt_alamat) EditText edt_alamat;
     @Nullable @BindView(R.id.edt_nama) EditText edt_nama;
     @Nullable @BindView(R.id.edt_password) EditText edt_password;
-
-    @Nullable @BindView(R.id.ti_jenisKelamin) TextFieldBoxes ti_jenisKelamin;
-    @Nullable @BindView(R.id.edt_jenisKelamin) ExtendedEditText edt_jenisKelamin;
     @Nullable @BindView(R.id.edt_numberPhone) EditText edt_phoneNumber;
+
+    @Nullable @BindView(R.id.ti_jenisKelamin)
+    MaterialSpinner spinner_jenisKelamin;
+    @Nullable @BindView(R.id.ti_identity)
+    MaterialSpinner spinner_identityCard;
 
     @Nullable @BindView(R.id.btn_add_item) FloatingActionButton btn_add;
     @Nullable @BindView(R.id.searchview) SearchView searchView;
@@ -83,8 +86,8 @@ public class Global extends Fragment {
             case FRAGMENT_REGISTER_SECOND :
                         view = inflater.inflate(R.layout.frag_regist2nd,container,false);
                         ButterKnife.bind(this,view);
-                        edt_jenisKelamin.setKeyListener(null);
-                        PopupMenu(view,ti_jenisKelamin,R.layout.menu_jeniskelamin);
+                        spinner_jenisKelamin.setItems(getResources().getStringArray(R.array.JenisKelaminItems));
+                        spinner_identityCard.setItems(getResources().getStringArray(R.array.IdentitasItems));
                         break;
             case FRAGMENT_REGISTER_THIRD :
                         view = inflater.inflate(R.layout.frag_regist3rd, container, false);
@@ -169,60 +172,55 @@ public class Global extends Fragment {
         });
     }
 
-    private void PopupMenu(final View views, final View button, final int res){
+    private void PopupMenu(final View view, final View button, final int res){
 
+        final PopupMenu popupMenu = new PopupMenu(view.getContext(),button,Gravity.CENTER);
+        popupMenu.getMenuInflater().inflate(res,popupMenu.getMenu());
 
-//        final PopupMenu popupMenu = new PopupMenu(view.getContext(),button,Gravity.CENTER);
-//        popupMenu.getMenuInflater().inflate(res,popupMenu.getMenu());
-//
-//        Object menuHelper;
-//        Class[] argTypes;
-//
-//        try{
-//            Field fMenuHelper = PopupMenu.class.getDeclaredField("mPopup");
-//            fMenuHelper.setAccessible(true);
-//            menuHelper = fMenuHelper.get(popupMenu);
-//            argTypes = new Class[] { boolean.class };
-//            menuHelper.getClass().getDeclaredMethod("setForceShowIcon", argTypes).invoke(menuHelper,true);
-//        } catch (Exception e) {
-//            Log.d(TAG, "error");
-//        }
-//
-//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem menuItem) {
-//                switch (menuItem.getItemId()) {
-//                    case R.id.profil:
-//                        break;
-//                    case R.id.bahasa:
-//                        break;
-//                    case R.id.lakilaki:
-//                        break;
-//                    case R.id.perempuan:
-//                        break;
-//                }
-//                return true;
-//            }
-//        });
-//
+        Object menuHelper;
+        Class[] argTypes;
+
+        try{
+            Field fMenuHelper = PopupMenu.class.getDeclaredField("mPopup");
+            fMenuHelper.setAccessible(true);
+            menuHelper = fMenuHelper.get(popupMenu);
+            argTypes = new Class[] { boolean.class };
+            menuHelper.getClass().getDeclaredMethod("setForceShowIcon", argTypes).invoke(menuHelper,true);
+        } catch (Exception e) {
+            Log.d(TAG, "error");
+        }
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.profil:
+                        break;
+                    case R.id.bahasa:
+                        break;
+                }
+                return true;
+            }
+        });
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                final PopupWindow popupWindow = new PopupWindow(views.getContext());
-                View layout = getLayoutInflater().inflate(res,null);
-
-                popupWindow.setBackgroundDrawable(new BitmapDrawable());
-                popupWindow.setContentView(layout);
-
-                popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-                popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-
-                popupWindow.setTouchable(true);
-                popupWindow.setOutsideTouchable(true);
-                popupWindow.showAsDropDown(button);
+                popupMenu.show();
             }
         });
+//                final PopupWindow popupWindow = new PopupWindow(views.getContext());
+//                View layout = getLayoutInflater().inflate(res,null);
+//
+//                popupWindow.setBackgroundDrawable(new BitmapDrawable());
+//                popupWindow.setContentView(layout);
+//
+//                popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+//                popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+//
+//                popupWindow.setTouchable(true);
+//                popupWindow.setOutsideTouchable(true);
+//                popupWindow.showAsDropDown(button);
     }
 
 }

@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_head"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:layout_marginBottom="@dimen/medium_margin_globally"
-        android:layout_marginTop="@dimen/small_margin_globally"
+        android:layout_marginBottom="@dimen/quite_large_margin_globally"
+        android:layout_marginTop="@dimen/medium_margin_globally"
         android:layout_marginRight="@dimen/fragment_vertical_margin"
         android:text="@string/dialog_register"/>
 
@@ -49,7 +49,7 @@
         android:textColor="@color/colorAccent"
         android:background="?android:attr/selectableItemBackground"
         android:layout_below="@id/tv_desc"
-        android:layout_marginRight="@dimen/small_margin_globally"
+        android:layout_marginRight="@dimen/very_small_margin_globally"
         android:layout_marginBottom="@dimen/small_margin_globally"
         android:layout_alignParentRight="true"
         />

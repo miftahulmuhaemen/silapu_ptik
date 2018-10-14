@@ -53,54 +53,58 @@
 
     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
-    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+    <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/ti_jenisKelamin"
         android:layout_width="0dp"
         android:layout_height="@dimen/edittext_height_natural"
 
+        android:hint="Jenis Kelamin"
+        app:ms_background_color="#e8e8e8"
+        app:ms_text_color="@color/Black"
         android:layout_marginTop="@dimen/medium_margin_globally"
-        app:endIcon="@drawable/ic_settings_black_24dp"
-
-        app:labelText="Jenis Kelamin"
-        app:primaryColor="@color/EggYellow"
-        app:hasClearButton="true"
-        app:useDenseSpacing="true"
-
         app:layout_constraintTop_toBottomOf="@id/ti_tanggalLahir"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
-        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
-            android:id="@+id/edt_jenisKelamin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+    <!--<studio.carbonylgroup.textfieldboxes.TextFieldBoxes-->
+        <!--android:id="@+id/ti_jenisKelamin"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="@dimen/edittext_height_natural"-->
 
-    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+        <!--android:layout_marginTop="@dimen/medium_margin_globally"-->
 
-    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+        <!--app:labelText="Jenis Kelamin"-->
+        <!--app:primaryColor="@color/EggYellow"-->
+        <!--app:hasClearButton="true"-->
+        <!--app:useDenseSpacing="true"-->
+
+        <!--app:layout_constraintTop_toBottomOf="@id/ti_tanggalLahir"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent">-->
+
+        <!--<studio.carbonylgroup.textfieldboxes.ExtendedEditText-->
+            <!--android:id="@+id/edt_jenisKelamin"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--/>-->
+
+    <!--</studio.carbonylgroup.textfieldboxes.TextFieldBoxes>-->
+
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/ti_identity"
         android:layout_width="0dp"
         android:layout_height="@dimen/edittext_height_natural"
 
+        android:hint="@string/kartu_identitas"
+        app:ms_background_color="#e8e8e8"
+        app:ms_text_color="@color/Black"
         android:layout_marginTop="@dimen/medium_margin_globally"
-
-        app:labelText="Kartu/Surat Identitas"
-        app:primaryColor="@color/EggYellow"
-        app:hasClearButton="true"
-        app:useDenseSpacing="true"
-
         app:layout_constraintTop_toBottomOf="@id/ti_jenisKelamin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
-            android:id="@+id/edt_identity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 
     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes

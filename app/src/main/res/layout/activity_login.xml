@@ -10,58 +10,77 @@
     <ImageView
         android:id="@+id/bg_logo"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="130dp"
+        android:contentDescription="@string/logo"
 
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/fragment_vertical_margin"
         android:src="@drawable/base"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@id/ti_email"
+        app:layout_constraintStart_toStartOf="@id/ti_email"
+        app:layout_constraintBottom_toTopOf="@id/ti_email"
+         />
 
-    <android.support.design.widget.TextInputLayout
+    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
         android:id="@+id/ti_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
 
-        app:layout_constraintEnd_toEndOf="@id/bg_logo"
-        app:layout_constraintStart_toStartOf="@id/bg_logo"
-        app:layout_constraintTop_toBottomOf="@id/bg_logo">
+        app:labelText="Surel"
+        app:primaryColor="@color/EggYellow"
+        app:hasClearButton="true"
+        app:useDenseSpacing="true"
 
-        <EditText
-            android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        >
+
+        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+            android:id="@+id/edt_email"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:hint="Surel"
-            android:textColorHint="@color/White"
-            tools:text="aselole@gmail.com"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:maxLines="1"
+            android:lines="1"
+            />
 
-    </android.support.design.widget.TextInputLayout>
+    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
 
-    <android.support.design.widget.TextInputLayout
+    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
         android:id="@+id/ti_password"
         android:layout_width="0dp"
-        android:layout_height="44dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin_globally"
+
+        app:endIcon="@drawable/ic_camera_alt_black_24dp"
+
+        android:focusedByDefault="false"
+        app:labelText="Kata Sandi"
+        app:primaryColor="@color/EggYellow"
+        app:hasClearButton="true"
+        app:useDenseSpacing="true"
+
         app:layout_constraintEnd_toEndOf="@id/ti_email"
         app:layout_constraintStart_toStartOf="@id/ti_email"
-        app:layout_constraintTop_toBottomOf="@id/ti_email"
-        app:passwordToggleEnabled="true">
+        app:layout_constraintTop_toBottomOf="@id/ti_email">
 
-        <EditText
-            android:layout_width="match_parent"
+        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+            android:id="@+id/edt_password"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:hint="Katasandi"
             android:inputType="textPassword"
-            android:outlineProvider="none"
-            android:singleLine="true"
-            tools:text="aselole@gmail.com" />
+            />
 
-    </android.support.design.widget.TextInputLayout>
+    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
     <View
         android:layout_width="0dp"
@@ -92,7 +111,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/atau"
-        android:layout_marginTop="@dimen/medium_margin_globally"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/large_margin_globally"
         app:layout_constraintEnd_toEndOf="@id/ti_password"
         app:layout_constraintStart_toStartOf="@id/ti_password"
         app:layout_constraintTop_toBottomOf="@id/btn_login"/>
@@ -102,7 +122,7 @@
         android:id="@+id/forgetPassword"
         android:layout_width="104dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/medium_margin_globally"
+        android:layout_marginTop="@dimen/large_margin_globally"
         android:text="@string/lupa_katasandi"
         android:textStyle="italic"
         android:textColor="@color/colorSecondary"
@@ -114,10 +134,11 @@
     <Button
         android:id="@+id/btn_login"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/edittext_height_natural"
         android:layout_marginTop="@dimen/medium_margin_globally"
-        android:background="@color/colorAccent"
+
         android:text="Masuk"
+        android:background="@color/colorAccent"
         android:textAllCaps="false"
         android:textColor="@color/White"
         app:layout_constraintStart_toStartOf="@id/ti_password"
@@ -147,6 +168,10 @@
         />
 
     <ProgressBar
+        android:progressTint="@color/colorAccent"
+        android:secondaryProgressTint="@color/colorAccent"
+        android:indeterminateTint="@color/colorAccent"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/fragment_vertical_margin"
