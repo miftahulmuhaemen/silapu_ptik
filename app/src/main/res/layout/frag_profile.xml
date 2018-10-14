@@ -13,6 +13,16 @@
         android:gravity="center"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+        <ImageView
+            android:id="@+id/setting"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_settings_black_24dp"
+            android:layout_gravity="end"
+
+            android:layout_marginRight="@dimen/medium_margin_globally"
+            />
+
 </android.support.design.widget.AppBarLayout>
 
 

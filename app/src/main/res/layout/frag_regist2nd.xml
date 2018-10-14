@@ -6,96 +6,151 @@
     tools:context=".Fragment.Global"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_jk"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Jenis Kelamin"
-        android:textSize="12sp"
-        android:paddingLeft="4dp"
 
-        android:layout_marginTop="@dimen/fragment_vertical_margin"
-        app:layout_constraintEnd_toEndOf="parent"
+    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+        android:id="@+id/ti_kotaLahir"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/edittext_height_natural"
+
+        android:layout_marginRight="@dimen/medium_margin_globally"
+
+        app:labelText="Kota Lahir"
+        app:primaryColor="@color/EggYellow"
+        app:hasClearButton="true"
+        app:useDenseSpacing="true"
+
+        app:layout_constraintEnd_toStartOf="@id/ti_tanggalLahir"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+            android:id="@+id/edt_kotaLahir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+        android:id="@+id/ti_tanggalLahir"
+        android:layout_width="160dp"
+        android:layout_height="@dimen/edittext_height_natural"
+
+        android:focusable="false"
+        app:labelText="Tanggal Lahir"
+        app:primaryColor="@color/EggYellow"
+        app:hasClearButton="true"
+        app:useDenseSpacing="true"
+
         app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <Spinner
-        android:id="@+id/spin_jk"
+        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+            android:id="@+id/edt_tanggalLahir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+        android:id="@+id/ti_jenisKelamin"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:entries="@array/JenisKelaminItems"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="@id/tv_jk"
-        app:layout_constraintStart_toStartOf="@id/tv_jk"
-        app:layout_constraintTop_toBottomOf="@id/tv_jk"/>
+        android:layout_height="@dimen/edittext_height_natural"
 
-    <TextView
-    android:id="@+id/tv_opt_idt"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:text="Identitas"
-    android:textSize="12sp"
-    android:layout_marginTop="10dp"
-    android:paddingLeft="4dp"
-    app:layout_constraintEnd_toEndOf="@id/tv_jk"
-    app:layout_constraintStart_toStartOf="@id/tv_jk"
-    app:layout_constraintTop_toBottomOf="@id/spin_jk"/>
+        android:layout_marginTop="@dimen/medium_margin_globally"
+        app:endIcon="@drawable/ic_settings_black_24dp"
 
-    <Spinner
-    android:id="@+id/spin_idt"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:entries="@array/IdentitasItems"
-    android:padding="10dp"
-    app:layout_constraintEnd_toEndOf="@id/tv_jk"
-    app:layout_constraintStart_toStartOf="@id/tv_jk"
-    app:layout_constraintTop_toBottomOf="@id/tv_opt_idt"/>
+        app:labelText="Jenis Kelamin"
+        app:primaryColor="@color/EggYellow"
+        app:hasClearButton="true"
+        app:useDenseSpacing="true"
+
+        app:layout_constraintTop_toBottomOf="@id/ti_tanggalLahir"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+            android:id="@+id/edt_jenisKelamin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+        android:id="@+id/ti_identity"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/edittext_height_natural"
+
+        android:layout_marginTop="@dimen/medium_margin_globally"
+
+        app:labelText="Kartu/Surat Identitas"
+        app:primaryColor="@color/EggYellow"
+        app:hasClearButton="true"
+        app:useDenseSpacing="true"
+
+        app:layout_constraintTop_toBottomOf="@id/ti_jenisKelamin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+            android:id="@+id/edt_identity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
         android:id="@+id/ti_idt"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/edittext_height_natural"
 
-        app:layout_constraintEnd_toEndOf="@id/tv_jk"
-        app:layout_constraintStart_toStartOf="@id/tv_jk"
-        app:layout_constraintTop_toBottomOf="@id/spin_idt">
+        android:layout_marginTop="@dimen/medium_margin_globally"
 
-        <EditText
-            android:id="@+id/edt_nomberPhone"
-            android:layout_width="match_parent"
+        app:labelText="Nomor Identitas"
+        app:primaryColor="@color/EggYellow"
+        app:hasClearButton="true"
+        app:useDenseSpacing="true"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ti_identity">
+
+        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+            android:id="@+id/edt_nomorIdentitas"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:hint="Nomor Identitas"
-            android:inputType="number"
-            android:outlineProvider="none"
-            android:singleLine="true"
-            tools:text="12312313" />
+            />
 
-    </android.support.design.widget.TextInputLayout>
+    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
-    <android.support.design.widget.TextInputLayout
+    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
     android:id="@+id/ti_phone"
     android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    app:layout_constraintEnd_toEndOf="@id/tv_jk"
-    app:layout_constraintStart_toStartOf="@id/tv_jk"
+    android:layout_height="78dp"
 
+        android:layout_marginTop="@dimen/medium_margin_globally"
+
+        app:labelText="Nomor Telepon"
+        app:primaryColor="@color/EggYellow"
+        app:hasClearButton="true"
+        app:useDenseSpacing="true"
+        app:maxCharacters="16"
+
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/ti_idt">
 
-    <EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fontFamily="sans-serif"
-    android:hint="Telpon"
-    android:outlineProvider="none"
-    android:singleLine="true"
-    tools:text="089"
-    android:inputType="number" />
+        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+            android:id="@+id/edt_numberPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
 
-    </android.support.design.widget.TextInputLayout>
+    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
 
 </android.support.constraint.ConstraintLayout>

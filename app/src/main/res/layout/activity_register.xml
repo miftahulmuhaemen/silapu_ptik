@@ -8,30 +8,33 @@
     <ImageView
         android:id="@+id/bg_logo"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="130dp"
         android:contentDescription="@string/logo"
         android:src="@drawable/base"
 
-        android:layout_marginTop="@dimen/fragment_vertical_margin"
+        android:layout_marginBottom="@dimen/fragment_vertical_margin"
 
-        app:layout_constraintBottom_toTopOf="@+id/viewpager"
         app:layout_constraintEnd_toEndOf="@id/viewpager"
         app:layout_constraintStart_toStartOf="@+id/viewpager"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/viewpager"/>
+
 
     <com.unlam.developerstudentclub.silapu.Utils.LockableViewPager
         android:id="@+id/viewpager"
         android:layout_width="0dp"
-        android:layout_height="350dp"
+        android:layout_height="400dp"
+
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/medium_margin_globally"
 
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
 
-        android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toBottomOf="@id/btn_masuk"
+        app:layout_constraintVertical_bias="0.55"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.rd.PageIndicatorView
 
@@ -39,10 +42,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/viewpager_vertical_margin"
+
+        app:layout_constraintTop_toBottomOf="@id/viewpager"
         app:layout_constraintEnd_toEndOf="@+id/viewpager"
         app:layout_constraintStart_toStartOf="@+id/viewpager"
-        app:layout_constraintTop_toBottomOf="@+id/viewpager"
 
         app:piv_animationType="worm"
         app:piv_dynamicCount="true"
@@ -102,13 +106,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Selesai"
-        android:textAllCaps="false"
-        android:background="@color/colorAccent"
-        android:textColor="@color/White"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:background="?android:attr/selectableItemBackground"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/viewpager"
-        app:layout_constraintStart_toStartOf="@id/viewpager"
-        app:layout_constraintTop_toBottomOf="@id/viewpager"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 
 </android.support.constraint.ConstraintLayout>

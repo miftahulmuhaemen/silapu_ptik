@@ -17,7 +17,6 @@
             android:padding="6dp"
             android:background="@color/colorAccent"
             app:iconifiedByDefault="false"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:queryHint="@string/actionSearch"
             />
 

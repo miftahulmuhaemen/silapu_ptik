@@ -7,4 +7,7 @@
     <dimen name="small_margin_globally">8dp</dimen>
     <dimen name="medium_margin_globally">16dp</dimen>
     <dimen name="large_margin_globally">32dp</dimen>
+    <dimen name="viewpager_vertical_margin">50dp</dimen>
+    <dimen name="edittext_height_natural">58dp</dimen>
+    <dimen name="edittext_special_height">130dp</dimen>
 </resources>

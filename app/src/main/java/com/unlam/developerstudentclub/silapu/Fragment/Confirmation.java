@@ -28,10 +28,6 @@ public class Confirmation  extends DialogFragment {
     @Getter
     @Setter
     private OnOptionDialogListener onOptionDialogListener;
-
-    @BindView(R.id.btn_kirim) Button btn_kirim;
-    @BindView(R.id.btn_tidak) Button btn_tidak;
-
     @OnClick({R.id.btn_tidak, R.id.btn_kirim}) void OnClick(Button view){
         switch (view.getId()){
             case R.id.btn_tidak :
@@ -56,10 +52,8 @@ public class Confirmation  extends DialogFragment {
                              Bundle savedInstanceState) {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.frag_confirm,container);
-        ButterKnife.bind(view);
-
+        ButterKnife.bind(this,view);
         return view;
-
     }
 
 

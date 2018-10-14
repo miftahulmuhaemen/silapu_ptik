@@ -1,38 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tv_judul"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
         android:text="Unggah foto anda!"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:paddingLeft="4dp"
         android:textStyle="bold"
 
-        android:layout_marginTop="@dimen/fragment_vertical_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_descript"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
+        android:layout_marginTop="@dimen/small_margin_globally"
         android:text="Silahkan mengambil gambar dari kamera\n atau galeri anda."
 
-        android:layout_marginTop="@dimen/small_margin_globally"
+        android:textAlignment="center"
 
-        app:layout_constraintTop_toBottomOf="@id/tv_judul"
         app:layout_constraintEnd_toEndOf="@id/tv_judul"
         app:layout_constraintStart_toStartOf="@id/tv_judul"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tv_judul" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/plate_img"
@@ -41,11 +37,10 @@
         android:layout_marginTop="@dimen/medium_margin_globally"
         android:src="@color/colorAccent"
 
-        app:layout_constraintTop_toBottomOf="@id/tv_descript"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/tv_judul"
         app:layout_constraintStart_toStartOf="@id/tv_judul"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tv_descript" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_camera"
@@ -54,23 +49,33 @@
         android:src="@drawable/ic_camera_alt_black_24dp"
         android:tint="@color/colorAccent"
         app:backgroundTint="@color/White"
+
+        android:layout_marginRight="@dimen/small_margin_globally"
+
+        app:layout_constraintTop_toTopOf="@id/plate_img"
         app:layout_constraintBottom_toBottomOf="@id/plate_img"
-        app:layout_constraintEnd_toEndOf="@id/plate_img"
-        app:layout_constraintHorizontal_bias="0.3"
-        app:layout_constraintStart_toStartOf="@id/plate_img"
-        app:layout_constraintTop_toTopOf="@id/plate_img" />
+        app:layout_constraintEnd_toStartOf="@id/guideline"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_galeri"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:backgroundTint="@color/White"
-        android:tint="@color/colorAccent"
         android:src="@drawable/ic_collections_black_24dp"
-        android:layout_marginLeft="@dimen/medium_margin_globally"
-        app:layout_constraintStart_toEndOf="@id/btn_camera"
+        android:tint="@color/colorAccent"
+        app:backgroundTint="@color/White"
+
+        android:layout_marginLeft="@dimen/small_margin_globally"
+        app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintTop_toTopOf="@id/plate_img"
         app:layout_constraintBottom_toBottomOf="@id/plate_img"
         />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
 
 </android.support.constraint.ConstraintLayout>

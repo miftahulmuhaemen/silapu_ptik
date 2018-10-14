@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.unlam.developerstudentclub.silapu.Adapter.FragementAdapter;
-import com.unlam.developerstudentclub.silapu.Adapter.RecyclerViewAdapter;
 import com.unlam.developerstudentclub.silapu.Fragment.Global;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 
