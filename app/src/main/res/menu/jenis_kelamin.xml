@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/lakilaki"
-        android:iconTint="@color/Black"
-        android:title="@string/laki_laki"/>
-    <item android:id="@+id/perempuan"
-        android:iconTint="@color/Black"
-        android:title="@string/perempuan" />
-</menu>
