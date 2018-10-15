@@ -1,8 +1,10 @@
 package com.unlam.developerstudentclub.silapu;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.unlam.developerstudentclub.silapu.Adapter.FragementAdapter;
 import com.unlam.developerstudentclub.silapu.Fragment.Global;
@@ -14,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import devlight.io.library.ntb.NavigationTabBar;
 
+import static com.unlam.developerstudentclub.silapu.AddActivity.REQUEST_CODE;
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PERDATA;
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PROFIL;
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public ArrayList<NavigationTabBar.Model> tabModel () {
+    private ArrayList<NavigationTabBar.Model> tabModel () {
 
         ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
 
@@ -88,5 +91,18 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(mFragment, "Part3");
 
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE){
+            if(resultCode == AddActivity.RESULT_CODE_PENGADUAN){
+                Toast.makeText(this,"Pengaduan",Toast.LENGTH_SHORT).show();
+            }
+            else if(resultCode == AddActivity.RESULT_CODE_PERDATA){
+                Toast.makeText(this,"Perdata",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

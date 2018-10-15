@@ -1,5 +1,6 @@
 package com.unlam.developerstudentclub.silapu.Fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import android.widget.PopupWindow;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.unlam.developerstudentclub.silapu.Adapter.RecyclerViewAdapter;
+import com.unlam.developerstudentclub.silapu.AddActivity;
 import com.unlam.developerstudentclub.silapu.Entity.DummyDataPengaduan;
 import com.unlam.developerstudentclub.silapu.Entity.DummyDataPerdata;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
@@ -86,8 +88,8 @@ public class Global extends Fragment {
             case FRAGMENT_REGISTER_SECOND :
                         view = inflater.inflate(R.layout.frag_regist2nd,container,false);
                         ButterKnife.bind(this,view);
-                        spinner_jenisKelamin.setItems(getResources().getStringArray(R.array.JenisKelaminItems));
-                        spinner_identityCard.setItems(getResources().getStringArray(R.array.IdentitasItems));
+                        spinner_jenisKelamin.setItems(getResources().getStringArray(R.array.jeniskelamin));
+                        spinner_identityCard.setItems(getResources().getStringArray(R.array.identitas));
                         break;
             case FRAGMENT_REGISTER_THIRD :
                         view = inflater.inflate(R.layout.frag_regist3rd, container, false);
@@ -101,7 +103,7 @@ public class Global extends Fragment {
             case FRAGMENT_PERDATA :
                         view =  inflater.inflate(R.layout.recylerview,container,false);
                         ButterKnife.bind(this,view);
-                        FragmentPengaduanAndPerdataMethod(view,CHECK);
+                        FragmentPengaduanAndPerdataMethod(CHECK);
                         break;
             case FRAGMENT_PROFIL :
                         view = inflater.inflate(R.layout.frag_profile,container,false);
@@ -109,6 +111,7 @@ public class Global extends Fragment {
                         PopupMenu(view,btn_setting,R.menu.setting);
                         /*Fragement Pop Up*/
                         break;
+
             default: view =  null;
                         break;
         }
@@ -134,7 +137,7 @@ public class Global extends Fragment {
         recyclerView.setAdapter(rvAdapter);
     }
 
-    private void FragmentPengaduanAndPerdataMethod(View view, int Fragment){
+    private void FragmentPengaduanAndPerdataMethod(final int Fragment){
 
         RecyclerViewAdapterConnect(Fragment);
 
@@ -157,6 +160,17 @@ public class Global extends Fragment {
             @Override
             public void onClick(View view) {
 
+                Intent intent = new Intent();
+
+                if(Fragment == FRAGMENT_PENGADUAN){
+                    intent = new Intent(getActivity(),AddActivity.class);
+                    intent.putExtra(AddActivity.COMPOSE_CODE, AddActivity.COMPOSE_PENGADUAN);
+                } else if(Fragment == FRAGMENT_PERDATA) {
+                    intent = new Intent(getActivity(),AddActivity.class);
+                    intent.putExtra(AddActivity.COMPOSE_CODE,AddActivity.COMPOSE_PERDATA);
+                }
+
+                getActivity().startActivityForResult(intent,AddActivity.REQUEST_CODE);
             }
         });
 
@@ -209,18 +223,6 @@ public class Global extends Fragment {
                 popupMenu.show();
             }
         });
-//                final PopupWindow popupWindow = new PopupWindow(views.getContext());
-//                View layout = getLayoutInflater().inflate(res,null);
-//
-//                popupWindow.setBackgroundDrawable(new BitmapDrawable());
-//                popupWindow.setContentView(layout);
-//
-//                popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-//                popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-//
-//                popupWindow.setTouchable(true);
-//                popupWindow.setOutsideTouchable(true);
-//                popupWindow.showAsDropDown(button);
     }
 
 }

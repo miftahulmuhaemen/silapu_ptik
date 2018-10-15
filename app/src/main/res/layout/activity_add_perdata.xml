@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorAccent"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+    android:id="@+id/spinner_aduan"
+    android:layout_width="0dp"
+    android:layout_height="@dimen/edittext_height_natural"
+
+    app:layout_constraintStart_toEndOf="@id/aduan"
+    app:layout_constraintTop_toBottomOf="@id/appbar"
+    app:layout_constraintEnd_toEndOf="parent"
+    />
+
+    <TextView
+        android:id="@+id/aduan"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+
+        android:paddingLeft="@dimen/medium_margin_globally"
+        android:paddingRight="@dimen/medium_margin_globally"
+
+        android:text="Aduan"
+        android:textColor="@android:color/darker_gray"
+        android:gravity="center"
+        android:background="@color/White"
+
+        app:layout_constraintTop_toTopOf="@id/spinner_aduan"
+        app:layout_constraintBottom_toBottomOf="@id/spinner_aduan"
+        />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/aduan"
+        />
+
+    <EditText
+        android:id="@+id/edt_message"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="@dimen/medium_margin_globally"
+
+        android:background="@android:color/transparent"
+        android:gravity="start"
+        tools:text="sdasdasdasdasdasd"
+        app:layout_constraintTop_toBottomOf="@id/aduan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+</android.support.constraint.ConstraintLayout>

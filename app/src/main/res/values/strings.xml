@@ -20,4 +20,7 @@
     <string name="perempuan">Perempuan</string>
     <string name="laki_laki">Laki-Laki</string>
     <string name="kartu_identitas">Kartu Identitas</string>
+    <string name="send">send</string>
+    <string name="compose_pengaduan">Pengaduan</string>
+    <string name="compose_pengajuan">Permohonan Data dan Informasi</string>
 </resources>

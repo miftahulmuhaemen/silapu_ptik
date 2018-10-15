@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="IdentitasItems">
+    <string-array name="identitas">
         <item>KTP / Identity Card</item>
         <item>Paspor / Passport</item>
         <item>SIM / Drivers License</item>
         <item>Akta / Certificate of Birth</item>
     </string-array>
 
-    <string-array name="JenisKelaminItems">
+    <string-array name="jeniskelamin">
         <item>Laki-laki</item>
         <item>Perempuan</item>
     </string-array>
+
+    <string-array name="aduan">
+        <item>Permohonan Informasi yang Ditolak</item>
+        <item>Laporan Tentang Kegiatan</item>
+        <item>Laporan Pungutan Liar</item>
+        <item>Laporan Perilaku Pejabat</item>
+    </string-array>
+
+    <string-array name="informasi">
+        <item>Mengambil langsung ke ULM/ Take directly to ULM</item>
+        <item>Melalui Email / Through E-Mail</item>
+        <item>Melalui Faksimile / Through Fax</item>
+    </string-array>
+
+
+
+
 
     <string-array name="color">
         <item>@color/colorPrimary</item>
         <item>@color/colorSecondary</item>
         <item>@color/colorAccent</item>
     </string-array>
+
 </resources>
