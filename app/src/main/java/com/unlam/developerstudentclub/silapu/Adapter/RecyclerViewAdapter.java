@@ -152,7 +152,6 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                     filteredPengaduanItem = (ArrayList<PengaduanItem>) filterResults.values;
                 else
                     filteredPerdataItem = (ArrayList<PerdataItem>) filterResults.values;
-
                 notifyDataSetChanged();
             }
         };

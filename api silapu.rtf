@@ -1,0 +1,112 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red63\green63\blue63;\red255\green255\blue255;\red63\green63\blue63;
+\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;\csgray\c100000;\cssrgb\c31373\c31373\c31373;\cssrgb\c100000\c100000\c100000;\cssrgb\c31373\c31373\c31373;
+\cssrgb\c100000\c100000\c100000;\cssrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww24560\viewh12620\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Login\
+\pard\pardeftab720\sl280\partightenfactor0
+\cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 url:http://silapu.ulm.ac.id/service/api/user/login?key=aad8d43db4ace8de270bd4a525df63df&email=sw_xk@yahoo.com&password=080582 method:GET\
+\pard\pardeftab720\sl280\partightenfactor0
+\cf4 \cb5 \outl0\strokewidth0 sw_xk@yahoo.com=>ambil dari Editext login\
+080582 \cf4 \cb5 =>ambil dari Editext login\
+\
+response jika berhasil login;\
+\{\
+    "status": true,\
+    "msg": "Login berhasil",\
+    "account": \{            => simpan semua di shareferences\
+        "nama": "Eka Setya Wijaya",\
+        "email": "sw_xk@yahoo.com",\
+        "password": "080582",\
+        "alamat": "JL. Keramat Raya, Sungai Bilu.",\
+        "identitas": "KTP",\
+        "noIdentitas": "9834768456",\
+        "jk": "L",\
+        "tmptLhr": "Banjarmasin",\
+        "tglLhr": "1982-05-08",\
+        "telp": "081952741720",\
+        "active": "0",\
+        "id": "3"\
+    \}\
+\}\
+response jika gagal\
+\{\
+    "status": false,\
+    "msg": "Email dan Password salah"\
+\}\
+\
+\
+Register\
+\pard\pardeftab720\sl280\partightenfactor0
+\cf2 \cb3 \outl0\strokewidth0 \strokec2 url: http://silapu.ulm.ac.id/service/api/user/register method:POST\
+parameter di body\
+\
+key:aad8d43db4ace8de270bd4a525df63df => ambil di grande\
+email:aaa@gmail.com =>ambil \cf4 \cb5 \outl0\strokewidth0 Editext register\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+password:a \cf4 \cb5 \outl0\strokewidth0 =>ambil Editext register\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+nama:a \cf4 \cb5 \outl0\strokewidth0 =>ambil Editext register\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+identitas:ktp \cf4 \cb5 \outl0\strokewidth0 =>ambil Editext register\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+no_identitas:123 \cf4 \cb5 \outl0\strokewidth0 =>ambil Editext register\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+tempat_lahir:12 \cf4 \cb5 \outl0\strokewidth0 =>ambil Editext register\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+tanggal_lahir:as \cf4 \cb5 \outl0\strokewidth0 =>ambil Editext register\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+telp:12 \cf4 \cb5 \outl0\strokewidth0 =>ambil Editext register\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+jk:12 \cf4 \cb5 \outl0\strokewidth0 =>ambil Editext register\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+alamat:12 \cf4 \cb5 \outl0\strokewidth0 =>ambil Editext register\
+file:<file> => ambil dari galeri\
+\
+response jika berhasil : \{"status":true,"message":"Selamat anda telah berhasil melakukan registrasi."\}\
+response jika email sudan terdaftar : \{"status":false,"msg":"Email sudah terdaftar. Silahkan gunakan email lain."\}\
+\
+Permintaan data\
+url: \cf2 \cb3 \outl0\strokewidth0 \strokec2 http://silapu.ulm.ac.id/service/api/permintaan/data?key=aad8d43db4ace8de270bd4a525df63df&id=126 -> \cf4 \cb5 \outl0\strokewidth0 method:GET\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+\pard\pardeftab720\sl280\partightenfactor0
+\cf4 \cb5 \outl0\strokewidth0 126=> ambil id dari shareferences\
+\
+Penganduan data\
+\pard\pardeftab720\sl280\partightenfactor0
+\cf2 \cb3 \outl0\strokewidth0 \strokec2 url:http://silapu.ulm.ac.id/service/api/pengaduan/data?key=aad8d43db4ace8de270bd4a525df63df&id=126 -> \cf4 \cb5 \outl0\strokewidth0 method:GET\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+\pard\pardeftab720\sl280\partightenfactor0
+\cf4 \cb5 \outl0\strokewidth0 126=> ambil id dari shareferences\
+\
+Insert Permintaan\
+url: \cf2 \cb3 \outl0\strokewidth0 \strokec2 http://silapu.ulm.ac.id/service/api/permintaan/insert     -> \cf4 \cb5 \outl0\strokewidth0 method:POST\cf4 \cb5 \
+parameternya\
+key:aad8d43db4ace8de270bd4a525df63df -> ambil digradle\
+id:126 ->ambil di shareferences\
+email:aaa@gmail.com ->ambil di shareferences\
+permintaan:a ->ambil di Textedit android\
+tujuan:a ->ambil di Textedit android\
+cara:a ->ambil di Textedit android\
+nama2:a ->ambil di Textedit android\
+gender2:a ->ambil di Textedit android\
+tmptlhr2:a ->ambil di Textedit android\
+tgllhr2:a ->ambil di Textedit android\
+alamat2:a ->ambil di Textedit android\
+identitas2:a ->ambil di Textedit android\
+noIdentitas2:a ->ambil di Textedit android\
+telp2:a ->ambil di Textedit android\
+email2:a ->ambil di Textedit android\
+\
+response berhasil insert : 
+\f1 \cf6 \cb1 \outl0\strokewidth0 \strokec6 \{"status":true,"msg":"Data berhasil disimpan"\}\
+\
+
+\f0 \cf4 \cb5 \outl0\strokewidth0 Insert Pengaduan\
+url:\cf2 \cb3 \outl0\strokewidth0 \strokec2 http://silapu.ulm.ac.id/service/api/pengaduan/insert  ->method: POST\
+parameternya\
+key:aad8d43db4ace8de270bd4a525df63df   -> ambil degrade\
+id:126    -> ambil di shareferences\
+email:aaa@gmail.com \cf4 \cb5 \outl0\strokewidth0  -> ambil di shareferences\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+aduan:adasdasdasd \cf4 \cb5 \outl0\strokewidth0  -> ambil di textedit android\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+perihal:123sdasdasd, 23123123asdasd, adasdasdasd  -> ambil check list android tapi hais akhir usahkan langsung sudah berkoma xxxx,  yyyy,  zzzz\
+file:<file> -> ambil dari galeri
+\f1 \cf6 \cb1 \strokec6 \
+\pard\pardeftab720\sl280\partightenfactor0
+
+\f0 \cf4 \cb5 \outl0\strokewidth0 \
+}
