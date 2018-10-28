@@ -24,19 +24,22 @@ import lombok.Setter;
  */
 public class Confirmation  extends DialogFragment {
 
+    @Getter @Setter
+    OnOptionDialogListener onOptionDialogListener;
 
-    @Getter
-    @Setter
-    private OnOptionDialogListener onOptionDialogListener;
     @OnClick({R.id.btn_tidak, R.id.btn_kirim}) void OnClick(Button view){
         switch (view.getId()){
             case R.id.btn_tidak :
                 getDialog().cancel();
                 break;
             case R.id.btn_kirim :
-                getOnOptionDialogListener().onOptionChoosen(CONFIRM_CODE);
+                getOnOptionDialogListener().onOptionChoosen(true);
                 getDialog().cancel();
         }
+    }
+
+    public interface OnOptionDialogListener{
+        void onOptionChoosen(Boolean text);
     }
 
     public static String CONFIRM_CODE = "accept";
@@ -57,7 +60,4 @@ public class Confirmation  extends DialogFragment {
     }
 
 
-    public interface OnOptionDialogListener{
-        void onOptionChoosen(String text);
-    }
 }

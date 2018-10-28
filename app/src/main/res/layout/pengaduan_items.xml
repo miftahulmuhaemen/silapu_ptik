@@ -1,135 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<LinearLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:id="@+id/items"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/items"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/medium_margin_globally"
-    android:layout_marginLeft="@dimen/medium_margin_globally"
-    android:layout_marginRight="@dimen/medium_margin_globally"
-    app:cardCornerRadius="10dp"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingRight="@dimen/small_margin_globally"
-        android:layout_margin="@dimen/medium_margin_globally">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_img"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/round_btn"
-            android:src="@drawable/ic_mood_black_24dp"
-            android:scaleType="centerCrop"
-            android:layout_alignParentLeft="true" />
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="@dimen/small_margin_globally"
+        android:layout_marginLeft="@dimen/medium_margin_globally"
+        android:layout_marginRight="@dimen/medium_margin_globally"
+        android:layout_marginBottom="@dimen/small_margin_globally"
+        app:cardCornerRadius="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_more_horiz_black_24dp"
-            android:layout_alignParentRight="true"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingRight="@dimen/small_margin_globally"
+            android:layout_margin="@dimen/medium_margin_globally">
 
-        <TextView
-            android:id="@+id/tv_sender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textStyle="bold"
-            tools:text="Miftahul Muhaemen"
-            android:textColor="@android:color/black"
-            android:layout_marginLeft="@dimen/medium_margin_globally"
-            android:layout_toRightOf="@id/profile_img"
-            />
+            <TextView
+                android:id="@+id/tv_sender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textStyle="bold"
+                tools:text="Miftahul Muhaemen"
+                android:textColor="@android:color/black"
+                android:layout_marginLeft="@dimen/medium_margin_globally"
+                />
 
-        <ImageView
-            android:id="@+id/file_preview"
-            android:layout_width="50dp"
-            android:layout_height="55dp"
-            android:src="@drawable/a002_doc"
+            <ImageView
+                android:id="@+id/file_preview"
+                android:layout_width="50dp"
+                android:layout_height="55dp"
+                tools:src="@drawable/a002_doc"
 
-            android:layout_marginLeft="@dimen/medium_margin_globally"
-            android:layout_marginTop="@dimen/small_margin_globally"
+                android:layout_marginLeft="@dimen/medium_margin_globally"
+                android:layout_marginTop="@dimen/small_margin_globally"
+                android:layout_below="@id/tv_sender"
 
-            android:layout_toRightOf="@id/profile_img"
-            android:layout_below="@id/tv_sender"
-            />
+                />
 
-        <TextView
-            android:id="@+id/tv_filetype"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=".DOCX"
+            <TextView
+                android:id="@+id/tv_filetype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=".DOCX"
 
-            android:layout_marginLeft="@dimen/medium_margin_globally"
-            android:layout_marginTop="@dimen/small_margin_globally"
+                android:layout_marginLeft="@dimen/medium_margin_globally"
+                android:layout_marginTop="@dimen/small_margin_globally"
 
-            android:layout_below="@id/tv_sender"
-            android:layout_toRightOf="@id/file_preview"
-            />
+                android:layout_below="@id/tv_sender"
+                android:layout_toRightOf="@id/file_preview"
+                />
 
-        <TextView
-            android:id="@+id/tv_filename"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pengusulan Dana Tanggungan"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textSize="12sp"
+            <TextView
+                android:id="@+id/tv_filename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pengusulan Dana Tanggungan"
+                android:lines="1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxWidth="150dp"
+                android:textSize="12sp"
 
-            android:layout_marginTop="@dimen/very_small_margin_globally"
-            android:layout_marginLeft="@dimen/medium_margin_globally"
+                android:layout_marginTop="@dimen/very_small_margin_globally"
+                android:layout_marginLeft="@dimen/medium_margin_globally"
 
-            android:layout_below="@id/tv_filetype"
-            android:layout_toRightOf="@id/file_preview"
-            />
+                android:layout_below="@id/tv_filetype"
+                android:layout_toRightOf="@id/file_preview"
+                />
 
-        <TextView
-            android:id="@+id/tv_filedates"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="19-MAR-2018"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textSize="8sp"
+            <TextView
+                android:id="@+id/tv_filedates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19-MAR-2018"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="8sp"
 
-            android:layout_marginTop="@dimen/very_small_margin_globally"
-            android:layout_marginLeft="@dimen/medium_margin_globally"
+                android:layout_marginTop="@dimen/very_small_margin_globally"
+                android:layout_marginLeft="@dimen/medium_margin_globally"
 
-            android:layout_below="@id/tv_filename"
-            android:layout_toRightOf="@id/file_preview"
-            />
+                android:layout_below="@id/tv_filename"
+                android:layout_toRightOf="@id/file_preview"
+                />
 
-        <TextView
-            android:id="@+id/tv_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="I like the bold encasement of the avatar, can we try a few more color treatments?"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
-            android:layout_marginTop="@dimen/small_margin_globally"
-            android:layout_marginLeft="@dimen/medium_margin_globally"
-            android:layout_toRightOf="@id/profile_img"
-            android:layout_below="@id/file_preview"
-            />
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="I like the bold encasement of the avatar, "
+                android:textColor="@android:color/black"
+                android:lines="1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxWidth="200dp"
+                android:textSize="12sp"
+                android:layout_marginTop="@dimen/small_margin_globally"
+                android:layout_marginLeft="@dimen/medium_margin_globally"
+                android:layout_below="@id/file_preview"
+                />
 
-        <TextView
-            android:id="@+id/tv_classification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Laporan Perilaku Pejabat"
-            android:textColor="@android:color/black"
-            android:textSize="8sp"
-            android:layout_marginTop="4dp"
-            android:layout_marginLeft="@dimen/medium_margin_globally"
-            android:layout_toRightOf="@id/profile_img"
-            android:layout_below="@id/tv_content"
-            android:drawableLeft="@drawable/ic_fiber_manual_record_black_24dp"
-            />
+            <TextView
+                android:id="@+id/tv_classification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Laporan Perilaku Pejabat"
+                android:textColor="@android:color/black"
+                android:textSize="8sp"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="@dimen/medium_margin_globally"
+                android:layout_below="@id/tv_content"
+                android:drawableLeft="@drawable/ic_fiber_manual_record_black_24dp"
+                />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
 
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

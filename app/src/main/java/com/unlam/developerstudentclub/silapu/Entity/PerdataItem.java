@@ -5,6 +5,6 @@ import lombok.Setter;
 
 public class PerdataItem {
 
-    @Getter @Setter String sender, profilImg, purpose, content, classification;
+    @Getter @Setter String sender, purpose, content, classification;
 
 }

@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/medium_margin_globally"
 
-        app:endIcon="@drawable/ic_camera_alt_black_24dp"
+        app:endIcon="@drawable/ic_remove_red_eye_white_24dp"
 
         android:focusedByDefault="false"
         app:labelText="Kata Sandi"
@@ -81,55 +81,6 @@
             />
 
     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginRight="@dimen/small_margin_globally"
-        app:layout_constraintStart_toStartOf="@id/ti_password"
-        app:layout_constraintEnd_toStartOf="@id/dividerAtau"
-        app:layout_constraintTop_toTopOf="@id/dividerAtau"
-        app:layout_constraintBottom_toBottomOf="@id/dividerAtau"
-        />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginLeft="@dimen/small_margin_globally"
-        app:layout_constraintEnd_toEndOf="@id/ti_password"
-        app:layout_constraintStart_toEndOf="@id/dividerAtau"
-        app:layout_constraintTop_toTopOf="@id/dividerAtau"
-        app:layout_constraintBottom_toBottomOf="@id/dividerAtau"
-        />
-
-
-
-    <TextView
-        android:id="@+id/dividerAtau"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/atau"
-        android:textStyle="bold"
-        android:layout_marginTop="@dimen/large_margin_globally"
-        app:layout_constraintEnd_toEndOf="@id/ti_password"
-        app:layout_constraintStart_toStartOf="@id/ti_password"
-        app:layout_constraintTop_toBottomOf="@id/btn_login"/>
-
-
-    <TextView
-        android:id="@+id/forgetPassword"
-        android:layout_width="104dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/large_margin_globally"
-        android:text="@string/lupa_katasandi"
-        android:textStyle="italic"
-        android:textColor="@color/colorSecondary"
-        app:layout_constraintStart_toStartOf="@id/ti_password"
-        app:layout_constraintEnd_toEndOf="@id/ti_password"
-        app:layout_constraintTop_toBottomOf="@id/dividerAtau" />
-
 
     <Button
         android:id="@+id/btn_login"
@@ -168,6 +119,7 @@
         />
 
     <ProgressBar
+        android:id="@+id/progressbarLogin"
         android:progressTint="@color/colorAccent"
         android:secondaryProgressTint="@color/colorAccent"
         android:indeterminateTint="@color/colorAccent"
@@ -178,6 +130,7 @@
         app:layout_constraintBottom_toTopOf="@id/btn_daftar"
         app:layout_constraintEnd_toEndOf="@id/ti_password"
         app:layout_constraintStart_toStartOf="@id/ti_password"
+        android:visibility="gone"
         />
 
 

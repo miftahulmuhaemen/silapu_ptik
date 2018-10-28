@@ -68,7 +68,6 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
 
             if(IDENTIFIER == FRAGMENT_PENGADUAN) {
                 final PengaduanItem item = getFilteredPengaduanItem().get(position);
-                Glide.with(context).load(item.getProfilImg()).into(holder.profile_img);
                 holder.tv_sender.setText(item.getSender());
                 holder.tv_classification.setText(item.getClassification());
                 holder.tv_content.setText(item.getContent());
@@ -82,7 +81,6 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                 });
             } else {
                 final PerdataItem item = getFilteredPerdataItem().get(position);
-                Glide.with(context).load(item.getProfilImg()).into(holder.profile_img);
                 holder.tv_sender.setText(item.getSender());
                 holder.tv_classification.setText(item.getClassification());
                 holder.tv_content.setText(item.getContent());
@@ -159,8 +157,6 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
 
     class RecylerViewAdapterHolder extends android.support.v7.widget.RecyclerView.ViewHolder{
 
-            @Nullable @BindView(R.id.profile_img)
-            ImageView profile_img;
             @Nullable @BindView(R.id.file_preview)
             ImageView file_preview;
             @Nullable @BindView(R.id.tv_sender)

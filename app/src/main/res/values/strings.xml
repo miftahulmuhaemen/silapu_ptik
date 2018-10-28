@@ -5,6 +5,10 @@
     <string name="lupa_katasandi">Lupa Katasandi?</string>
     <string name="logo">Logo</string>
 
+    <string name="ERROR_EMAIL">Surel Tidak Sah</string>
+    <string name="ERROR_PASSWORD">Katakunci Tidak Sah</string>
+    <string name="ERROR_KOSONG">Kosong</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="silahkan_tekan_tombol_selesai_untuk_n_melanjutkan">Silahkan tekan tombol `Selesai` untuk  melanjutkan</string>

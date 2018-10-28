@@ -1,24 +1,25 @@
 package com.unlam.developerstudentclub.silapu.Fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.unlam.developerstudentclub.silapu.Adapter.RecyclerViewAdapter;
@@ -34,25 +35,45 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
+import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
+import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
 import static android.support.constraint.Constraints.TAG;
+import static com.unlam.developerstudentclub.silapu.LoginActivity.ERROR_FIELD_EMAIL_NOTVALID;
+import static com.unlam.developerstudentclub.silapu.LoginActivity.ERROR_FIELD_KOSONG;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Global extends Fragment {
+public class  Global extends Fragment {
 
-    @Nullable @BindView(R.id.edt_email) EditText edt_email;
-    @Nullable @BindView(R.id.edt_alamat) EditText edt_alamat;
-    @Nullable @BindView(R.id.edt_nama) EditText edt_nama;
-    @Nullable @BindView(R.id.edt_password) EditText edt_password;
-    @Nullable @BindView(R.id.edt_numberPhone) EditText edt_phoneNumber;
+    /*Fragment Regist*/
+    @Nullable @BindView(R.id.edt_email) ExtendedEditText edt_email;
+    @Nullable @BindView(R.id.edt_alamat) ExtendedEditText edt_alamat;
+    @Nullable @BindView(R.id.edt_nama) ExtendedEditText edt_nama;
+    @Nullable @BindView(R.id.edt_password) ExtendedEditText edt_password;
+    @Nullable @BindView(R.id.edt_numberPhone) ExtendedEditText edt_phoneNumber;
+    @Nullable @BindView(R.id.edt_kotaLahir) ExtendedEditText edt_kotaLahir;
+    @Nullable @BindView(R.id.edt_tanggalLahir) ExtendedEditText edt_tanggalLahir;
+    @Nullable @BindView(R.id.edt_nomorIdentitas) ExtendedEditText edt_nomorIdentitas;
 
-    @Nullable @BindView(R.id.ti_jenisKelamin)
-    MaterialSpinner spinner_jenisKelamin;
-    @Nullable @BindView(R.id.ti_identity)
-    MaterialSpinner spinner_identityCard;
+    @Nullable @BindView(R.id.ti_password) TextFieldBoxes ti_password;
+    @Nullable @BindView(R.id.ti_email)  TextFieldBoxes ti_email;
+    @Nullable @BindView(R.id.ti_nama)  TextFieldBoxes ti_nama;
+    @Nullable @BindView(R.id.ti_phone)  TextFieldBoxes ti_phone;
+    @Nullable @BindView(R.id.ti_alamat)  TextFieldBoxes ti_alamat;
+    @Nullable @BindView(R.id.ti_kotaLahir)  TextFieldBoxes ti_kotaLahir;
+    @Nullable @BindView(R.id.ti_tanggalLahir)  TextFieldBoxes ti_tanggalLahir;
+    @Nullable @BindView(R.id.ti_idt) TextFieldBoxes ti_noIdentitas;
 
+    @Nullable @BindView(R.id.btn_galeri) ImageView btn_galeri;
+    @Nullable @BindView(R.id.plate_img)  CircleImageView plate_img;
+
+    @Nullable @BindView(R.id.ti_jenisKelamin)   MaterialSpinner spinner_jenisKelamin;
+    @Nullable @BindView(R.id.ti_identity)   MaterialSpinner spinner_identityCard;
+
+    /*Fragment Main*/
     @Nullable @BindView(R.id.btn_add_item) FloatingActionButton btn_add;
     @Nullable @BindView(R.id.searchview) SearchView searchView;
     @Nullable @BindView(R.id.recylerview) RecyclerView recyclerView;
@@ -74,6 +95,24 @@ public class Global extends Fragment {
         // Required empty public constructor
     }
 
+    onCompleteFormListener mCallback;
+    public interface onCompleteFormListener{
+        void onValue(Boolean condition);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (onCompleteFormListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
@@ -84,6 +123,7 @@ public class Global extends Fragment {
             case FRAGMENT_REGISTER_FIRST :
                         view = inflater.inflate(R.layout.frag_regist1st, container, false);
                         ButterKnife.bind(this,view);
+                        ActivityListener();
                         break;
             case FRAGMENT_REGISTER_SECOND :
                         view = inflater.inflate(R.layout.frag_regist2nd,container,false);
@@ -117,6 +157,117 @@ public class Global extends Fragment {
         }
         return view;
     }
+
+    /*Double Method in LoginActivity, needs to be simplified later*/
+    private boolean isValidEmail(CharSequence email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    void ActivityListener (){
+        FloatingActionButton button = getActivity().findViewById(R.id.fab_right);
+        final FloatingActionButton fab_left = getActivity().findViewById(R.id.fab_left);
+        final ViewPager viewPager = getActivity().findViewById(R.id.viewpager);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int currentPage = viewPager.getCurrentItem();
+                int totalPage = viewPager.getAdapter().getCount();
+
+                if(currentPage == totalPage - 2){
+                    final int CHECK = getArguments().getInt(FRAGEMENT_IDENTITY,0);
+                    boolean isComplete = true;
+                    Log.d("KABOOM", "" + CHECK);
+                        switch (CHECK){
+                            case FRAGMENT_REGISTER_FIRST :
+                                String email = edt_email.getText().toString().trim();
+                                String password = edt_password.getText().toString().trim();
+                                String alamat = edt_alamat.getText().toString().trim();
+                                String nama = edt_nama.getText().toString().trim();
+
+                                if(TextUtils.isEmpty(email)){
+                                    isComplete = false;
+                                    ti_email.setError(ERROR_FIELD_KOSONG,true);
+                                } else if(!isValidEmail(email)){
+                                    isComplete = false;
+                                    ti_email.setError(ERROR_FIELD_EMAIL_NOTVALID,true);
+                                }
+
+
+                                break;
+                            case FRAGMENT_REGISTER_SECOND :
+                                String kotaLahir = edt_kotaLahir.getText().toString().trim();
+                                String tanggalLahir = edt_tanggalLahir.getText().toString().trim();
+                                String jenisKelamin = spinner_jenisKelamin.getText().toString().trim();
+                                String identityCard = spinner_identityCard.getText().toString().trim();
+                                String noIdentity = edt_nomorIdentitas.getText().toString().trim();
+                                String phone = edt_phoneNumber.getText().toString().trim();
+
+                                if(TextUtils.isEmpty(kotaLahir)){
+                                    isComplete = false;
+                                    ti_kotaLahir.setError(ERROR_FIELD_EMAIL_NOTVALID,true);
+                                }
+
+                                break;
+                            case FRAGMENT_REGISTER_THIRD :
+                                break;
+                        }
+
+                    mCallback.onValue(isComplete);
+                }
+                else{
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    fab_left.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
+    }
+
+//    @Override
+//    public void onOptionChoosen(Boolean text) {
+//        final int CHECK = getArguments().getInt(FRAGEMENT_IDENTITY,0);
+//        boolean isComplete = true;
+//        Log.d("KABOOM", "FUCK YEAH");
+//        if(text){
+//            switch (CHECK){
+//                case FRAGMENT_REGISTER_FIRST :
+//                    String email = edt_email.getText().toString().trim();
+//                    String password = edt_password.getText().toString().trim();
+//                    String alamat = edt_alamat.getText().toString().trim();
+//                    String nama = edt_nama.getText().toString().trim();
+//
+//                    if(TextUtils.isEmpty(email)){
+//                        isComplete = false;
+//                        ti_email.setError(ERROR_FIELD_KOSONG,true);
+//                    } else if(isValidEmail(email)){
+//                        isComplete = false;
+//                        ti_email.setError(ERROR_FIELD_EMAIL_NOTVALID,true);
+//                    }
+//
+//
+//                    break;
+//                case FRAGMENT_REGISTER_SECOND :
+//                    String kotaLahir = edt_kotaLahir.getText().toString().trim();
+//                    String tanggalLahir = edt_tanggalLahir.getText().toString().trim();
+//                    String jenisKelamin = spinner_jenisKelamin.getText().toString().trim();
+//                    String identityCard = spinner_identityCard.getText().toString().trim();
+//                    String noIdentity = edt_nomorIdentitas.getText().toString().trim();
+//                    String phone = edt_phoneNumber.getText().toString().trim();
+//
+//                    if(TextUtils.isEmpty(kotaLahir)){
+//                        isComplete = false;
+//                        ti_kotaLahir.setError(ERROR_FIELD_EMAIL_NOTVALID,true);
+//                    }
+//
+//                    break;
+//                case FRAGMENT_REGISTER_THIRD :
+//                    break;
+//            }
+//        }
+//        onCompleteFormListener.onValue(isComplete);
+//
+//    }
 
     private void RecyclerViewAdapterConnect(int Fragment){
 
