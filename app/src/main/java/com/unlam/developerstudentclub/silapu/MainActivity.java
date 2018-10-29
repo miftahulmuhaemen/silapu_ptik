@@ -21,7 +21,7 @@ import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PEN
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PERDATA;
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PROFIL;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Global.onCompleteResponse {
 
     @BindView(R.id.viewpager)
     LockableViewPager viewPager;
@@ -104,5 +104,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this,"Perdata",Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onCompleteFormResponse(String text) {
+        //empty needed
     }
 }

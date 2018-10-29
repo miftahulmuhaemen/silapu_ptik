@@ -15,17 +15,21 @@ import com.rd.PageIndicatorView;
 import com.unlam.developerstudentclub.silapu.Adapter.FragementAdapter;
 import com.unlam.developerstudentclub.silapu.Fragment.Confirmation;
 import com.unlam.developerstudentclub.silapu.Fragment.Global;
+import com.unlam.developerstudentclub.silapu.Utils.ImplicitlyListenerComposite;
+import com.unlam.developerstudentclub.silapu.Utils.Implictly;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import lombok.Getter;
+import lombok.Setter;
 
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_FIRST;
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_FORTH;
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_SECOND;
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_THIRD;
 
-public class RegisterActivity extends AppCompatActivity implements Global.onCompleteFormListener {
+public class RegisterActivity extends AppCompatActivity implements Implictly, Global.onCompleteResponse {
 
     @BindView(R.id.viewpager)
     LockableViewPager viewPager;
@@ -45,20 +49,8 @@ public class RegisterActivity extends AppCompatActivity implements Global.onComp
     @BindView(R.id.pageIndicatorView)
     PageIndicatorView pageIndicatorView;
 
-    @Override
-    public void onValue(Boolean condition) {
-        Log.d("KOBOOM", condition + "");
-        if(condition){
-            fab_left.setVisibility(View.INVISIBLE);
-            fab_right.setVisibility(View.INVISIBLE);
-            btn_done.setVisibility(View.VISIBLE);
-            btn_masuk.setVisibility(View.INVISIBLE);
-            pageIndicatorView.setVisibility(View.INVISIBLE);
-            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-        } else {
-            Snackbar.make(getCurrentFocus(), "Data Masih Salah", Snackbar.LENGTH_LONG).show();
-        }
-    }
+    Implictly implictly;
+    ImplicitlyListenerComposite implicitlyListenerComposite = new ImplicitlyListenerComposite();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +59,8 @@ public class RegisterActivity extends AppCompatActivity implements Global.onComp
         ButterKnife.bind(this);
         setupViewPager(viewPager);
 
-
         viewPager.setSwipeable(false);
-
+        viewPager.setOffscreenPageLimit(4);
         btn_masuk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,44 +80,33 @@ public class RegisterActivity extends AppCompatActivity implements Global.onComp
             }
         });
 
-//        fab_right.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                int currentPage = viewPager.getCurrentItem();
-//                int totalPage = viewPager.getAdapter().getCount();
-//
-//                if(currentPage == totalPage - 2){
-////                            Confirmation confirmationDialog = new Confirmation();
-////                            confirmationDialog.setOnOptionDialogListener(new Confirmation.OnOptionDialogListener() {
-////                                @Override
-////                                public void onOptionChoosen(Boolean code) {
-////                                    if(code){
-////                                        if(condition){
-////                                            fab_left.setVisibility(View.INVISIBLE);
-////                                            fab_right.setVisibility(View.INVISIBLE);
-////                                            btn_done.setVisibility(View.VISIBLE);
-////                                            btn_masuk.setVisibility(View.INVISIBLE);
-////                                            pageIndicatorView.setVisibility(View.INVISIBLE);
-////                                            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-////                                        } else {
-////                                            Snackbar.make(getCurrentFocus(), "Data Masih Salah", Snackbar.LENGTH_LONG).show();
-////                                        }
-////                                    }
-////                        }
-////                    });
-////
-////                    FragmentManager fragmentManager = getSupportFragmentManager();
-////                    confirmationDialog.show(fragmentManager,Confirmation.class.getSimpleName());
-//
-//                }
-//                else{
-//                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-//                    fab_left.setVisibility(View.VISIBLE);
-//                }
-//
-//            }
-//        });
+        fab_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int currentPage = viewPager.getCurrentItem();
+                int totalPage = viewPager.getAdapter().getCount();
+
+                if(currentPage == totalPage - 2){
+                    Confirmation confirmationDialog = new Confirmation();
+                    confirmationDialog.setOnOptionDialogListener(new Confirmation.OnOptionDialogListener() {
+                        @Override
+                        public void onOptionChoosen(Boolean text) {
+                            if(text){
+                                implicitlyListenerComposite.onRegisterActivityResponse(true);
+                            }
+                        }
+                    });
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    confirmationDialog.show(fragmentManager,Confirmation.class.getSimpleName());
+                }
+                else{
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    fab_left.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
 
         btn_done.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,18 +126,24 @@ public class RegisterActivity extends AppCompatActivity implements Global.onComp
         bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_FIRST);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part1");
+        attachListenerOnFragment(mFragment);
+        implicitlyListenerComposite.registerListener(implictly);
 
         bundle = new Bundle();
         mFragment = new Global();
         bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_SECOND);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part2");
+        attachListenerOnFragment(mFragment);
+        implicitlyListenerComposite.registerListener(implictly);
 
         bundle = new Bundle();
         mFragment = new Global();
         bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_THIRD);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part3");
+        attachListenerOnFragment(mFragment);
+        implicitlyListenerComposite.registerListener(implictly);
 
         bundle = new Bundle();
         mFragment = new Global();
@@ -166,5 +152,46 @@ public class RegisterActivity extends AppCompatActivity implements Global.onComp
         adapter.addFragment(mFragment, "Part4");
 
         viewPager.setAdapter(adapter);
+
+    }
+
+    void attachListenerOnFragment(Global fragment){
+        try {
+            implictly = (Implictly) fragment;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(this.toString()
+                    + " Needs to implement the methods");
+        }
+    }
+
+    @Override
+    public void onRegisterActivityResponse(Boolean text) {
+        //needs to be empty
+    }
+
+
+    public void onCompleteResponse(Boolean text) {
+        Log.d("BABOM", text + "");
+//        if(text){
+//            fab_left.setVisibility(View.INVISIBLE);
+//            fab_right.setVisibility(View.INVISIBLE);
+//            btn_done.setVisibility(View.VISIBLE);
+//            btn_masuk.setVisibility(View.INVISIBLE);
+//            pageIndicatorView.setVisibility(View.INVISIBLE);
+//            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+//        } else {
+//            Snackbar.make(getCurrentFocus(), "Data Masih Salah", Snackbar.LENGTH_LONG).show();
+//        }
+    }
+
+    @Override
+    public void onCompleteFormResponse(String text) {
+        Log.d("BABOM", text + "");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        implicitlyListenerComposite.removeListener();
     }
 }
