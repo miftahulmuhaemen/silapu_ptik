@@ -45,6 +45,7 @@ import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 import static android.support.constraint.Constraints.TAG;
 import static com.unlam.developerstudentclub.silapu.LoginActivity.ERROR_FIELD_EMAIL_NOTVALID;
 import static com.unlam.developerstudentclub.silapu.LoginActivity.ERROR_FIELD_KOSONG;
+import static com.unlam.developerstudentclub.silapu.RegisterActivity.REQUEST_CODE_REGISTER;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,13 +107,14 @@ public class  Global extends Fragment implements Implictly {
         super.onAttach(context);
 
         try{
-            Activity register = new RegisterActivity();
-            register.getComponentName().toString();
+            // Prevent Error from Global > MainActivity
+            new RegisterActivity().getComponentName().toString();
+
         } catch (Exception ex){
             try {
                 Responses = (onCompleteResponse) context;
             } catch (ClassCastException e) {
-                throw new ClassCastException(context.toString() + " must implement onViewSelected");
+                throw new ClassCastException(context.toString() + " must implement onCompleteResponse");
             }
         }
     }
@@ -162,8 +164,6 @@ public class  Global extends Fragment implements Implictly {
                 }
 
                 break;
-            case FRAGMENT_REGISTER_THIRD :
-                break;
         }
 
         getResponses().onCompleteFormResponse(CHECK + "");
@@ -189,6 +189,14 @@ public class  Global extends Fragment implements Implictly {
             case FRAGMENT_REGISTER_THIRD :
                         view = inflater.inflate(R.layout.frag_regist3rd, container, false);
                         ButterKnife.bind(this,view);
+                        btn_galeri.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                                intent.setType("image/*");
+                                getActivity().startActivityForResult(Intent.createChooser(intent,"Select Image"), REQUEST_CODE_REGISTER);
+                            }
+                        });
                         break;
             case FRAGMENT_REGISTER_FORTH :
                         view = inflater.inflate(R.layout.frag_regist4th, container, false);
@@ -203,8 +211,6 @@ public class  Global extends Fragment implements Implictly {
             case FRAGMENT_PROFIL :
                         view = inflater.inflate(R.layout.frag_profile,container,false);
                         ButterKnife.bind(this,view);
-                        PopupMenu(view,btn_setting,R.menu.setting);
-                        /*Fragement Pop Up*/
                         break;
 
             default: view =  null;
@@ -282,45 +288,6 @@ public class  Global extends Fragment implements Implictly {
                     btn_add.setVisibility(View.INVISIBLE);
                 else
                     btn_add.setVisibility(View.VISIBLE);
-            }
-        });
-    }
-
-    private void PopupMenu(final View view, final View button, final int res){
-
-        final PopupMenu popupMenu = new PopupMenu(view.getContext(),button,Gravity.CENTER);
-        popupMenu.getMenuInflater().inflate(res,popupMenu.getMenu());
-
-        Object menuHelper;
-        Class[] argTypes;
-
-        try{
-            Field fMenuHelper = PopupMenu.class.getDeclaredField("mPopup");
-            fMenuHelper.setAccessible(true);
-            menuHelper = fMenuHelper.get(popupMenu);
-            argTypes = new Class[] { boolean.class };
-            menuHelper.getClass().getDeclaredMethod("setForceShowIcon", argTypes).invoke(menuHelper,true);
-        } catch (Exception e) {
-            Log.d(TAG, "error");
-        }
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.profil:
-                        break;
-                    case R.id.bahasa:
-                        break;
-                }
-                return true;
-            }
-        });
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popupMenu.show();
             }
         });
     }

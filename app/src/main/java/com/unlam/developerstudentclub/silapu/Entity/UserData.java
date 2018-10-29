@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.unlam.developerstudentclub.silapu.BuildConfig;
 
+import java.io.File;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -73,4 +75,8 @@ public class UserData {
     @Expose
     @Setter @Getter
     private String api_key = BuildConfig.API_KEY;
+
+    @SerializedName("file")
+    @Setter @Getter
+    private File file;
 }

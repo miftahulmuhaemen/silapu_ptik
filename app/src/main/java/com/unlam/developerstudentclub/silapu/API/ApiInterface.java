@@ -17,7 +17,7 @@ public interface ApiInterface {
     Call<ApiResponse<UserData>> getLogin(@Query("key") String key, @Query("email") String email, @Query("password") String password);
 
     @POST("user/register")
-    Call<ApiResponse<List<UserData>>> postRegister(@Body UserData data);
+    Call<ApiResponse<UserData>> postRegister(@Body UserData data);
 
 //    @GET("prodi/"+ BuildConfig.API_KEY + "{id}")
 //    Call<ApiResponse<Prodi>> getOneProdi(@Path("id") int id);
