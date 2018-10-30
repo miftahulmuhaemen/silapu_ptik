@@ -10,7 +10,7 @@
     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
         android:id="@+id/ti_kotaLahir"
         android:layout_width="0dp"
-        android:layout_height="@dimen/edittext_height_natural"
+        android:layout_height="wrap_content"
 
         android:layout_marginRight="@dimen/medium_margin_globally"
 
@@ -27,6 +27,8 @@
             android:id="@+id/edt_kotaLahir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lines="1"
+            android:maxLines="1"
             />
 
     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
@@ -34,22 +36,24 @@
     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
         android:id="@+id/ti_tanggalLahir"
         android:layout_width="160dp"
-        android:layout_height="@dimen/edittext_height_natural"
-
+        android:layout_height="wrap_content"
         android:focusable="false"
-        app:labelText="Tanggal Lahir"
-        app:primaryColor="@color/EggYellow"
-        app:hasClearButton="true"
-        app:useDenseSpacing="true"
-        app:helperText="contoh : 12/29/2018"
 
+
+        app:endIcon="@drawable/ic_settings_black_24dp"
+        app:labelText="Tanggal Lahir"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+
+
+        app:primaryColor="@color/EggYellow"
+        app:useDenseSpacing="true">
 
         <studio.carbonylgroup.textfieldboxes.ExtendedEditText
             android:id="@+id/edt_tanggalLahir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusable="false"
             />
 
     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
@@ -86,7 +90,7 @@
     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
         android:id="@+id/ti_idt"
         android:layout_width="0dp"
-        android:layout_height="@dimen/edittext_height_natural"
+        android:layout_height="wrap_content"
 
         android:layout_marginTop="@dimen/medium_margin_globally"
 
@@ -94,6 +98,7 @@
         app:primaryColor="@color/EggYellow"
         app:hasClearButton="true"
         app:useDenseSpacing="true"
+        app:helperText="Pastikan Inputan Benar."
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,6 +108,8 @@
             android:id="@+id/edt_nomorIdentitas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lines="1"
+            android:maxLines="1"
             />
 
     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
@@ -110,7 +117,7 @@
     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
     android:id="@+id/ti_phone"
     android:layout_width="0dp"
-    android:layout_height="78dp"
+    android:layout_height="wrap_content"
 
         android:layout_marginTop="@dimen/medium_margin_globally"
 
@@ -128,6 +135,8 @@
             android:id="@+id/edt_numberPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lines="1"
+            android:maxLines="1"
             />
 
     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>

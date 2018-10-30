@@ -161,21 +161,18 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         });
     }
 
-    private File createTempFile(Bitmap bitmap) {
-        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                , System.currentTimeMillis() +"_image.webp");
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.WEBP,0, bos);
-        byte[] bitmapdata = bos.toByteArray();
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CODE_REGISTER){
+            if(resultCode == RESULT_OK){
+                bitmap = getDecodedImageFromUri(data.getData());
+                ImageView imageView = findViewById(R.id.plate_img);
+                Glide.with(this)
+                        .load(bitmap)
+                        .into(imageView);
+            }
         }
-        return file;
     }
 
     private Bitmap getDecodedImageFromUri(Uri uri) {
@@ -190,19 +187,6 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         options.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream, rect, options); //HERE IS PROBLEM - bitmap = null.
         return bitmap;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CODE_REGISTER){
-            if(resultCode == RESULT_OK){
-                bitmap = getDecodedImageFromUri(data.getData());
-                ImageView imageView = findViewById(R.id.plate_img);
-                Glide.with(this)
-                        .load(bitmap)
-                        .into(imageView);
-            }
-        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -281,7 +265,6 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         }
 
         if(FRAGMENT_firstSeal && FRAGMENT_secondSeal && FRAGMENT_thirdSeal){
-
             File file = createTempFile(bitmap);
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
             MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
@@ -333,9 +316,11 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
 
                 @Override
                 public void onFailure(Call<ApiResponse<UserData>> call, Throwable t) {
-
+                    Snackbar.make(getCurrentFocus(), "Koneksi kemungkinan bermasalah", Snackbar.LENGTH_LONG).show();
                 }
             });
+        } else {
+            Snackbar.make(getCurrentFocus(), "Data Tidak Lengkap.", Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -345,6 +330,22 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
                 okhttp3.MultipartBody.FORM, descriptionString);
     }
 
+    private File createTempFile(Bitmap bitmap) {
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                , System.currentTimeMillis() +"_image.webp");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.WEBP,0, bos);
+        byte[] bitmapdata = bos.toByteArray();
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
 
     @Override
     protected void onDestroy() {

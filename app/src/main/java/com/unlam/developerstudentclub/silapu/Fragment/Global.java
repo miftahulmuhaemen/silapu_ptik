@@ -1,6 +1,7 @@
 package com.unlam.developerstudentclub.silapu.Fragment;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.ColorFilter;
@@ -13,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -39,7 +42,11 @@ import com.unlam.developerstudentclub.silapu.Utils.NpaLiniearLayoutManager;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -48,7 +55,6 @@ import lombok.Setter;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
-import static android.support.constraint.Constraints.TAG;
 import static com.unlam.developerstudentclub.silapu.LoginActivity.ERROR_FIELD_EMAIL_NOTVALID;
 import static com.unlam.developerstudentclub.silapu.LoginActivity.ERROR_FIELD_KOSONG;
 import static com.unlam.developerstudentclub.silapu.RegisterActivity.REQUEST_CODE_REGISTER;
@@ -90,7 +96,7 @@ public class  Global extends Fragment implements Implictly {
     @Nullable @BindView(R.id.setting) ImageView btn_setting;
 
     RecyclerViewAdapter rvAdapter;
-
+    final Calendar myCalendar = Calendar.getInstance();
 
     final public static int FRAGMENT_REGISTER_FIRST = 1;
     final public static int FRAGMENT_REGISTER_SECOND = 2;
@@ -154,6 +160,7 @@ public class  Global extends Fragment implements Implictly {
                 if(TextUtils.isEmpty(password)){
                     isComplete = false;
                     ti_password.setError(ERROR_FIELD_KOSONG,false);
+                    ti_password.validate();
                 }
 
                 if(TextUtils.isEmpty(alamat)){
@@ -232,10 +239,37 @@ public class  Global extends Fragment implements Implictly {
             case FRAGMENT_REGISTER_FIRST :
                         view = inflater.inflate(R.layout.frag_regist1st, container, false);
                         ButterKnife.bind(this,view);
+                        ti_password.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                edt_password.setInputType(InputType.TYPE_CLASS_TEXT);
+                            }
+                        });
                         break;
             case FRAGMENT_REGISTER_SECOND :
                         view = inflater.inflate(R.layout.frag_regist2nd,container,false);
                         ButterKnife.bind(this,view);
+                        edt_tanggalLahir.setInputType(InputType.TYPE_NULL);
+                        ti_tanggalLahir.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                                          int dayOfMonth) {
+                                        myCalendar.set(Calendar.YEAR, year);
+                                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                        updateLabel();
+                                    }
+                                };
+
+                                new DatePickerDialog(getActivity(), date, myCalendar
+                                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                            }
+                        });
                         spinner_jenisKelamin.setItems(getResources().getStringArray(R.array.jeniskelamin));
                         spinner_identityCard.setItems(getResources().getStringArray(R.array.identitas));
                         break;
@@ -270,6 +304,13 @@ public class  Global extends Fragment implements Implictly {
                         break;
         }
         return view;
+    }
+
+    private void updateLabel() {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        edt_tanggalLahir.setText(sdf.format(myCalendar.getTime()));
     }
 
     /*Double Method in LoginActivity, needs to be simplified later*/
