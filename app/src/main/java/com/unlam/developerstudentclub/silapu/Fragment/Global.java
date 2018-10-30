@@ -3,6 +3,9 @@ package com.unlam.developerstudentclub.silapu.Fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -26,11 +29,14 @@ import com.unlam.developerstudentclub.silapu.Entity.DummyDataPengaduan;
 import com.unlam.developerstudentclub.silapu.Entity.DummyDataPerdata;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
+import com.unlam.developerstudentclub.silapu.Entity.UserData;
 import com.unlam.developerstudentclub.silapu.R;
 import com.unlam.developerstudentclub.silapu.RegisterActivity;
 import com.unlam.developerstudentclub.silapu.Utils.ImplicitlyListenerComposite;
 import com.unlam.developerstudentclub.silapu.Utils.Implictly;
 import com.unlam.developerstudentclub.silapu.Utils.NpaLiniearLayoutManager;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -85,6 +91,7 @@ public class  Global extends Fragment implements Implictly {
 
     RecyclerViewAdapter rvAdapter;
 
+
     final public static int FRAGMENT_REGISTER_FIRST = 1;
     final public static int FRAGMENT_REGISTER_SECOND = 2;
     final public static int FRAGMENT_REGISTER_THIRD = 3;
@@ -99,7 +106,7 @@ public class  Global extends Fragment implements Implictly {
     onCompleteResponse Responses;
 
     public interface onCompleteResponse {
-        void onCompleteFormResponse(String text);
+        void onCompleteFormResponse(UserData data, int FragmentIdentifier);
     }
 
     @Override
@@ -125,10 +132,11 @@ public class  Global extends Fragment implements Implictly {
 
     @Override
     public void onRegisterActivityResponse(Boolean text) {
-        final int CHECK = getArguments().getInt(FRAGEMENT_IDENTITY,0);
+        final int Fragment = getArguments().getInt(FRAGEMENT_IDENTITY,0);
         boolean isComplete = true;
+        UserData data = new UserData();
 
-        switch (CHECK){
+        switch (Fragment){
             case FRAGMENT_REGISTER_FIRST :
                 String email = edt_email.getText().toString().trim();
                 String password = edt_password.getText().toString().trim();
@@ -143,8 +151,29 @@ public class  Global extends Fragment implements Implictly {
                     ti_email.setError(ERROR_FIELD_EMAIL_NOTVALID,true);
                 }
 
+                if(TextUtils.isEmpty(password)){
+                    isComplete = false;
+                    ti_password.setError(ERROR_FIELD_KOSONG,false);
+                }
 
+                if(TextUtils.isEmpty(alamat)){
+                    isComplete = false;
+                    ti_alamat.setError(ERROR_FIELD_KOSONG,false);
+                }
+
+                if(TextUtils.isEmpty(nama)){
+                    isComplete = false;
+                    ti_nama.setError(ERROR_FIELD_KOSONG,false);
+                }
+
+                if(isComplete){
+                    data.setEmail(email);
+                    data.setPassword(password);
+                    data.setAlamat(alamat);
+                    data.setNama(nama);
+                }
                 break;
+
             case FRAGMENT_REGISTER_SECOND :
                 String kotaLahir = edt_kotaLahir.getText().toString().trim();
                 String tanggalLahir = edt_tanggalLahir.getText().toString().trim();
@@ -163,10 +192,35 @@ public class  Global extends Fragment implements Implictly {
                     ti_phone.setError(ERROR_FIELD_KOSONG, true);
                 }
 
+                if(TextUtils.isEmpty(tanggalLahir)){
+                    isComplete = false;
+                    ti_tanggalLahir.setError(ERROR_FIELD_KOSONG, false);
+                }
+
+                if(TextUtils.isEmpty(noIdentity)){
+                    isComplete = false;
+                    ti_noIdentitas.setError(ERROR_FIELD_KOSONG,false);
+                }
+                if(isComplete){
+                    data.setTmptLhr(kotaLahir);
+                    data.setTglLhr(tanggalLahir);
+                    data.setNoIdentitas(noIdentity);
+                    data.setTelp(phone);
+                    data.setJk(jenisKelamin);
+                    data.setIdentitas(identityCard);
+                }
+                break;
+            case FRAGMENT_REGISTER_THIRD :
+                if(plate_img.getDrawable() == null){
+                    isComplete = false;
+                    Log.d("BABAM", "THIS IF UCKINASD AS");
+                }
                 break;
         }
 
-        getResponses().onCompleteFormResponse(CHECK + "");
+        if(isComplete){
+            getResponses().onCompleteFormResponse(data, Fragment);
+        }
     }
 
     @Override

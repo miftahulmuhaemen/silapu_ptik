@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.unlam.developerstudentclub.silapu.Adapter.FragementAdapter;
+import com.unlam.developerstudentclub.silapu.Entity.UserData;
 import com.unlam.developerstudentclub.silapu.Fragment.Global;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     }
 
     @Override
-    public void onCompleteFormResponse(String text) {
+    public void onCompleteFormResponse(UserData text, int Fragment) {
         //empty needed
     }
 }

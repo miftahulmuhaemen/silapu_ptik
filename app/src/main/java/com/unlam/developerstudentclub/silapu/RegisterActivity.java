@@ -142,15 +142,15 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CODE_REGISTER){
             if(resultCode == RESULT_OK){
-                Glide.with(this)
-                        .asFile()
-                        .load(data.getData())
-                        .into(new SimpleTarget<File>() {
-                            @Override
-                            public void onResourceReady(File resource, Transition<? super File> transition) {
-                                file = resource;
-                            }
-                        });
+//                Glide.with(this)
+//                        .asFile()
+//                        .load(data.getData())
+//                        .into(new SimpleTarget<File>() {
+//                            @Override
+//                            public void onResourceReady(File resource, Transition<? super File> transition) {
+//                                file = resource;
+//                            }
+//                        });
 
                 ImageView imageView = findViewById(R.id.plate_img);
                 Glide.with(this)
@@ -184,6 +184,8 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_THIRD);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part3");
+        attachListenerOnFragment(mFragment);
+        implicitlyListenerComposite.registerListener(implictly);
 
         bundle = new Bundle();
         mFragment = new Global();
@@ -209,32 +211,65 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         //needs to be empty
     }
 
+    boolean firstSeal = false;
+    boolean secondSeal = false;
+    boolean thirdSeal = false;
+    UserData form = new UserData();
+
     @Override
-    public void onCompleteFormResponse(String text) {
-        UserData data = null;
-//        if(text){
-//            fab_left.setVisibility(View.INVISIBLE);
-//            fab_right.setVisibility(View.INVISIBLE);
-//            btn_done.setVisibility(View.VISIBLE);
-//            btn_masuk.setVisibility(View.INVISIBLE);
-//            pageIndicatorView.setVisibility(View.INVISIBLE);
-//            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-//        } else {
-//            Snackbar.make(getCurrentFocus(), "Data Masih Salah", Snackbar.LENGTH_LONG).show();
-//        }
+    public void onCompleteFormResponse(UserData data, int Fragment) {
 
-        Call<ApiResponse<UserData>> call = api.postRegister(data);
-        call.enqueue(new Callback<ApiResponse<UserData>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<UserData>> call, Response<ApiResponse<UserData>> response) {
+        if(Fragment == FRAGMENT_REGISTER_FIRST){
+            form.setEmail(data.getEmail());
+            form.setPassword(data.getPassword());
+            form.setAlamat(data.getAlamat());
+            form.setNama(data.getNama());
+            firstSeal = true;
+        }
 
-            }
+        if(Fragment == FRAGMENT_REGISTER_SECOND){
+            form.setTglLhr(data.getTglLhr());
+            form.setTmptLhr(data.getTmptLhr());
+            form.setIdentitas(data.getIdentitas());
+            form.setNoIdentitas(data.getNoIdentitas());
+            form.setTelp(data.getTelp());
+            secondSeal = true;
+        }
 
-            @Override
-            public void onFailure(Call<ApiResponse<UserData>> call, Throwable t) {
+        if(Fragment == FRAGMENT_REGISTER_THIRD){
+            thirdSeal = true;
+        }
 
-            }
-        });
+        if(firstSeal && secondSeal && thirdSeal){
+            Log.d("BABAM", "done");
+//            data.setFile(file);
+//            Call<ApiResponse<UserData>> call = api.postRegister(data);
+//            call.enqueue(new Callback<ApiResponse<UserData>>() {
+//                @Override
+//                public void onResponse(Call<ApiResponse<UserData>> call, Response<ApiResponse<UserData>> response) {
+//                    if (response.isSuccessful()) {
+//                        if (response.body().getStatus() == true) {
+//                            fab_left.setVisibility(View.INVISIBLE);
+//                            fab_right.setVisibility(View.INVISIBLE);
+//                            btn_done.setVisibility(View.VISIBLE);
+//                            btn_masuk.setVisibility(View.INVISIBLE);
+//                            pageIndicatorView.setVisibility(View.INVISIBLE);
+//                            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+//                        } else {
+//                            Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+//                        }
+//                    } else {
+//                        Snackbar.make(getCurrentFocus(), response.code() + "- Terjadi Masalah.", Snackbar.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ApiResponse<UserData>> call, Throwable t) {
+//
+//                }
+//            });
+        }
+
     }
 
     @Override
