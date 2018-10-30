@@ -43,7 +43,7 @@ public class UserData {
 
     @SerializedName("jk")
     @Expose
-    @Setter
+    @Setter @Getter
     private String jk;
 
     @SerializedName("tmptLhr")
@@ -76,7 +76,7 @@ public class UserData {
     @Setter @Getter
     private String api_key = BuildConfig.API_KEY;
 
-    @SerializedName("file")
-    @Setter @Getter
-    private File file;
+//    @SerializedName("file")
+//    @Setter @Getter
+//    private File file;
 }

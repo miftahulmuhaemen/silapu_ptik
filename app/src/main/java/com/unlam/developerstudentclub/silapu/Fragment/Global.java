@@ -213,7 +213,6 @@ public class  Global extends Fragment implements Implictly {
             case FRAGMENT_REGISTER_THIRD :
                 if(plate_img.getDrawable() == null){
                     isComplete = false;
-                    Log.d("BABAM", "THIS IF UCKINASD AS");
                 }
                 break;
         }

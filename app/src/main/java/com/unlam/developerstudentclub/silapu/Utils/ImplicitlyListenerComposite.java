@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImplicitlyListenerComposite implements Implictly {
+
     @Override
     public void onRegisterActivityResponse(Boolean text) {
         for(Implictly implictly : registeredListeners){

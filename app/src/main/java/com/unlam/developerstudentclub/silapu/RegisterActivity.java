@@ -2,6 +2,11 @@ package com.unlam.developerstudentclub.silapu;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -28,15 +33,27 @@ import com.unlam.developerstudentclub.silapu.Utils.ImplicitlyListenerComposite;
 import com.unlam.developerstudentclub.silapu.Utils.Implictly;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
 
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_FIRST;
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_FORTH;
@@ -46,7 +63,6 @@ import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REG
 public class RegisterActivity extends AppCompatActivity implements Implictly, Global.onCompleteResponse {
 
     public static Integer REQUEST_CODE_REGISTER = 110;
-    public static Integer PULL_IMAGE_CODE = 666;
 
     @BindView(R.id.viewpager)
     LockableViewPager viewPager;
@@ -66,11 +82,18 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
     @BindView(R.id.pageIndicatorView)
     PageIndicatorView pageIndicatorView;
 
-    Implictly implictly;
-    ImplicitlyListenerComposite implicitlyListenerComposite = new ImplicitlyListenerComposite();
-    ApiInterface api = ApiGenerator.createService(ApiInterface.class);
 
-    File file = null;
+    /* Validation of Each Global Fragment to the Upload Session */
+    boolean FRAGMENT_firstSeal = false;
+    boolean FRAGMENT_secondSeal = false;
+    boolean FRAGMENT_thirdSeal = false;
+
+    UserData form = new UserData();
+    Bitmap bitmap; //File Image Upload and Plate Image Source Value
+    Implictly implictly; // Interface Composite GLOBAL_FRAGMENT
+    ImplicitlyListenerComposite implicitlyListenerComposite = new ImplicitlyListenerComposite(); // Composite Listener
+    ApiInterface api = ApiGenerator.createService(ApiInterface.class); // Interface Retrofit
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,23 +161,45 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         });
     }
 
+    private File createTempFile(Bitmap bitmap) {
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                , System.currentTimeMillis() +"_image.webp");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.WEBP,0, bos);
+        byte[] bitmapdata = bos.toByteArray();
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    private Bitmap getDecodedImageFromUri(Uri uri) {
+        InputStream inputStream = null;
+        try {
+            inputStream = getContentResolver().openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Rect rect = new Rect(0, 0, 0, 0);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = false;
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream, rect, options); //HERE IS PROBLEM - bitmap = null.
+        return bitmap;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CODE_REGISTER){
             if(resultCode == RESULT_OK){
-//                Glide.with(this)
-//                        .asFile()
-//                        .load(data.getData())
-//                        .into(new SimpleTarget<File>() {
-//                            @Override
-//                            public void onResourceReady(File resource, Transition<? super File> transition) {
-//                                file = resource;
-//                            }
-//                        });
-
+                bitmap = getDecodedImageFromUri(data.getData());
                 ImageView imageView = findViewById(R.id.plate_img);
                 Glide.with(this)
-                        .load(data.getData())
+                        .load(bitmap)
                         .into(imageView);
             }
         }
@@ -194,7 +239,6 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         adapter.addFragment(mFragment, "Part4");
 
         viewPager.setAdapter(adapter);
-
     }
 
     void attachListenerOnFragment(Global fragment){
@@ -211,11 +255,6 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         //needs to be empty
     }
 
-    boolean firstSeal = false;
-    boolean secondSeal = false;
-    boolean thirdSeal = false;
-    UserData form = new UserData();
-
     @Override
     public void onCompleteFormResponse(UserData data, int Fragment) {
 
@@ -224,7 +263,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
             form.setPassword(data.getPassword());
             form.setAlamat(data.getAlamat());
             form.setNama(data.getNama());
-            firstSeal = true;
+            FRAGMENT_firstSeal = true;
         }
 
         if(Fragment == FRAGMENT_REGISTER_SECOND){
@@ -233,44 +272,79 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
             form.setIdentitas(data.getIdentitas());
             form.setNoIdentitas(data.getNoIdentitas());
             form.setTelp(data.getTelp());
-            secondSeal = true;
+            form.setJk(data.getJk());
+            FRAGMENT_secondSeal = true;
         }
 
         if(Fragment == FRAGMENT_REGISTER_THIRD){
-            thirdSeal = true;
+            FRAGMENT_thirdSeal = true;
         }
 
-        if(firstSeal && secondSeal && thirdSeal){
-            Log.d("BABAM", "done");
-//            data.setFile(file);
-//            Call<ApiResponse<UserData>> call = api.postRegister(data);
-//            call.enqueue(new Callback<ApiResponse<UserData>>() {
-//                @Override
-//                public void onResponse(Call<ApiResponse<UserData>> call, Response<ApiResponse<UserData>> response) {
-//                    if (response.isSuccessful()) {
-//                        if (response.body().getStatus() == true) {
-//                            fab_left.setVisibility(View.INVISIBLE);
-//                            fab_right.setVisibility(View.INVISIBLE);
-//                            btn_done.setVisibility(View.VISIBLE);
-//                            btn_masuk.setVisibility(View.INVISIBLE);
-//                            pageIndicatorView.setVisibility(View.INVISIBLE);
-//                            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-//                        } else {
-//                            Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
-//                        }
-//                    } else {
-//                        Snackbar.make(getCurrentFocus(), response.code() + "- Terjadi Masalah.", Snackbar.LENGTH_SHORT).show();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<ApiResponse<UserData>> call, Throwable t) {
-//
-//                }
-//            });
-        }
+        if(FRAGMENT_firstSeal && FRAGMENT_secondSeal && FRAGMENT_thirdSeal){
 
+            File file = createTempFile(bitmap);
+            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
+
+            RequestBody key = createPartFromString(form.getApi_key());
+            RequestBody email = createPartFromString(form.getEmail());
+            RequestBody password = createPartFromString(form.getPassword());
+            RequestBody alamat = createPartFromString(form.getAlamat());
+            RequestBody nama = createPartFromString(form.getNama());
+            RequestBody tanggal_lahir = createPartFromString(form.getTglLhr());
+            RequestBody tempat_lahir = createPartFromString(form.getTmptLhr());
+            RequestBody identitas = createPartFromString(form.getIdentitas());
+            RequestBody no_identitas = createPartFromString(form.getNoIdentitas());
+            RequestBody telp = createPartFromString(form.getTelp());
+            RequestBody jk = createPartFromString(form.getJk());
+
+            HashMap<String, RequestBody> map = new HashMap<>();
+            map.put("email",email);
+            map.put("password",password);
+            map.put("alamat", alamat);
+            map.put("nama", nama);
+            map.put("identitas", identitas);
+            map.put("no_identitas", no_identitas);
+            map.put("jk", jk);
+            map.put("tanggal_lahir", tanggal_lahir);
+            map.put("tempat_lahir", tempat_lahir);
+            map.put("telp", telp);
+            map.put("key", key);
+
+            Call<ApiResponse<UserData>> call = api.postRegister(map,body);
+            call.enqueue(new Callback<ApiResponse<UserData>>() {
+                @Override
+                public void onResponse(Call<ApiResponse<UserData>> call, Response<ApiResponse<UserData>> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body().getStatus() == true) {
+                            fab_left.setVisibility(View.INVISIBLE);
+                            fab_right.setVisibility(View.INVISIBLE);
+                            btn_done.setVisibility(View.VISIBLE);
+                            btn_masuk.setVisibility(View.INVISIBLE);
+                            pageIndicatorView.setVisibility(View.INVISIBLE);
+                            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                        } else {
+                            Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Snackbar.make(getCurrentFocus(), response.code() + "- Terjadi Masalah.", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse<UserData>> call, Throwable t) {
+
+                }
+            });
+        }
     }
+
+    @NonNull
+    private RequestBody createPartFromString(String descriptionString) {
+        return RequestBody.create(
+                okhttp3.MultipartBody.FORM, descriptionString);
+    }
+
 
     @Override
     protected void onDestroy() {
