@@ -30,17 +30,22 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     @BindView(R.id.ntb)
     NavigationTabBar navigationTabBar;
 
+    public static final String EXT_PDF = ".pdf";
+    public static final String EXT_DOC = ".doc";
+    public static final String EXT_DOCX = ".docx";
+    public static final String EXT_PNG = ".png";
+    public static final String EXT_JPG = ".jpg";
+    public static final String EXT_BMP = ".bmp";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
         setupViewPager(viewPager);
         navigationTabBar.setBehaviorEnabled(true);
         navigationTabBar.setViewPager(viewPager);
         navigationTabBar.setModels(tabModel());
-
     }
 
     private ArrayList<NavigationTabBar.Model> tabModel () {

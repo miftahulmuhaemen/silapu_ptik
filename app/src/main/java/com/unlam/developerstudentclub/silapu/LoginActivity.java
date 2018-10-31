@@ -10,9 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.unlam.developerstudentclub.silapu.API.ApiGenerator;
 import com.unlam.developerstudentclub.silapu.API.ApiInterface;
-import com.unlam.developerstudentclub.silapu.API.ApiResponse;
+import com.unlam.developerstudentclub.silapu.API.ApiResponseUser;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
 import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
 import butterknife.BindView;
@@ -52,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     ApiInterface api = ApiGenerator.createService(ApiInterface.class);
     private UserPreference userPreference;
 
+
     private boolean isValidEmail(CharSequence email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -61,8 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        userPreference = new UserPreference(this);
-
+        userPreference =  new UserPreference(this);
         ti_password.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,29 +95,24 @@ public class LoginActivity extends AppCompatActivity {
                 if(!isEmpty) {
                     progressBar.setVisibility(View.VISIBLE);
 
-                    Call<ApiResponse<UserData>> call = api.getLogin(BuildConfig.API_KEY, email, password);
-                    call.enqueue(new Callback<ApiResponse<UserData>>() {
+                    Call<ApiResponseUser<UserData>> call = api.getLogin(BuildConfig.API_KEY, email, password);
+                    call.enqueue(new Callback<ApiResponseUser<UserData>>() {
                         @Override
-                        public void onResponse(Call<ApiResponse<UserData>> call, Response<ApiResponse<UserData>> response) {
+                        public void onResponse(Call<ApiResponseUser<UserData>> call, Response<ApiResponseUser<UserData>> response) {
                             if (response.isSuccessful()) {
-                                if (response.body().getStatus() == true) {
                                     userPreference.setPreference(response.body().getAccount());
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();
-                                } else {
-//                                    Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
-//                                    edt_email.setText("");
-//                                    edt_password.setText("");
-                                }
                             } else {
-                                Snackbar.make(getCurrentFocus(), response.code() + "- Error", Snackbar.LENGTH_SHORT).show();
+                                /*it seems you need to give the same JSON structure in order to catch the error message*/
+                                Snackbar.make(getCurrentFocus(), "Email dan Password Salah", Snackbar.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<ApiResponse<UserData>> call, Throwable t) {
+                        public void onFailure(Call<ApiResponseUser<UserData>> call, Throwable t) {
                             Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });

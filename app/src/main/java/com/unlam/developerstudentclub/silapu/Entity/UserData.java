@@ -71,12 +71,4 @@ public class UserData {
     @Setter @Getter
     private Integer active;
 
-    @SerializedName("api_key")
-    @Expose
-    @Setter @Getter
-    private String api_key = BuildConfig.API_KEY;
-
-//    @SerializedName("file")
-//    @Setter @Getter
-//    private File file;
 }

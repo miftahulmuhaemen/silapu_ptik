@@ -15,21 +15,34 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
+import com.unlam.developerstudentclub.silapu.MainActivity;
 import com.unlam.developerstudentclub.silapu.R;
+import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PENGADUAN;
+import static com.unlam.developerstudentclub.silapu.MainActivity.EXT_BMP;
+import static com.unlam.developerstudentclub.silapu.MainActivity.EXT_DOC;
+import static com.unlam.developerstudentclub.silapu.MainActivity.EXT_DOCX;
+import static com.unlam.developerstudentclub.silapu.MainActivity.EXT_JPG;
+import static com.unlam.developerstudentclub.silapu.MainActivity.EXT_PDF;
+import static com.unlam.developerstudentclub.silapu.MainActivity.EXT_PNG;
 
 public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.Adapter<RecyclerViewAdapter.RecylerViewAdapterHolder>
             implements Filterable {
 
         private Context context;
+        private UserPreference userPreference;
+
         @Getter  private ArrayList<PengaduanItem> listPengaduanItem = new ArrayList<>();
         @Getter  private ArrayList<PerdataItem> listPerdataitem = new ArrayList<>();
         @Getter  private ArrayList<PengaduanItem> filteredPengaduanItem = new ArrayList<>();
@@ -50,6 +63,7 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
         public RecyclerViewAdapter(Context context, int Identifier){
             this.context = context;
             IDENTIFIER = Identifier;
+            userPreference = new UserPreference(context);
         }
 
         @Override
@@ -68,26 +82,52 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
 
             if(IDENTIFIER == FRAGMENT_PENGADUAN) {
                 final PengaduanItem item = getFilteredPengaduanItem().get(position);
-                holder.tv_sender.setText(item.getSender());
-                holder.tv_classification.setText(item.getClassification());
-                holder.tv_content.setText(item.getContent());
-                holder.tv_filedates.setText(item.getFiledates());
-                holder.tv_filetype.setText(item.getFiletype());
-                holder.tv_filename.setText(item.getFilename());
-                holder.view.setOnClickListener(new View.OnClickListener() {
+                holder.tv_sender.setText(userPreference.getNama());
+                holder.tv_aduan.setText(item.getAduan());
+                holder.tv_perihal.setText(item.getPerihal());
+//                if(!item.getExtFile().isEmpty()){
+//                    switch (item.getExtFile()){
+//                        case EXT_DOC :
+//                        case EXT_DOCX :
+//                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a002_doc));
+//                            break;
+//                        case EXT_PDF :
+//                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a001_pdf));
+//                            break;
+//                        case EXT_JPG :
+//                        case EXT_PNG :
+//                        case EXT_BMP :
+//                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a003_jpeg));
+//                            break;
+//                    }
+//                    holder.tv_log.setText(item.getLog());
+//                    holder.tv_filetype.setText(item.getExtFile());
+//                    holder.tv_filename.setText(item.getNamaFile());
+//                } else {
+//                    holder.item_view.setVisibility(View.GONE);
+//                }
+
+                holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public boolean onLongClick(View view) {
+                        // Open Detail Dialog Fragment.
+                        return false;
                     }
                 });
+
+
+
             } else {
                 final PerdataItem item = getFilteredPerdataItem().get(position);
-                holder.tv_sender.setText(item.getSender());
-                holder.tv_classification.setText(item.getClassification());
-                holder.tv_content.setText(item.getContent());
-                holder.tv_purpose.setText(item.getPurpose());
-                holder.view.setOnClickListener(new View.OnClickListener() {
+                holder.tv_sender.setText(userPreference.getNama());
+                holder.tv_permintaan.setText(item.getPermintaan());
+                holder.tv_tujuan.setText(item.getTujuan());
+                holder.tv_cara.setText(item.getCara());
+                holder.tv_log.setText(item.getLog());
+                holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public boolean onLongClick(View view) {
+                        return false;
                     }
                 });
             }
@@ -116,9 +156,8 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                     else {
                         ArrayList<PengaduanItem> filteredList = new ArrayList<>();
                         for (PengaduanItem row : listPengaduanItem) {
-                            if(row.getSender().toLowerCase().contains(charString.toLowerCase())
-                                    || row.getContent().toLowerCase().contains(charString.toLowerCase())
-                                    || row.getClassification().toLowerCase().contains(charString.toLowerCase()))
+                            if(row.getAduan().toLowerCase().contains(charString.toLowerCase())
+                                    || row.getPerihal().toLowerCase().contains(charString.toLowerCase()))
                                 filteredList.add(row);
                         }
                         filteredPengaduanItem = filteredList;
@@ -130,10 +169,9 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                     else {
                         ArrayList<PerdataItem> filteredList = new ArrayList<>();
                         for (PerdataItem row : listPerdataitem) {
-                            if(row.getSender().toLowerCase().contains(charString.toLowerCase())
-                                    || row.getContent().toLowerCase().contains(charString.toLowerCase())
-                                    || row.getClassification().toLowerCase().contains(charString.toLowerCase())
-                                    || row.getPurpose().toLowerCase().contains(charString.toLowerCase()))
+                            if(row.getCara().toLowerCase().contains(charString.toLowerCase())
+                                    || row.getTujuan().toLowerCase().contains(charString.toLowerCase())
+                                    || row.getPermintaan().toLowerCase().contains(charString.toLowerCase()))
                                 filteredList.add(row);
                         }
                         filteredPerdataItem = filteredList;
@@ -157,24 +195,33 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
 
     class RecylerViewAdapterHolder extends android.support.v7.widget.RecyclerView.ViewHolder{
 
-            @Nullable @BindView(R.id.file_preview)
-            ImageView file_preview;
+            @Nullable @BindView(R.id.tv_tujuan)
+            TextView tv_tujuan;
+            @Nullable @BindView(R.id.tv_permintaan)
+            TextView tv_permintaan;
+            @Nullable @BindView(R.id.tv_cara)
+            TextView tv_cara;
+
             @Nullable @BindView(R.id.tv_sender)
             TextView tv_sender;
+            @Nullable @BindView(R.id.tv_perihal)
+            TextView tv_perihal;
+            @Nullable @BindView(R.id.tv_aduan)
+            TextView tv_aduan;
+
+            @Nullable @BindView(R.id.file_preview)
+            ImageView file_preview;
             @Nullable @BindView(R.id.tv_filetype)
             TextView tv_filetype;
             @Nullable @BindView(R.id.tv_filename)
             TextView tv_filename;
-            @Nullable @BindView(R.id.tv_filedates)
-            TextView tv_filedates;
-            @Nullable @BindView(R.id.tv_classification)
-            TextView tv_classification;
-            @Nullable @BindView(R.id.tv_purpose)
-            TextView tv_purpose;
-            @Nullable @BindView(R.id.tv_content)
-            TextView tv_content;
-            @Nullable @BindView(R.id.items)
+
+            @Nullable @BindView(R.id.cardview_layout)
             View view;
+            @Nullable @BindView(R.id.itemFile_layout)
+            View item_view;
+            @Nullable @BindView(R.id.tv_log)
+            TextView tv_log;
 
         RecylerViewAdapterHolder(View itemView) {
             super(itemView);

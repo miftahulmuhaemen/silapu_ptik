@@ -1,57 +1,56 @@
 package com.unlam.developerstudentclub.silapu.Fragment;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.unlam.developerstudentclub.silapu.API.ApiGenerator;
+import com.unlam.developerstudentclub.silapu.API.ApiInterface;
+import com.unlam.developerstudentclub.silapu.API.ApiResponseData;
 import com.unlam.developerstudentclub.silapu.Adapter.RecyclerViewAdapter;
 import com.unlam.developerstudentclub.silapu.AddActivity;
-import com.unlam.developerstudentclub.silapu.Entity.DummyDataPengaduan;
-import com.unlam.developerstudentclub.silapu.Entity.DummyDataPerdata;
+import com.unlam.developerstudentclub.silapu.Box.App;
+import com.unlam.developerstudentclub.silapu.BuildConfig;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
 import com.unlam.developerstudentclub.silapu.R;
-import com.unlam.developerstudentclub.silapu.RegisterActivity;
-import com.unlam.developerstudentclub.silapu.Utils.ImplicitlyListenerComposite;
 import com.unlam.developerstudentclub.silapu.Utils.Implictly;
 import com.unlam.developerstudentclub.silapu.Utils.NpaLiniearLayoutManager;
+import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Field;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.objectbox.Box;
 import lombok.Getter;
 import lombok.Setter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
@@ -95,8 +94,16 @@ public class  Global extends Fragment implements Implictly {
     @Nullable @BindView(R.id.recylerview) RecyclerView recyclerView;
     @Nullable @BindView(R.id.setting) ImageView btn_setting;
 
+    /*Fragment Profile*/
+    @Nullable @BindView(R.id.tv_name)    TextView tv_name;
+
     RecyclerViewAdapter rvAdapter;
     final Calendar myCalendar = Calendar.getInstance();
+
+    private UserPreference userPreference;
+    ApiInterface api = ApiGenerator.createService(ApiInterface.class);
+    private Box<PengaduanItem> pengaduanItemBox;
+    private Box<PerdataItem> perdataItemBox;
 
     final public static int FRAGMENT_REGISTER_FIRST = 1;
     final public static int FRAGMENT_REGISTER_SECOND = 2;
@@ -105,8 +112,8 @@ public class  Global extends Fragment implements Implictly {
     final public static int FRAGMENT_PENGADUAN = 5;
     final public static int FRAGMENT_PERDATA = 6;
     final public static int FRAGMENT_PROFIL = 7;
-
     public static String FRAGEMENT_IDENTITY = "identity";
+
 
     @Getter @Setter
     onCompleteResponse Responses;
@@ -119,22 +126,102 @@ public class  Global extends Fragment implements Implictly {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        try{
-            // Prevent Error from Global > MainActivity
-            new RegisterActivity().getComponentName().toString();
-
-        } catch (Exception ex){
+//        try{
+//            // Prevent Error from Global > MainActivity
+//            new RegisterActivity().getComponentName().toString();
+//
+//        } catch (Exception ex){
             try {
                 Responses = (onCompleteResponse) context;
             } catch (ClassCastException e) {
                 throw new ClassCastException(context.toString() + " must implement onCompleteResponse");
             }
-        }
+//        }
     }
 
     public Global() {
         // Required empty public constructor
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
+
+        final View view;
+        final int CHECK = getArguments().getInt(FRAGEMENT_IDENTITY,0);
+
+        switch (CHECK){
+            case FRAGMENT_REGISTER_FIRST :
+                        view = inflater.inflate(R.layout.frag_regist1st, container, false);
+                        ButterKnife.bind(this,view);
+                        ti_password.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                edt_password.setInputType(InputType.TYPE_CLASS_TEXT);
+                            }
+                        });
+                        break;
+            case FRAGMENT_REGISTER_SECOND :
+                        view = inflater.inflate(R.layout.frag_regist2nd,container,false);
+                        ButterKnife.bind(this,view);
+                        edt_tanggalLahir.setInputType(InputType.TYPE_NULL);
+                        ti_tanggalLahir.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                                          int dayOfMonth) {
+                                        myCalendar.set(Calendar.YEAR, year);
+                                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                        updateLabel();
+                                    }
+                                };
+                                new DatePickerDialog(getActivity(), date, myCalendar
+                                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                            }
+                        });
+                        spinner_jenisKelamin.setItems(getResources().getStringArray(R.array.jeniskelamin));
+                        spinner_identityCard.setItems(getResources().getStringArray(R.array.identitas));
+                        break;
+            case FRAGMENT_REGISTER_THIRD :
+                        view = inflater.inflate(R.layout.frag_regist3rd, container, false);
+                        ButterKnife.bind(this,view);
+                        btn_galeri.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                                intent.setType("image/*");
+                                getActivity().startActivityForResult(Intent.createChooser(intent,"Select Image"), REQUEST_CODE_REGISTER);
+                            }
+                        });
+                        break;
+            case FRAGMENT_REGISTER_FORTH :
+                        view = inflater.inflate(R.layout.frag_regist4th, container, false);
+                        ButterKnife.bind(this,view);
+                        break;
+            case FRAGMENT_PENGADUAN :
+            case FRAGMENT_PERDATA :
+                        view =  inflater.inflate(R.layout.recylerview,container,false);
+                        ButterKnife.bind(this,view);
+                        pengaduanItemBox = ((App) getActivity().getApplication()).getBoxStore().boxFor(PengaduanItem.class);
+                        perdataItemBox = ((App) getActivity().getApplication()).getBoxStore().boxFor(PerdataItem.class);
+                        FragmentPengaduanAndPerdataMethod(CHECK);
+                        break;
+            case FRAGMENT_PROFIL :
+                        view = inflater.inflate(R.layout.frag_profile,container,false);
+                        ButterKnife.bind(this,view);
+                        userPreference = new UserPreference(getContext());
+                        tv_name.setText(userPreference.getNama());
+                        break;
+
+            default: view =  null;
+                        break;
+        }
+        return view;
+    }
+
 
     @Override
     public void onRegisterActivityResponse(Boolean text) {
@@ -229,86 +316,10 @@ public class  Global extends Fragment implements Implictly {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
-
-        final View view;
-        final int CHECK = getArguments().getInt(FRAGEMENT_IDENTITY,0);
-
-        switch (CHECK){
-            case FRAGMENT_REGISTER_FIRST :
-                        view = inflater.inflate(R.layout.frag_regist1st, container, false);
-                        ButterKnife.bind(this,view);
-                        ti_password.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                edt_password.setInputType(InputType.TYPE_CLASS_TEXT);
-                            }
-                        });
-                        break;
-            case FRAGMENT_REGISTER_SECOND :
-                        view = inflater.inflate(R.layout.frag_regist2nd,container,false);
-                        ButterKnife.bind(this,view);
-                        edt_tanggalLahir.setInputType(InputType.TYPE_NULL);
-                        ti_tanggalLahir.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                                    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-                                    @Override
-                                    public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                                          int dayOfMonth) {
-                                        myCalendar.set(Calendar.YEAR, year);
-                                        myCalendar.set(Calendar.MONTH, monthOfYear);
-                                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                        updateLabel();
-                                    }
-                                };
-
-                                new DatePickerDialog(getActivity(), date, myCalendar
-                                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-                            }
-                        });
-                        spinner_jenisKelamin.setItems(getResources().getStringArray(R.array.jeniskelamin));
-                        spinner_identityCard.setItems(getResources().getStringArray(R.array.identitas));
-                        break;
-            case FRAGMENT_REGISTER_THIRD :
-                        view = inflater.inflate(R.layout.frag_regist3rd, container, false);
-                        ButterKnife.bind(this,view);
-                        btn_galeri.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                                intent.setType("image/*");
-                                getActivity().startActivityForResult(Intent.createChooser(intent,"Select Image"), REQUEST_CODE_REGISTER);
-                            }
-                        });
-                        break;
-            case FRAGMENT_REGISTER_FORTH :
-                        view = inflater.inflate(R.layout.frag_regist4th, container, false);
-                        ButterKnife.bind(this,view);
-                        break;
-            case FRAGMENT_PENGADUAN :
-            case FRAGMENT_PERDATA :
-                        view =  inflater.inflate(R.layout.recylerview,container,false);
-                        ButterKnife.bind(this,view);
-                        FragmentPengaduanAndPerdataMethod(CHECK);
-                        break;
-            case FRAGMENT_PROFIL :
-                        view = inflater.inflate(R.layout.frag_profile,container,false);
-                        ButterKnife.bind(this,view);
-                        break;
-
-            default: view =  null;
-                        break;
-        }
-        return view;
-    }
 
     private void updateLabel() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String myFormat = "yyyy-MM-dd"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
 
         edt_tanggalLahir.setText(sdf.format(myCalendar.getTime()));
     }
@@ -316,6 +327,66 @@ public class  Global extends Fragment implements Implictly {
     /*Double Method in LoginActivity, needs to be simplified later*/
     private boolean isValidEmail(CharSequence email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    /**
+     *
+     * MainActivity.class Fragment Transaction
+     *
+     * @param Fragment
+     */
+
+    public void onThrowToBox(int Fragment){
+        if(Fragment == FRAGMENT_PENGADUAN){
+            Call<ApiResponseData<PengaduanItem>> call = api.getPengaduan(BuildConfig.API_KEY, 126);
+            call.enqueue(new Callback<ApiResponseData<PengaduanItem>>() {
+                @Override
+                public void onResponse(Call<ApiResponseData<PengaduanItem>> call, Response<ApiResponseData<PengaduanItem>> response) {
+                    pengaduanItemBox.put(response.body().getData());
+                    List<PengaduanItem> item = pengaduanItemBox.getAll();
+                    rvAdapter.setFilteredPengaduanItem((ArrayList<PengaduanItem>) item);
+                    rvAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponseData<PengaduanItem>> call, Throwable t) {
+                    if (t instanceof IOException) {
+                        Toast.makeText(getActivity(), "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getActivity(), "conversion issue! big problems :(", Toast.LENGTH_SHORT).show();
+                        List<PengaduanItem> item = pengaduanItemBox.getAll();
+                        rvAdapter.setFilteredPengaduanItem((ArrayList<PengaduanItem>) item);
+                        rvAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+
+        } else if(Fragment == FRAGMENT_PERDATA){
+            Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,126);
+            call.enqueue(new Callback<ApiResponseData<PerdataItem>>() {
+                @Override
+                public void onResponse(Call<ApiResponseData<PerdataItem>> call, Response<ApiResponseData<PerdataItem>> response) {
+                    perdataItemBox.put(response.body().getData());
+                    List<PerdataItem> item = perdataItemBox.getAll();
+                    rvAdapter.setFilteredPerdataItem((ArrayList<PerdataItem>) item);
+                    rvAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponseData<PerdataItem>> call, Throwable t) {
+                    if (t instanceof IOException) {
+                        Toast.makeText(getActivity(), "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getActivity(), "conversion issue! big problems :(", Toast.LENGTH_SHORT).show();
+                        List<PerdataItem> item = perdataItemBox.getAll();
+                        rvAdapter.setFilteredPerdataItem((ArrayList<PerdataItem>) item);
+                        rvAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+        }
     }
 
     private void RecyclerViewAdapterConnect(int Fragment){
@@ -326,21 +397,19 @@ public class  Global extends Fragment implements Implictly {
 
         if(Fragment == FRAGMENT_PENGADUAN){
             ArrayList<PengaduanItem> items = new ArrayList<>();
-            items.addAll(DummyDataPengaduan.getListData());
             rvAdapter.setFilteredPengaduanItem(items);
+            onThrowToBox(Fragment);
         } else if(Fragment == FRAGMENT_PERDATA){
             ArrayList<PerdataItem> items = new ArrayList<>();
-            items.addAll(DummyDataPerdata.getListData());
             rvAdapter.setFilteredPerdataItem(items);
+            onThrowToBox(Fragment);
         }
 
         recyclerView.setAdapter(rvAdapter);
     }
 
     private void FragmentPengaduanAndPerdataMethod(final int Fragment){
-
         RecyclerViewAdapterConnect(Fragment);
-
         searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

@@ -2,21 +2,21 @@
 <LinearLayout
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:id="@+id/items"
     android:orientation="vertical"
+    android:paddingTop="@dimen/small_margin_globally"
+    android:paddingBottom="@dimen/small_margin_globally"
+    android:layout_marginRight="@dimen/medium_margin_globally"
+    android:layout_marginLeft="@dimen/medium_margin_globally"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardview_layout"
         android:layout_gravity="right"
         android:background="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/medium_margin_globally"
-        android:layout_marginRight="@dimen/medium_margin_globally"
-        android:layout_marginTop="@dimen/small_margin_globally"
-        android:layout_marginBottom="@dimen/small_margin_globally"
         app:cardCornerRadius="10dp">
 
         <RelativeLayout
@@ -36,7 +36,7 @@
                 />
 
             <TextView
-                android:id="@+id/tv_purpose"
+                android:id="@+id/tv_tujuan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Untuk permohonan KTM"
@@ -45,7 +45,7 @@
                 />
 
             <TextView
-                android:id="@+id/tv_content"
+                android:id="@+id/tv_permintaan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="I like the bold encasement of the avatar,"
@@ -55,22 +55,34 @@
                 android:maxWidth="200dp"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
-                android:layout_marginTop="@dimen/small_margin_globally"
-                android:layout_below="@id/tv_purpose"
+                android:layout_below="@id/tv_tujuan"
                 />
 
             <TextView
-                android:id="@+id/tv_classification"
+                android:id="@+id/tv_cara"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Mengambil langsung ke ULM"
                 android:textColor="@android:color/black"
                 android:textSize="8sp"
-                android:layout_marginTop="4dp"
-                android:layout_below="@id/tv_content"
+                android:layout_below="@id/tv_permintaan"
                 android:drawableLeft="@drawable/ic_fiber_manual_record_black_24dp"
                 />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
+
+
+
+    <TextView
+        android:id="@+id/tv_log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12-12-2018 12:00:20"
+        android:textSize="10sp"
+
+        android:layout_marginRight="@dimen/small_margin_globally"
+        android:layout_marginTop="@dimen/small_margin_globally"
+        android:layout_gravity="end"
+        />
 </LinearLayout>

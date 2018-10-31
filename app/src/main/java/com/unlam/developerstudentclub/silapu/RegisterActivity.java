@@ -6,25 +6,21 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.rd.PageIndicatorView;
 import com.unlam.developerstudentclub.silapu.API.ApiGenerator;
 import com.unlam.developerstudentclub.silapu.API.ApiInterface;
-import com.unlam.developerstudentclub.silapu.API.ApiResponse;
+import com.unlam.developerstudentclub.silapu.API.ApiResponseUser;
 import com.unlam.developerstudentclub.silapu.Adapter.FragementAdapter;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
 import com.unlam.developerstudentclub.silapu.Fragment.Confirmation;
@@ -43,17 +39,13 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Multipart;
 
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_FIRST;
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_FORTH;
@@ -154,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         btn_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
+                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -269,7 +261,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
             MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
 
-            RequestBody key = createPartFromString(form.getApi_key());
+            RequestBody key = createPartFromString(BuildConfig.API_KEY);
             RequestBody email = createPartFromString(form.getEmail());
             RequestBody password = createPartFromString(form.getPassword());
             RequestBody alamat = createPartFromString(form.getAlamat());
@@ -294,10 +286,10 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
             map.put("telp", telp);
             map.put("key", key);
 
-            Call<ApiResponse<UserData>> call = api.postRegister(map,body);
-            call.enqueue(new Callback<ApiResponse<UserData>>() {
+            Call<ApiResponseUser<UserData>> call = api.postRegister(map,body);
+            call.enqueue(new Callback<ApiResponseUser<UserData>>() {
                 @Override
-                public void onResponse(Call<ApiResponse<UserData>> call, Response<ApiResponse<UserData>> response) {
+                public void onResponse(Call<ApiResponseUser<UserData>> call, Response<ApiResponseUser<UserData>> response) {
                     if (response.isSuccessful()) {
                         if (response.body().getStatus() == true) {
                             fab_left.setVisibility(View.INVISIBLE);
@@ -315,12 +307,12 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
                 }
 
                 @Override
-                public void onFailure(Call<ApiResponse<UserData>> call, Throwable t) {
+                public void onFailure(Call<ApiResponseUser<UserData>> call, Throwable t) {
                     Snackbar.make(getCurrentFocus(), "Koneksi kemungkinan bermasalah", Snackbar.LENGTH_LONG).show();
                 }
             });
         } else {
-            Snackbar.make(getCurrentFocus(), "Data Tidak Lengkap.", Snackbar.LENGTH_LONG).show();
+//            Snackbar.make(getCurrentFocus(), "Data Tidak Lengkap.", Snackbar.LENGTH_LONG).show();
         }
     }
 

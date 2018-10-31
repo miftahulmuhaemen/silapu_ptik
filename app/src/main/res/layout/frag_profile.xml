@@ -2,7 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -36,46 +37,12 @@
         android:visibility="visible"
         />
 
-    <ImageView
-        android:id="@+id/img_profile"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-
-        android:elevation="1dp"
-        android:translationZ="2dp"
-        android:src="@drawable/ic_launcher_background"
-
-        android:layout_marginTop="@dimen/medium_margin_globally"
-        app:layout_constraintTop_toTopOf="@id/plateCardView"
-        app:layout_constraintStart_toStartOf="@id/plateCardView"
-        app:layout_constraintEnd_toEndOf="@id/plateCardView"/>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="31dp"
-        android:layout_margin="@dimen/medium_margin_globally"
-        android:background="#4D000000"
-
-        android:drawableLeft="@drawable/ic_edit_black_24dp"
-        android:drawablePadding="4dp"
-
-        android:elevation="3dp"
-        android:padding="8dp"
-        android:text="Ubah"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@android:color/white"
-
-        app:layout_constraintEnd_toEndOf="@id/img_profile"
-        app:layout_constraintBottom_toBottomOf="@id/img_profile"
-        />
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Miftahul Muhaemen"
+        tools:text="Miftahul Muhaemen"
         android:textSize="26sp"
         android:textColor="@color/Black"
 
@@ -83,8 +50,8 @@
         android:layout_marginLeft="@dimen/large_margin_globally"
         android:layout_marginTop="@dimen/medium_margin_globally"
 
-        app:layout_constraintTop_toBottomOf="@id/img_profile"
-        app:layout_constraintStart_toStartOf="@id/img_profile"
+        app:layout_constraintTop_toTopOf="@id/plateCardView"
+        app:layout_constraintStart_toStartOf="@id/plateCardView"
         />
 
 
