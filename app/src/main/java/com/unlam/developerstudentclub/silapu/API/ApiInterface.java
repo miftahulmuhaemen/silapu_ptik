@@ -48,16 +48,4 @@ public interface ApiInterface {
             @Query("id") int id
     );
 
-
-//    @GET("prodi/"+ BuildConfig.API_KEY + "{id}")
-//    Call<ApiResponseUser<Prodi>> getOneProdi(@Path("id") int id);
-//
-//    @POST("prodi")
-//    Call<ApiResponseUser<JsonObject>> tambahProdi(@Body Prodi prodi);
-//
-//    @PUT("prodi/{id}")
-//    Call<ApiResponseUser<JsonObject>> ubahProdi(@Path("id") int id,@Body Prodi prodi);
-//
-//    @DELETE("prodi/{id}")
-//    Call<ApiResponseUser<JsonObject>> deleteProdi(@Path("id") int id);
 }

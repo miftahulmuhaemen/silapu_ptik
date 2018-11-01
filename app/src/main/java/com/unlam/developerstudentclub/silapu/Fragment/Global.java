@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,17 +127,12 @@ public class  Global extends Fragment implements Implictly {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-//        try{
-//            // Prevent Error from Global > MainActivity
-//            new RegisterActivity().getComponentName().toString();
-//
-//        } catch (Exception ex){
             try {
                 Responses = (onCompleteResponse) context;
             } catch (ClassCastException e) {
                 throw new ClassCastException(context.toString() + " must implement onCompleteResponse");
             }
-//        }
+
     }
 
     public Global() {
@@ -447,10 +443,10 @@ public class  Global extends Fragment implements Implictly {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (!recyclerView.canScrollVertically(1))
-                    btn_add.setVisibility(View.INVISIBLE);
-                else
-                    btn_add.setVisibility(View.VISIBLE);
+//                if (!recyclerView.canScrollVertically(1))
+//                    btn_add.setVisibility(View.INVISIBLE);
+//                else
+//                    btn_add.setVisibility(View.VISIBLE);
             }
         });
     }

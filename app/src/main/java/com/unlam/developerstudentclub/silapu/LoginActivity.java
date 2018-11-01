@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -16,6 +17,9 @@ import com.unlam.developerstudentclub.silapu.API.ApiInterface;
 import com.unlam.developerstudentclub.silapu.API.ApiResponseUser;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
 import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
+
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -64,6 +68,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         userPreference =  new UserPreference(this);
+
+        if(!userPreference.getNama().isEmpty()){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         ti_password.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,10 +111,10 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ApiResponseUser<UserData>> call, Response<ApiResponseUser<UserData>> response) {
                             if (response.isSuccessful()) {
-                                    userPreference.setPreference(response.body().getAccount());
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                 userPreference.setPreference(response.body().getAccount());
+                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                 startActivity(intent);
+                                 finish();
                             } else {
                                 /*it seems you need to give the same JSON structure in order to catch the error message*/
                                 Snackbar.make(getCurrentFocus(), "Email dan Password Salah", Snackbar.LENGTH_SHORT).show();
@@ -113,7 +124,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<ApiResponseUser<UserData>> call, Throwable t) {
-                            Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (t instanceof IOException) {
+                                Toast.makeText(LoginActivity.this, "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
 

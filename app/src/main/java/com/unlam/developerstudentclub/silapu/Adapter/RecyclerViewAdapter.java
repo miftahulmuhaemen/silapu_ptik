@@ -2,7 +2,6 @@ package com.unlam.developerstudentclub.silapu.Adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,24 +9,20 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
-import com.unlam.developerstudentclub.silapu.MainActivity;
 import com.unlam.developerstudentclub.silapu.R;
 import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+
+import javax.annotation.CheckForNull;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.MainActivity.EXT_BMP;
@@ -85,27 +80,29 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                 holder.tv_sender.setText(userPreference.getNama());
                 holder.tv_aduan.setText(item.getAduan());
                 holder.tv_perihal.setText(item.getPerihal());
-//                if(!item.getExtFile().isEmpty()){
-//                    switch (item.getExtFile()){
-//                        case EXT_DOC :
-//                        case EXT_DOCX :
-//                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a002_doc));
-//                            break;
-//                        case EXT_PDF :
-//                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a001_pdf));
-//                            break;
-//                        case EXT_JPG :
-//                        case EXT_PNG :
-//                        case EXT_BMP :
-//                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a003_jpeg));
-//                            break;
-//                    }
-//                    holder.tv_log.setText(item.getLog());
-//                    holder.tv_filetype.setText(item.getExtFile());
-//                    holder.tv_filename.setText(item.getNamaFile());
-//                } else {
-//                    holder.item_view.setVisibility(View.GONE);
-//                }
+                holder.tv_log.setText(item.getLog());
+
+
+                if(!item.getNamaFile().isEmpty()){
+                    switch (item.getExtFile()){
+                        case EXT_DOC :
+                        case EXT_DOCX :
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a002_doc));
+                            break;
+                        case EXT_PDF :
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a001_pdf));
+                            break;
+                        case EXT_JPG :
+                        case EXT_PNG :
+                        case EXT_BMP :
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a003_jpeg));
+                            break;
+                    }
+                    holder.tv_filetype.setText(item.getExtFile());
+                    holder.tv_filename.setText(item.getNamaFile());
+                } else {
+                    holder.item_view.setVisibility(View.GONE);
+                }
 
                 holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
@@ -114,8 +111,6 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                         return false;
                     }
                 });
-
-
 
             } else {
                 final PerdataItem item = getFilteredPerdataItem().get(position);

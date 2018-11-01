@@ -31,7 +31,7 @@ public class PengaduanItem {
     String namaFile;
 
     @Getter @Setter
-    String extFile;
+    String extFile = "";
 
     @SerializedName("ket")
     @Expose

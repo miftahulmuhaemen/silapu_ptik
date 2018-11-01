@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <item android:id="@+id/attachment"
-        android:title="Search"
-        android:icon="@drawable/ic_attachment_black_24dp"
-        app:showAsAction="collapseActionView|ifRoom"
-        />
-
     <item
         android:id="@+id/send_perdata"
         android:title="@string/send"

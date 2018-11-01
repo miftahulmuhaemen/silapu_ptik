@@ -21,68 +21,42 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/spinner_cara"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/edittext_height_natural"
-
-        app:layout_constraintStart_toEndOf="@id/caraPeroleh"
-        app:layout_constraintTop_toBottomOf="@id/appbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+    <Spinner
+    android:id="@+id/spinner_aduan"
+    android:layout_width="0dp"
+    android:layout_height="@dimen/edittext_height_natural"
+        android:background="@color/White"
+    app:layout_constraintStart_toEndOf="@id/aduan"
+    app:layout_constraintTop_toBottomOf="@id/appbar"
+    app:layout_constraintEnd_toEndOf="parent"
+    />
 
     <TextView
-        android:id="@+id/caraPeroleh"
+        android:id="@+id/aduan"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
 
         android:paddingLeft="@dimen/medium_margin_globally"
         android:paddingRight="@dimen/medium_margin_globally"
 
-        android:text="Cara Peroleh"
+        android:text="Aduan"
         android:textColor="@android:color/darker_gray"
         android:gravity="center"
         android:background="@color/White"
 
-        app:layout_constraintTop_toTopOf="@id/spinner_cara"
-        app:layout_constraintBottom_toBottomOf="@id/spinner_cara"
+        app:layout_constraintTop_toTopOf="@id/spinner_aduan"
+        app:layout_constraintBottom_toBottomOf="@id/spinner_aduan"
         />
 
     <View
-        android:id="@+id/divider"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/caraPeroleh"
+        app:layout_constraintTop_toBottomOf="@id/aduan"
         />
-
-    <View
-        android:id="@+id/divider_tujuan"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tujuan"
-        />
-
-    <EditText
-        android:id="@+id/tujuan"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/edittext_height_natural"
-        android:hint="Tujuan Permohonan Informasi"
-        android:background="@color/White"
-        android:paddingLeft="@dimen/medium_margin_globally"
-
-        app:layout_constraintTop_toBottomOf="@id/divider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-
 
     <EditText
         android:id="@+id/edt_message"
@@ -93,7 +67,7 @@
         android:background="@android:color/transparent"
         android:gravity="start"
         tools:text="sdasdasdasdasdasd"
-        app:layout_constraintTop_toBottomOf="@id/divider_tujuan"
+        app:layout_constraintTop_toBottomOf="@id/aduan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

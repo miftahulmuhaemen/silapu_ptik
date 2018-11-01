@@ -35,7 +35,7 @@
         android:id="@+id/btn_add_item"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        app:srcCompat="@drawable/ic_add_black_24dp"
+        android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="@color/colorSecondary"
         android:layout_gravity="end|bottom"
         android:layout_marginBottom="@dimen/fragment_vertical_margin"

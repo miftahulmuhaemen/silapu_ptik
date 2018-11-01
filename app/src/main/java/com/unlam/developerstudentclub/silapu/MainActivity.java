@@ -10,6 +10,7 @@ import com.unlam.developerstudentclub.silapu.Adapter.FragementAdapter;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
 import com.unlam.developerstudentclub.silapu.Fragment.Global;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
+import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
 
 import java.util.ArrayList;
 
@@ -37,11 +38,21 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     public static final String EXT_JPG = ".jpg";
     public static final String EXT_BMP = ".bmp";
 
+    private UserPreference userPreference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        userPreference =  new UserPreference(this);
+        if(userPreference.getNama().isEmpty()){
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         setupViewPager(viewPager);
         navigationTabBar.setBehaviorEnabled(true);
         navigationTabBar.setViewPager(viewPager);
@@ -80,13 +91,13 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         Global mFragment = new Global();
         Bundle bundle = new Bundle();
 
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_PENGADUAN);
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_PERDATA);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part5");
 
         bundle = new Bundle();
         mFragment = new Global();
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_PERDATA);
+        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_PENGADUAN);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part6");
 
