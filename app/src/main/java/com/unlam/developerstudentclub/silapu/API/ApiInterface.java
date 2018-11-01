@@ -48,4 +48,11 @@ public interface ApiInterface {
             @Query("id") int id
     );
 
+    @Multipart
+    @POST("http://silapu.ulm.ac.id/service/api/pengaduan/insert")
+    Call<ApiDefaultResponse> postPengaduan(
+            @PartMap Map<String, RequestBody> partMap,
+            @Part MultipartBody.Part file
+    );
+
 }

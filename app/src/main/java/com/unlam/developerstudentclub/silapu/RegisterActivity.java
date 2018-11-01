@@ -316,12 +316,6 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         }
     }
 
-    @NonNull
-    private RequestBody createPartFromString(String descriptionString) {
-        return RequestBody.create(
-                okhttp3.MultipartBody.FORM, descriptionString);
-    }
-
     private File createTempFile(Bitmap bitmap) {
         File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
                 , System.currentTimeMillis() +"_image.webp");
@@ -337,6 +331,12 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
             e.printStackTrace();
         }
         return file;
+    }
+
+    @NonNull
+    private RequestBody createPartFromString(String descriptionString) {
+        return RequestBody.create(
+                okhttp3.MultipartBody.FORM, descriptionString);
     }
 
     @Override

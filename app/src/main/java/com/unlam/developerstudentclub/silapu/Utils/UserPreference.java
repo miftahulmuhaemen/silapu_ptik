@@ -45,43 +45,43 @@ public class UserPreference {
     }
 
     public String getTelp(){
-        return preferences.getString(KEY_TELP, null);
+        return preferences.getString(KEY_TELP, "");
     }
 
     public String getTanggalLahir(){
-        return preferences.getString(KEY_TANGGAL_LAHIR, null);
+        return preferences.getString(KEY_TANGGAL_LAHIR, "");
     }
 
     public String getTempatLahir(){
-        return preferences.getString(KEY_TEMPAT_LAHIR, null);
+        return preferences.getString(KEY_TEMPAT_LAHIR, "");
     }
 
     public String getJenisKelamin(){
-        return preferences.getString(KEY_JENIS_KELAMIN, null);
+        return preferences.getString(KEY_JENIS_KELAMIN, "");
     }
 
     public String getNoIdentitas(){
-        return preferences.getString(KEY_NO_IDENTITAS, null);
+        return preferences.getString(KEY_NO_IDENTITAS, "");
     }
 
     public String getIdentitas(){
-        return preferences.getString(KEY_IDENTITAS, null);
+        return preferences.getString(KEY_IDENTITAS, "");
     }
 
     public String getAlamat(){
-        return preferences.getString(KEY_ALAMAT, null);
+        return preferences.getString(KEY_ALAMAT, "");
     }
 
     public String getPassword(){
-        return preferences.getString(KEY_PASSWORD, null);
+        return preferences.getString(KEY_PASSWORD, "");
     }
 
     public String getEmail(){
-        return preferences.getString(KEY_EMAIL, null);
+        return preferences.getString(KEY_EMAIL, "");
     }
 
     public String getNama(){
-        return preferences.getString(KEY_NAMA,null);
+        return preferences.getString(KEY_NAMA,"");
     }
 
     public int getID(){

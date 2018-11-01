@@ -1,7 +1,6 @@
-package com.unlam.developerstudentclub.silapu.Utils.SpinnerCostume;
+package com.unlam.developerstudentclub.silapu.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +10,21 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.unlam.developerstudentclub.silapu.R;
+import com.unlam.developerstudentclub.silapu.Entity.SpinnerCostumeItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpinnerCostumeAdapter extends ArrayAdapter<StateVO> {
+public class SpinnerCostumeAdapter extends ArrayAdapter<SpinnerCostumeItem> {
     private Context mContext;
-    private ArrayList<StateVO> listState;
+    private ArrayList<SpinnerCostumeItem> listState;
     private SpinnerCostumeAdapter myAdapter;
     private boolean isFromView = false;
 
-    public SpinnerCostumeAdapter(Context context, int resource, List<StateVO> objects) {
+    public SpinnerCostumeAdapter(Context context, int resource, List<SpinnerCostumeItem> objects) {
         super(context, resource, objects);
         this.mContext = context;
-        this.listState = (ArrayList<StateVO>) objects;
+        this.listState = (ArrayList<SpinnerCostumeItem>) objects;
         this.myAdapter = this;
     }
 
@@ -86,7 +86,7 @@ public class SpinnerCostumeAdapter extends ArrayAdapter<StateVO> {
 
     public String GetData(){
         String variable = "";
-        for(StateVO data : listState){
+        for(SpinnerCostumeItem data : listState){
             if(data.isSelected())
                 variable = variable + data.getTitle() + ", ";
         }

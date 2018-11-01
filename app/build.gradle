@@ -45,6 +45,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
     compileOnly 'org.projectlombok:lombok:1.18.2'
+    implementation 'com.github.hedzr:android-file-chooser:master-SNAPSHOT'
 
     /*Design Plugin*/
     implementation 'com.romandanylyk:pageindicatorview:1.0.2@aar'

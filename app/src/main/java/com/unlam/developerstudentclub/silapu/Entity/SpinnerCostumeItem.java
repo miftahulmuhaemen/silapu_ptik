@@ -1,9 +1,9 @@
-package com.unlam.developerstudentclub.silapu.Utils.SpinnerCostume;
+package com.unlam.developerstudentclub.silapu.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class StateVO {
+public class SpinnerCostumeItem {
     @Getter @Setter
     private String title;
     @Getter @Setter

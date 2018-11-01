@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -83,7 +84,7 @@ public class  Global extends Fragment implements Implictly {
     @Nullable @BindView(R.id.ti_tanggalLahir)  TextFieldBoxes ti_tanggalLahir;
     @Nullable @BindView(R.id.ti_idt) TextFieldBoxes ti_noIdentitas;
 
-    @Nullable @BindView(R.id.btn_galeri) ImageView btn_galeri;
+    @Nullable @BindView(R.id.btn_galeri)    Button btn_galeri;
     @Nullable @BindView(R.id.plate_img)  CircleImageView plate_img;
 
     @Nullable @BindView(R.id.ti_jenisKelamin)   MaterialSpinner spinner_jenisKelamin;
@@ -316,7 +317,6 @@ public class  Global extends Fragment implements Implictly {
     private void updateLabel() {
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-
         edt_tanggalLahir.setText(sdf.format(myCalendar.getTime()));
     }
 
@@ -334,7 +334,7 @@ public class  Global extends Fragment implements Implictly {
 
     public void onThrowToBox(int Fragment){
         if(Fragment == FRAGMENT_PENGADUAN){
-            Call<ApiResponseData<PengaduanItem>> call = api.getPengaduan(BuildConfig.API_KEY, 126);
+            Call<ApiResponseData<PengaduanItem>> call = api.getPengaduan(BuildConfig.API_KEY, 3);
             call.enqueue(new Callback<ApiResponseData<PengaduanItem>>() {
                 @Override
                 public void onResponse(Call<ApiResponseData<PengaduanItem>> call, Response<ApiResponseData<PengaduanItem>> response) {
@@ -359,7 +359,7 @@ public class  Global extends Fragment implements Implictly {
             });
 
         } else if(Fragment == FRAGMENT_PERDATA){
-            Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,126);
+            Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,3);
             call.enqueue(new Callback<ApiResponseData<PerdataItem>>() {
                 @Override
                 public void onResponse(Call<ApiResponseData<PerdataItem>> call, Response<ApiResponseData<PerdataItem>> response) {

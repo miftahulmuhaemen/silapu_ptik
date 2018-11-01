@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_descript" />
 
 
-    <ImageView
+    <Button
         android:id="@+id/btn_galeri"
         android:layout_width="50dp"
         android:layout_height="50dp"

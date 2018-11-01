@@ -1,23 +1,46 @@
 package com.unlam.developerstudentclub.silapu;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.unlam.developerstudentclub.silapu.API.ApiDefaultResponse;
+import com.unlam.developerstudentclub.silapu.API.ApiGenerator;
+import com.unlam.developerstudentclub.silapu.API.ApiInterface;
+import com.unlam.developerstudentclub.silapu.API.ApiResponseUser;
 import com.unlam.developerstudentclub.silapu.Adapter.FragementAdapter;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
 import com.unlam.developerstudentclub.silapu.Fragment.Global;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import devlight.io.library.ntb.NavigationTabBar;
+import lombok.NonNull;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import static com.unlam.developerstudentclub.silapu.AddActivity.COMPOSE_ATTACHMENT;
+import static com.unlam.developerstudentclub.silapu.AddActivity.COMPOSE_MESSAGE;
+import static com.unlam.developerstudentclub.silapu.AddActivity.COMPOSE_SPINNER;
 import static com.unlam.developerstudentclub.silapu.AddActivity.REQUEST_CODE;
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PERDATA;
@@ -38,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     public static final String EXT_JPG = ".jpg";
     public static final String EXT_BMP = ".bmp";
 
+    ApiInterface api = ApiGenerator.createService(ApiInterface.class); // Interface Retrofit
     private UserPreference userPreference;
 
     @Override
@@ -115,12 +139,50 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE){
             if(resultCode == AddActivity.RESULT_CODE_PENGADUAN){
-                Toast.makeText(this,"Pengaduan",Toast.LENGTH_SHORT).show();
+
+                File file = new File(data.getStringExtra(COMPOSE_ATTACHMENT));
+                final RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
+
+                HashMap<String, RequestBody> map = new HashMap<>();
+                map.put("key",createPartFromString(BuildConfig.API_KEY));
+                map.put("id",createPartFromString(String.valueOf(userPreference.getID())));
+                map.put("email",createPartFromString(userPreference.getEmail()));
+                map.put("perihal",createPartFromString(data.getStringExtra(COMPOSE_SPINNER)));
+                map.put("aduan",createPartFromString(data.getStringExtra(COMPOSE_MESSAGE)));
+
+                Call<ApiDefaultResponse> call = api.postPengaduan(map,body);
+                call.enqueue(new Callback<ApiDefaultResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
+                        if(response.isSuccessful()){
+                            Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiDefaultResponse> call, Throwable t) {
+                        if (t instanceof IOException) {
+                            Toast.makeText(MainActivity.this, "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
             else if(resultCode == AddActivity.RESULT_CODE_PERDATA){
                 Toast.makeText(this,"Perdata",Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @NonNull
+    private RequestBody createPartFromString(String descriptionString) {
+        return RequestBody.create(
+                okhttp3.MultipartBody.FORM, descriptionString);
     }
 
     @Override
