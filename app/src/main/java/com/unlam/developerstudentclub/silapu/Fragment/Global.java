@@ -202,6 +202,7 @@ public class  Global extends Fragment implements Implictly {
             case FRAGMENT_PERDATA :
                         view =  inflater.inflate(R.layout.recylerview,container,false);
                         ButterKnife.bind(this,view);
+                        userPreference = new UserPreference(getContext());
                         pengaduanItemBox = ((App) getActivity().getApplication()).getBoxStore().boxFor(PengaduanItem.class);
                         perdataItemBox = ((App) getActivity().getApplication()).getBoxStore().boxFor(PerdataItem.class);
                         FragmentPengaduanAndPerdataMethod(CHECK);
@@ -359,14 +360,17 @@ public class  Global extends Fragment implements Implictly {
             });
 
         } else if(Fragment == FRAGMENT_PERDATA){
-            Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,3);
+            Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,userPreference.getID());
             call.enqueue(new Callback<ApiResponseData<PerdataItem>>() {
                 @Override
                 public void onResponse(Call<ApiResponseData<PerdataItem>> call, Response<ApiResponseData<PerdataItem>> response) {
                     perdataItemBox.put(response.body().getData());
                     List<PerdataItem> item = perdataItemBox.getAll();
-                    rvAdapter.setFilteredPerdataItem((ArrayList<PerdataItem>) item);
-                    rvAdapter.notifyDataSetChanged();
+
+                    if(!item.isEmpty()) {
+                        rvAdapter.setFilteredPerdataItem((ArrayList<PerdataItem>) item);
+                        rvAdapter.notifyDataSetChanged();
+                    }
                 }
 
                 @Override
@@ -377,8 +381,11 @@ public class  Global extends Fragment implements Implictly {
                     else {
                         Toast.makeText(getActivity(), "conversion issue! big problems :(", Toast.LENGTH_SHORT).show();
                         List<PerdataItem> item = perdataItemBox.getAll();
-                        rvAdapter.setFilteredPerdataItem((ArrayList<PerdataItem>) item);
-                        rvAdapter.notifyDataSetChanged();
+
+                        if(!item.isEmpty()) {
+                            rvAdapter.setFilteredPerdataItem((ArrayList<PerdataItem>) item);
+                            rvAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
             });

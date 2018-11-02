@@ -2,12 +2,15 @@ package com.unlam.developerstudentclub.silapu.Adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,13 +19,9 @@ import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
 import com.unlam.developerstudentclub.silapu.R;
 import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
 import java.util.ArrayList;
-
-import javax.annotation.CheckForNull;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
-import lombok.NonNull;
 
 import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.MainActivity.EXT_BMP;
@@ -34,6 +33,9 @@ import static com.unlam.developerstudentclub.silapu.MainActivity.EXT_PNG;
 
 public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.Adapter<RecyclerViewAdapter.RecylerViewAdapterHolder>
             implements Filterable {
+
+        public static String ADMIN_REPLY = "Administrator";
+        public static String USER_REPLY = "aduan";
 
         private Context context;
         private UserPreference userPreference;
@@ -48,6 +50,7 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
         public void setFilteredPengaduanItem(ArrayList<PengaduanItem> item){
             filteredPengaduanItem = item;
             listPengaduanItem = item;
+
         }
 
         public void setFilteredPerdataItem(ArrayList<PerdataItem> item){
@@ -77,31 +80,50 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
 
             if(IDENTIFIER == FRAGMENT_PENGADUAN) {
                 final PengaduanItem item = getFilteredPengaduanItem().get(position);
-                holder.tv_sender.setText(userPreference.getNama());
                 holder.tv_aduan.setText(item.getAduan());
                 holder.tv_perihal.setText(item.getPerihal());
                 holder.tv_log.setText(item.getLog());
 
 
                 if(!item.getNamaFile().isEmpty()){
-                    switch (item.getExtFile()){
+
+                    try{
+                        String [] bit = item.getNamaFile().split("\\.");
+                        item.setExtFile(bit[1]);
+                    } catch (Exception e){
+                        /*Catching Errors Without Print it in Anywhere*/
+                    }
+
+                    switch (item.getExtFile().toLowerCase()){
                         case EXT_DOC :
                         case EXT_DOCX :
-                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a002_doc));
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a002_doc))
+                                    .into(holder.file_preview);
                             break;
                         case EXT_PDF :
-                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a001_pdf));
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a001_pdf))
+                                    .into(holder.file_preview);
                             break;
                         case EXT_JPG :
                         case EXT_PNG :
                         case EXT_BMP :
-                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a003_jpeg));
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a003_jpeg))
+                                    .into(holder.file_preview);
                             break;
                     }
                     holder.tv_filetype.setText(item.getExtFile());
                     holder.tv_filename.setText(item.getNamaFile());
                 } else {
                     holder.item_view.setVisibility(View.GONE);
+                }
+
+                if(item.getKet().equals(ADMIN_REPLY)){
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.gravity = Gravity.START;
+                    holder.view.setLayoutParams(params);
+                    holder.tv_sender.setText(ADMIN_REPLY);
+                } else {
+                    holder.tv_sender.setText(userPreference.getNama());
                 }
 
                 holder.view.setOnLongClickListener(new View.OnLongClickListener() {

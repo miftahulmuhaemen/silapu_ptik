@@ -187,13 +187,6 @@ public class AddActivity extends AppCompatActivity {
                         .withChosenListener(new ChooserDialog.Result() {
                             @Override
                             public void onChoosePath(String path, File pathFile) {
-                                filepath = path;
-                                Toast.makeText(AddActivity.this, "FILE: " + path, Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .withChosenListener(new ChooserDialog.Result() {
-                            @Override
-                            public void onChoosePath(String path, File pathFile) {
                                 Toast.makeText(AddActivity.this, "FOLDER: " + path, Toast.LENGTH_SHORT).show();
                                 filepath = path;
                             }
