@@ -44,6 +44,23 @@ public class UserPreference {
         editor.apply();
     }
 
+    public void clearePreference(){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(KEY_ID, 0);
+        editor.putInt(KEY_ACTIVE, 0);
+        editor.putString(KEY_NAMA, null);
+        editor.putString(KEY_EMAIL, null);
+        editor.putString(KEY_PASSWORD, null);
+        editor.putString(KEY_ALAMAT, null);
+        editor.putString(KEY_IDENTITAS,null);
+        editor.putString(KEY_NO_IDENTITAS, null);
+        editor.putString(KEY_JENIS_KELAMIN, null);
+        editor.putString(KEY_TEMPAT_LAHIR, null);
+        editor.putString(KEY_TANGGAL_LAHIR, null);
+        editor.putString(KEY_TELP, null);
+        editor.apply();
+    }
+
     public String getTelp(){
         return preferences.getString(KEY_TELP, "");
     }

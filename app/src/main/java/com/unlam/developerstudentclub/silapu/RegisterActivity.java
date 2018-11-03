@@ -1,5 +1,6 @@
 package com.unlam.developerstudentclub.silapu;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,7 @@ import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.rd.PageIndicatorView;
+import com.unlam.developerstudentclub.silapu.API.ApiDefaultResponse;
 import com.unlam.developerstudentclub.silapu.API.ApiGenerator;
 import com.unlam.developerstudentclub.silapu.API.ApiInterface;
 import com.unlam.developerstudentclub.silapu.API.ApiResponseUser;
@@ -36,6 +39,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,14 +51,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_FIRST;
-import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_FORTH;
-import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_SECOND;
-import static com.unlam.developerstudentclub.silapu.Fragment.Global.FRAGMENT_REGISTER_THIRD;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGEMENT_IDENTITY;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_CONFIRM;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_CONFIRM;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_FIRST;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_FORTH;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_SECOND;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_THIRD;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE_REGISTER;
 
 public class RegisterActivity extends AppCompatActivity implements Implictly, Global.onCompleteResponse {
 
-    public static Integer REQUEST_CODE_REGISTER = 110;
 
     @BindView(R.id.viewpager)
     LockableViewPager viewPager;
@@ -73,7 +80,6 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
 
     @BindView(R.id.pageIndicatorView)
     PageIndicatorView pageIndicatorView;
-
 
     /* Validation of Each Global Fragment to the Upload Session */
     boolean FRAGMENT_firstSeal = false;
@@ -124,6 +130,9 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
 
                 if(currentPage == totalPage - 2){
                     Confirmation confirmationDialog = new Confirmation();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(FRAGMENT_CONFIRM,FRAGMENT_REGISTER_CONFIRM);
+                    confirmationDialog.setArguments(bundle);
                     confirmationDialog.setOnOptionDialogListener(new Confirmation.OnOptionDialogListener() {
                         @Override
                         public void onOptionChoosen(Boolean text) {
@@ -153,40 +162,12 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         });
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CODE_REGISTER){
-            if(resultCode == RESULT_OK){
-                bitmap = getDecodedImageFromUri(data.getData());
-                ImageView imageView = findViewById(R.id.plate_img);
-                Glide.with(this)
-                        .load(bitmap)
-                        .into(imageView);
-            }
-        }
-    }
-
-    private Bitmap getDecodedImageFromUri(Uri uri) {
-        InputStream inputStream = null;
-        try {
-            inputStream = getContentResolver().openInputStream(uri);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Rect rect = new Rect(0, 0, 0, 0);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = false;
-        Bitmap bitmap = BitmapFactory.decodeStream(inputStream, rect, options); //HERE IS PROBLEM - bitmap = null.
-        return bitmap;
-    }
-
     private void setupViewPager(ViewPager viewPager) {
         FragementAdapter adapter = new FragementAdapter(getSupportFragmentManager());
         Global mFragment = new Global();
         Bundle bundle = new Bundle();
 
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_FIRST);
+        bundle.putInt(FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_FIRST);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part1");
         attachListenerOnFragment(mFragment);
@@ -194,7 +175,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
 
         bundle = new Bundle();
         mFragment = new Global();
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_SECOND);
+        bundle.putInt(FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_SECOND);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part2");
         attachListenerOnFragment(mFragment);
@@ -202,7 +183,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
 
         bundle = new Bundle();
         mFragment = new Global();
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_THIRD);
+        bundle.putInt(FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_THIRD);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part3");
         attachListenerOnFragment(mFragment);
@@ -210,7 +191,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
 
         bundle = new Bundle();
         mFragment = new Global();
-        bundle.putInt(Global.FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_FORTH);
+        bundle.putInt(FRAGEMENT_IDENTITY,FRAGMENT_REGISTER_FORTH);
         mFragment.setArguments(bundle);
         adapter.addFragment(mFragment, "Part4");
 
@@ -219,7 +200,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
 
     void attachListenerOnFragment(Global fragment){
         try {
-            implictly = (Implictly) fragment;
+            implictly = fragment;
         } catch (ClassCastException e) {
             throw new ClassCastException(this.toString()
                     + " Needs to implement the methods");
@@ -230,6 +211,12 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
     public void onRegisterActivityResponse(Boolean text) {
         //needs to be empty
     }
+
+    @Override
+    public void onAddActivityResponse() {
+        //needs to be empty
+    }
+
 
     @Override
     public void onCompleteFormResponse(UserData data, int Fragment) {
@@ -257,7 +244,8 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         }
 
         if(FRAGMENT_firstSeal && FRAGMENT_secondSeal && FRAGMENT_thirdSeal){
-            File file = createTempFile(bitmap);
+
+            File file = new File(data.getFilepath());
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
             MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
 
@@ -286,10 +274,10 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
             map.put("telp", telp);
             map.put("key", key);
 
-            Call<ApiResponseUser<UserData>> call = api.postRegister(map,body);
-            call.enqueue(new Callback<ApiResponseUser<UserData>>() {
+            Call<ApiDefaultResponse> call = api.postRegister(map,body);
+            call.enqueue(new Callback<ApiDefaultResponse>() {
                 @Override
-                public void onResponse(Call<ApiResponseUser<UserData>> call, Response<ApiResponseUser<UserData>> response) {
+                public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
                     if (response.isSuccessful()) {
                         if (response.body().getStatus() == true) {
                             fab_left.setVisibility(View.INVISIBLE);
@@ -299,38 +287,21 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
                             pageIndicatorView.setVisibility(View.INVISIBLE);
                             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                         } else {
-                            Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(getCurrentFocus(), response.body().getMessage(), Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        Snackbar.make(getCurrentFocus(), response.code() + "- Terjadi Masalah.", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<ApiResponseUser<UserData>> call, Throwable t) {
-                    Snackbar.make(getCurrentFocus(), "Koneksi kemungkinan bermasalah", Snackbar.LENGTH_LONG).show();
+                public void onFailure(Call<ApiDefaultResponse> call, Throwable t) {
+
                 }
             });
         } else {
 //            Snackbar.make(getCurrentFocus(), "Data Tidak Lengkap.", Snackbar.LENGTH_LONG).show();
         }
-    }
-
-    private File createTempFile(Bitmap bitmap) {
-        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                , System.currentTimeMillis() +"_image.webp");
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.WEBP,0, bos);
-        byte[] bitmapdata = bos.toByteArray();
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
     }
 
     @NonNull

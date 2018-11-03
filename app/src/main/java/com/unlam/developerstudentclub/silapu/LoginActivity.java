@@ -32,10 +32,11 @@ import retrofit2.Response;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
+import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_EMAIL_NOTVALID;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_KOSONG;
+
 public class LoginActivity extends AppCompatActivity {
 
-    public static String ERROR_FIELD_KOSONG = "Kosong";
-    public static String ERROR_FIELD_EMAIL_NOTVALID = "Surel Tidak Sah";
 
     @BindView(R.id.btn_daftar)
     Button btn_daftar;

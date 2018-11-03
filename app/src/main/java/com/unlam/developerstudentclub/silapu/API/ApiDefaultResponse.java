@@ -12,6 +12,10 @@ public class ApiDefaultResponse {
     @Expose @Setter @Getter
     private Boolean status;
 
+    @SerializedName("message")
+    @Expose @Setter @Getter
+    private String message;
+
     @SerializedName("msg")
     @Expose @Setter @Getter
     private String msg;

@@ -1,13 +1,17 @@
 package com.unlam.developerstudentclub.silapu;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsProvider;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.CursorLoader;
@@ -17,31 +21,32 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.webkit.MimeTypeMap;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.data.mediastore.MediaStoreUtil;
-import com.bumptech.glide.load.model.MediaStoreFileLoader;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.unlam.developerstudentclub.silapu.Adapter.SpinnerCostumeAdapter;
 import com.unlam.developerstudentclub.silapu.Entity.SpinnerCostumeItem;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
-import static com.unlam.developerstudentclub.silapu.RegisterActivity.REQUEST_CODE_REGISTER;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_ATTACHMENT;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_CODE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_GOAL;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_MESSAGE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_PERDATA;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_SPINNER;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE_FILE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PENGADUAN;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PERDATA;
 
 public class AddActivity extends AppCompatActivity {
 
@@ -60,23 +65,9 @@ public class AddActivity extends AppCompatActivity {
     @Nullable @BindView(R.id.tujuan)
     EditText edt_tujuan;
 
-    public static int REQUEST_CODE = 113;
-    public static int REQUEST_CODE_FILE = 234;
-
-    public static String COMPOSE_CODE = "COMPOSECODE";
-    public static String COMPOSE_MESSAGE = "compose_message";
-    public static String COMPOSE_GOAL = "compose_goal";
-    public static String COMPOSE_ATTACHMENT = "compose_attachment";
-    public static String COMPOSE_SPINNER = "compose_spinner";
-
-    public static String COMPOSE_PENGADUAN = "COMPOSE_PENGADUAN";
-    public static String COMPOSE_PERDATA = "COMPOSE_PERDATA";
-    public static int RESULT_CODE_PENGADUAN = 111;
-    public static int RESULT_CODE_PERDATA = 222;
 
     SpinnerCostumeAdapter myAdapter;
     private String filepath = "";
-    String _path = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,30 +98,6 @@ public class AddActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-    }
-
-    private String getRealPathFromURI(Uri contentUri) {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
-        Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String result = cursor.getString(column_index);
-        cursor.close();
-        return result;
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CODE_FILE){
-            if(resultCode == RESULT_OK){
-                filepath = getRealPathFromURI(data.getData());
-                Snackbar.make(getCurrentFocus(), "File Attached!" + filepath, Snackbar.LENGTH_SHORT).show();
-            } else {
-                Snackbar.make(getCurrentFocus(), "File Failed Attached!", Snackbar.LENGTH_SHORT).show();
-            }
-        }
     }
 
     @Override
@@ -183,21 +150,15 @@ public class AddActivity extends AppCompatActivity {
             case R.id.attachment :
 
                 new ChooserDialog(this)
-                        .withStartFile(_path)
-                        .withChosenListener(new ChooserDialog.Result() {
-                            @Override
-                            public void onChoosePath(String path, File pathFile) {
-                                Toast.makeText(AddActivity.this, "FOLDER: " + path, Toast.LENGTH_SHORT).show();
-                                filepath = path;
-                            }
-                        })
-                        .enableOptions(true)
-                        .build()
-                        .show();
-
-                /*Seems work on Any Device, but Only Accept Image*/
-//                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(i, REQUEST_CODE_FILE);
+                .withChosenListener(new ChooserDialog.Result() {
+                @Override
+                public void onChoosePath(String path, File pathFile) {
+                    Toast.makeText(AddActivity.this, "FOLDER: " + path, Toast.LENGTH_SHORT).show();
+                    filepath = path;
+                }})
+                    .enableOptions(false)
+                    .build()
+                    .show();
 
                 break;
         }
@@ -210,4 +171,5 @@ public class AddActivity extends AppCompatActivity {
         onBackPressed();
         return super.onSupportNavigateUp();
     }
+
 }

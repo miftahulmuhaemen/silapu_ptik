@@ -26,10 +26,6 @@
         <item>Melalui Faksimile / Through Fax</item>
     </string-array>
 
-
-
-
-
     <string-array name="color">
         <item>@color/colorPrimary</item>
         <item>@color/colorSecondary</item>

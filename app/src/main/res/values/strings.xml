@@ -18,6 +18,8 @@
     <string name="jalan">Jalan Belitung Darat RT.20 No.71 Aselole Jos Jos</string>
     <string name="profil">Profil</string>
     <string name="bahasa">Bahasa</string>
+    <string name="Keluar">Keluar</string>
+    <string name="dialog_logout">Keluar ?</string>
     <string name="dialog_register">Pastikan data yang anda masukkan sudah benar. Data akan kami gunakan untuk mempermudah keperluan anda nantinya di aplikasi ini.</string>
     <string name="kirim">Kirim</string>
     <string name="tidak">Tidak</string>
@@ -27,4 +29,5 @@
     <string name="send">send</string>
     <string name="compose_pengaduan">Pengaduan</string>
     <string name="compose_perdata">Permohonan Data dan Informasi</string>
+    <string name="logout">logout</string>
 </resources>

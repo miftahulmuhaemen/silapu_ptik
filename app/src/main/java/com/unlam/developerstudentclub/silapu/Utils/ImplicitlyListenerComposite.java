@@ -11,6 +11,13 @@ public class ImplicitlyListenerComposite implements Implictly {
         }
     }
 
+    @Override
+    public void onAddActivityResponse() {
+        for(Implictly implictly : registeredListeners){
+            implictly.onAddActivityResponse();
+        }
+    }
+
     private List<Implictly> registeredListeners = new ArrayList<Implictly>();
 
     public void registerListener (Implictly listener) {

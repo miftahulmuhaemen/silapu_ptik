@@ -71,4 +71,7 @@ public class UserData {
     @Setter @Getter
     private Integer active;
 
+    @Setter @Getter
+    private String filepath;
+
 }

@@ -21,6 +21,9 @@ import butterknife.OnClick;
 import lombok.Getter;
 import lombok.Setter;
 
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_CLOSE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_CONFIRM;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -28,6 +31,10 @@ public class Confirmation  extends DialogFragment {
 
     @Getter @Setter
     OnOptionDialogListener onOptionDialogListener;
+
+    @BindView(R.id.tv_desc) TextView tv_decription;
+    @BindView(R.id.tv_head) TextView tv_header;
+    @BindView(R.id.btn_kirim) Button btn_keluar;
 
     @OnClick({R.id.btn_tidak, R.id.btn_kirim}) void OnClick(Button view){
         switch (view.getId()){
@@ -54,6 +61,15 @@ public class Confirmation  extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.frag_confirm,container);
         ButterKnife.bind(this,view);
+
+        switch (getArguments().getInt(FRAGMENT_CONFIRM)){
+            case FRAGMENT_CLOSE :
+                tv_decription.setVisibility(View.GONE);
+                tv_header.setText(R.string.dialog_logout);
+                btn_keluar.setText(R.string.Keluar);
+            break;
+        }
+
         return view;
     }
 

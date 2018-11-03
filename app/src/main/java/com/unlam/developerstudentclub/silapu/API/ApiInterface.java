@@ -29,7 +29,7 @@ public interface ApiInterface {
 
     @Multipart
     @POST("user/register")
-    Call<ApiResponseUser<UserData>> postRegister(
+    Call<ApiDefaultResponse> postRegister(
             @PartMap Map<String, RequestBody> partMap,
             @Part MultipartBody.Part file
     );

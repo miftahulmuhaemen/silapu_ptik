@@ -1,9 +1,11 @@
 package com.unlam.developerstudentclub.silapu.Fragment;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -21,7 +23,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.unlam.developerstudentclub.silapu.API.ApiGenerator;
 import com.unlam.developerstudentclub.silapu.API.ApiInterface;
 import com.unlam.developerstudentclub.silapu.API.ApiResponseData;
@@ -32,11 +36,13 @@ import com.unlam.developerstudentclub.silapu.BuildConfig;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
+import com.unlam.developerstudentclub.silapu.MainActivity;
 import com.unlam.developerstudentclub.silapu.R;
 import com.unlam.developerstudentclub.silapu.Utils.Implictly;
 import com.unlam.developerstudentclub.silapu.Utils.NpaLiniearLayoutManager;
 import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,15 +56,30 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import io.objectbox.Box;
 import lombok.Getter;
 import lombok.Setter;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
-import static com.unlam.developerstudentclub.silapu.LoginActivity.ERROR_FIELD_EMAIL_NOTVALID;
-import static com.unlam.developerstudentclub.silapu.LoginActivity.ERROR_FIELD_KOSONG;
-import static com.unlam.developerstudentclub.silapu.RegisterActivity.REQUEST_CODE_REGISTER;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_CODE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_PENGADUAN;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_PERDATA;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_EMAIL_NOTVALID;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_KOSONG;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGEMENT_IDENTITY;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PENGADUAN;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PERDATA;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PROFIL;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_FIRST;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_FORTH;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_SECOND;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_THIRD;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.PERMISSION_IMAGE_CODE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE_REGISTER;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,7 +113,7 @@ public class  Global extends Fragment implements Implictly {
 
     /*Fragment Main*/
     @Nullable @BindView(R.id.btn_add_item) FloatingActionButton btn_add;
-    @Nullable @BindView(R.id.searchview) SearchView searchView;
+//    @Nullable @BindView(R.id.searchview) SearchView searchView;
     @Nullable @BindView(R.id.recylerview) RecyclerView recyclerView;
     @Nullable @BindView(R.id.setting) ImageView btn_setting;
 
@@ -107,15 +128,7 @@ public class  Global extends Fragment implements Implictly {
     private Box<PengaduanItem> pengaduanItemBox;
     private Box<PerdataItem> perdataItemBox;
 
-    final public static int FRAGMENT_REGISTER_FIRST = 1;
-    final public static int FRAGMENT_REGISTER_SECOND = 2;
-    final public static int FRAGMENT_REGISTER_THIRD = 3;
-    final public static int FRAGMENT_REGISTER_FORTH = 4;
-    final public static int FRAGMENT_PENGADUAN = 5;
-    final public static int FRAGMENT_PERDATA = 6;
-    final public static int FRAGMENT_PROFIL = 7;
-    public static String FRAGEMENT_IDENTITY = "identity";
-
+    String filepath = "";
 
     @Getter @Setter
     onCompleteResponse Responses;
@@ -127,7 +140,6 @@ public class  Global extends Fragment implements Implictly {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
             try {
                 Responses = (onCompleteResponse) context;
             } catch (ClassCastException e) {
@@ -136,12 +148,18 @@ public class  Global extends Fragment implements Implictly {
 
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Responses = null;
+    }
+
     public Global() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
 
         final View view;
         final int CHECK = getArguments().getInt(FRAGEMENT_IDENTITY,0);
@@ -188,9 +206,18 @@ public class  Global extends Fragment implements Implictly {
                         btn_galeri.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                                intent.setType("image/*");
-                                getActivity().startActivityForResult(Intent.createChooser(intent,"Select Image"), REQUEST_CODE_REGISTER);
+                                new ChooserDialog(getActivity())
+                                        .withFilter(false, false, "jpg", "jpeg", "png")
+                                        .withChosenListener(new ChooserDialog.Result() {
+                                            @Override
+                                            public void onChoosePath(String path, File pathFile) {
+                                                filepath = path;
+                                                Glide.with(getContext()).load(pathFile).into(plate_img);
+                                                Toast.makeText(getContext(), "FILE: " + path, Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .build()
+                                        .show();
                             }
                         });
                         break;
@@ -220,6 +247,11 @@ public class  Global extends Fragment implements Implictly {
         return view;
     }
 
+    /**
+     *  Register Activity FRAGMENT
+     *  Use EVENT BUS next time.
+     * @param text
+     */
 
     @Override
     public void onRegisterActivityResponse(Boolean text) {
@@ -305,7 +337,10 @@ public class  Global extends Fragment implements Implictly {
             case FRAGMENT_REGISTER_THIRD :
                 if(plate_img.getDrawable() == null){
                     isComplete = false;
+                } else {
+                    data.setFilepath(filepath);
                 }
+
                 break;
         }
 
@@ -313,7 +348,6 @@ public class  Global extends Fragment implements Implictly {
             getResponses().onCompleteFormResponse(data, Fragment);
         }
     }
-
 
     private void updateLabel() {
         String myFormat = "yyyy-MM-dd"; //In which you need put here
@@ -335,14 +369,17 @@ public class  Global extends Fragment implements Implictly {
 
     public void onThrowToBox(int Fragment){
         if(Fragment == FRAGMENT_PENGADUAN){
-            Call<ApiResponseData<PengaduanItem>> call = api.getPengaduan(BuildConfig.API_KEY, 3);
+            Call<ApiResponseData<PengaduanItem>> call = api.getPengaduan(BuildConfig.API_KEY, userPreference.getID());
             call.enqueue(new Callback<ApiResponseData<PengaduanItem>>() {
                 @Override
                 public void onResponse(Call<ApiResponseData<PengaduanItem>> call, Response<ApiResponseData<PengaduanItem>> response) {
                     pengaduanItemBox.put(response.body().getData());
                     List<PengaduanItem> item = pengaduanItemBox.getAll();
-                    rvAdapter.setFilteredPengaduanItem((ArrayList<PengaduanItem>) item);
-                    rvAdapter.notifyDataSetChanged();
+
+                    if(!item.isEmpty()){
+                        rvAdapter.setFilteredPengaduanItem((ArrayList<PengaduanItem>) item);
+                        rvAdapter.notifyDataSetChanged();
+                    }
                 }
 
                 @Override
@@ -353,8 +390,11 @@ public class  Global extends Fragment implements Implictly {
                     else {
                         Toast.makeText(getActivity(), "conversion issue! big problems :(", Toast.LENGTH_SHORT).show();
                         List<PengaduanItem> item = pengaduanItemBox.getAll();
-                        rvAdapter.setFilteredPengaduanItem((ArrayList<PengaduanItem>) item);
-                        rvAdapter.notifyDataSetChanged();
+
+                        if(!item.isEmpty()){
+                            rvAdapter.setFilteredPengaduanItem((ArrayList<PengaduanItem>) item);
+                            rvAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
             });
@@ -392,6 +432,11 @@ public class  Global extends Fragment implements Implictly {
         }
     }
 
+    @Override
+    public void onAddActivityResponse() {
+        onThrowToBox(getArguments().getInt(FRAGEMENT_IDENTITY,0));
+    }
+
     private void RecyclerViewAdapterConnect(int Fragment){
 
         recyclerView.setHasFixedSize(true);
@@ -413,20 +458,20 @@ public class  Global extends Fragment implements Implictly {
 
     private void FragmentPengaduanAndPerdataMethod(final int Fragment){
         RecyclerViewAdapterConnect(Fragment);
-        searchView.setIconified(false);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                rvAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                rvAdapter.getFilter().filter(query);
-                return false;
-            }
-        });
+//        searchView.setIconified(false);
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+////                rvAdapter.getFilter().filter(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String query) {
+//                rvAdapter.getFilter().filter(query);
+//                return false;
+//            }
+//        });
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -436,13 +481,13 @@ public class  Global extends Fragment implements Implictly {
 
                 if(Fragment == FRAGMENT_PENGADUAN){
                     intent = new Intent(getActivity(),AddActivity.class);
-                    intent.putExtra(AddActivity.COMPOSE_CODE, AddActivity.COMPOSE_PENGADUAN);
+                    intent.putExtra(COMPOSE_CODE, COMPOSE_PENGADUAN);
                 } else if(Fragment == FRAGMENT_PERDATA) {
                     intent = new Intent(getActivity(),AddActivity.class);
-                    intent.putExtra(AddActivity.COMPOSE_CODE,AddActivity.COMPOSE_PERDATA);
+                    intent.putExtra(COMPOSE_CODE,COMPOSE_PERDATA);
                 }
 
-                getActivity().startActivityForResult(intent,AddActivity.REQUEST_CODE);
+                getActivity().startActivityForResult(intent,REQUEST_CODE);
             }
         });
 
