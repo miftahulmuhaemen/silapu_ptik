@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-
     ApiInterface api = ApiGenerator.createService(ApiInterface.class); // Interface Retrofit
     private UserPreference userPreference;
     private Box<PengaduanItem> pengaduanItemBox;
@@ -257,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                 map.put("cara", createPartFromString(perdataItem.getCara()));
 
                 /* API doesn't match with the perquisite*/
+
                 try{
                     map.put("nama2", createPartFromString(perdataItem.getNama2()));
                     map.put("gender2", createPartFromString(perdataItem.getGender2()));
@@ -268,7 +268,15 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                     map.put("telp2", createPartFromString(perdataItem.getTelp2()));
                     map.put("email2", createPartFromString(perdataItem.getEmail2()));
                 } catch (Exception e){
-                    Log.d("EXCEPTION", e.toString());
+                    map.put("nama2", createPartFromString(userPreference.getNama()));
+                    map.put("gender2", createPartFromString(userPreference.getJenisKelamin()));
+                    map.put("tmptlhr2", createPartFromString(userPreference.getTempatLahir()));
+                    map.put("tgllhr2", createPartFromString(userPreference.getTanggalLahir()));
+                    map.put("alamat2", createPartFromString(userPreference.getAlamat()));
+                    map.put("identitas2", createPartFromString(userPreference.getIdentitas()));
+                    map.put("noIdentitas2", createPartFromString(userPreference.getNoIdentitas()));
+                    map.put("telp2", createPartFromString(userPreference.getTelp()));
+                    map.put("email2", createPartFromString(userPreference.getEmail()));
                 }
 
 
