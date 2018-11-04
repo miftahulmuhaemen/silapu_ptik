@@ -30,4 +30,6 @@
     <string name="compose_pengaduan">Pengaduan</string>
     <string name="compose_perdata">Permohonan Data dan Informasi</string>
     <string name="logout">logout</string>
+    <string name="add_person">add_person</string>
+    <string name="kirim_data">Kirim Data?</string>
 </resources>

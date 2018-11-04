@@ -77,9 +77,7 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_FORTH;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_SECOND;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_THIRD;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.PERMISSION_IMAGE_CODE;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE_REGISTER;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -105,21 +103,15 @@ public class  Global extends Fragment implements Implictly {
     @Nullable @BindView(R.id.ti_tanggalLahir)  TextFieldBoxes ti_tanggalLahir;
     @Nullable @BindView(R.id.ti_idt) TextFieldBoxes ti_noIdentitas;
 
-    @Nullable @BindView(R.id.btn_galeri)    Button btn_galeri;
-    @Nullable @BindView(R.id.plate_img)  CircleImageView plate_img;
-
     @Nullable @BindView(R.id.ti_jenisKelamin)   MaterialSpinner spinner_jenisKelamin;
     @Nullable @BindView(R.id.ti_identity)   MaterialSpinner spinner_identityCard;
 
+    @Nullable @BindView(R.id.btn_galeri)    Button btn_galeri;
+    @Nullable @BindView(R.id.plate_img)  CircleImageView plate_img;
+
     /*Fragment Main*/
     @Nullable @BindView(R.id.btn_add_item) FloatingActionButton btn_add;
-//    @Nullable @BindView(R.id.searchview) SearchView searchView;
     @Nullable @BindView(R.id.recylerview) RecyclerView recyclerView;
-    @Nullable @BindView(R.id.setting) ImageView btn_setting;
-
-    /*Fragment Profile*/
-    @Nullable @BindView(R.id.tv_name)    TextView tv_name;
-
     RecyclerViewAdapter rvAdapter;
     final Calendar myCalendar = Calendar.getInstance();
 
@@ -178,7 +170,7 @@ public class  Global extends Fragment implements Implictly {
             case FRAGMENT_REGISTER_SECOND :
                         view = inflater.inflate(R.layout.frag_regist2nd,container,false);
                         ButterKnife.bind(this,view);
-                        edt_tanggalLahir.setInputType(InputType.TYPE_NULL);
+                        edt_tanggalLahir.setEnabled(false);
                         ti_tanggalLahir.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -234,12 +226,6 @@ public class  Global extends Fragment implements Implictly {
                         perdataItemBox = ((App) getActivity().getApplication()).getBoxStore().boxFor(PerdataItem.class);
                         FragmentPengaduanAndPerdataMethod(CHECK);
                         break;
-            case FRAGMENT_PROFIL :
-                        view = inflater.inflate(R.layout.frag_profile,container,false);
-                        ButterKnife.bind(this,view);
-                        userPreference = new UserPreference(getContext());
-                        tv_name.setText(userPreference.getNama());
-                        break;
 
             default: view =  null;
                         break;
@@ -276,8 +262,6 @@ public class  Global extends Fragment implements Implictly {
 
                 if(TextUtils.isEmpty(password)){
                     isComplete = false;
-                    ti_password.setError(ERROR_FIELD_KOSONG,false);
-                    ti_password.validate();
                 }
 
                 if(TextUtils.isEmpty(alamat)){
@@ -313,7 +297,6 @@ public class  Global extends Fragment implements Implictly {
 
                 if(TextUtils.isEmpty(phone)){
                     isComplete = false;
-                    ti_phone.setError(ERROR_FIELD_KOSONG, true);
                 }
 
                 if(TextUtils.isEmpty(tanggalLahir)){
@@ -369,7 +352,7 @@ public class  Global extends Fragment implements Implictly {
 
     public void onThrowToBox(int Fragment){
         if(Fragment == FRAGMENT_PENGADUAN){
-            Call<ApiResponseData<PengaduanItem>> call = api.getPengaduan(BuildConfig.API_KEY, userPreference.getID());
+            Call<ApiResponseData<PengaduanItem>> call = api.getPengaduan(BuildConfig.API_KEY, 3);
             call.enqueue(new Callback<ApiResponseData<PengaduanItem>>() {
                 @Override
                 public void onResponse(Call<ApiResponseData<PengaduanItem>> call, Response<ApiResponseData<PengaduanItem>> response) {
@@ -386,11 +369,15 @@ public class  Global extends Fragment implements Implictly {
                 public void onFailure(Call<ApiResponseData<PengaduanItem>> call, Throwable t) {
                     if (t instanceof IOException) {
                         Toast.makeText(getActivity(), "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                        List<PengaduanItem> item = pengaduanItemBox.getAll();
+                        if(!item.isEmpty()){
+                            rvAdapter.setFilteredPengaduanItem((ArrayList<PengaduanItem>) item);
+                            rvAdapter.notifyDataSetChanged();
+                        }
                     }
                     else {
                         Toast.makeText(getActivity(), "conversion issue! big problems :(", Toast.LENGTH_SHORT).show();
                         List<PengaduanItem> item = pengaduanItemBox.getAll();
-
                         if(!item.isEmpty()){
                             rvAdapter.setFilteredPengaduanItem((ArrayList<PengaduanItem>) item);
                             rvAdapter.notifyDataSetChanged();
@@ -400,7 +387,7 @@ public class  Global extends Fragment implements Implictly {
             });
 
         } else if(Fragment == FRAGMENT_PERDATA){
-            Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,userPreference.getID());
+            Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,3);
             call.enqueue(new Callback<ApiResponseData<PerdataItem>>() {
                 @Override
                 public void onResponse(Call<ApiResponseData<PerdataItem>> call, Response<ApiResponseData<PerdataItem>> response) {
@@ -417,11 +404,15 @@ public class  Global extends Fragment implements Implictly {
                 public void onFailure(Call<ApiResponseData<PerdataItem>> call, Throwable t) {
                     if (t instanceof IOException) {
                         Toast.makeText(getActivity(), "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                        List<PerdataItem> item = perdataItemBox.getAll();
+                        if(!item.isEmpty()) {
+                            rvAdapter.setFilteredPerdataItem((ArrayList<PerdataItem>) item);
+                            rvAdapter.notifyDataSetChanged();
+                        }
                     }
                     else {
                         Toast.makeText(getActivity(), "conversion issue! big problems :(", Toast.LENGTH_SHORT).show();
                         List<PerdataItem> item = perdataItemBox.getAll();
-
                         if(!item.isEmpty()) {
                             rvAdapter.setFilteredPerdataItem((ArrayList<PerdataItem>) item);
                             rvAdapter.notifyDataSetChanged();
@@ -458,20 +449,6 @@ public class  Global extends Fragment implements Implictly {
 
     private void FragmentPengaduanAndPerdataMethod(final int Fragment){
         RecyclerViewAdapterConnect(Fragment);
-//        searchView.setIconified(false);
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-////                rvAdapter.getFilter().filter(query);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String query) {
-//                rvAdapter.getFilter().filter(query);
-//                return false;
-//            }
-//        });
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -49,8 +49,6 @@
         app:useDenseSpacing="true"
         app:helperText="Minimal 8 Karakter."
         app:minCharacters="8"
-        app:maxCharacters="16"
-        app:manualValidateError="true"
 
         app:layout_constraintEnd_toEndOf="@id/ti_email"
         app:layout_constraintStart_toStartOf="@id/ti_email"
@@ -108,8 +106,6 @@
         app:hasClearButton="true"
         app:useDenseSpacing="true"
         app:helperText="Isikan secara lengkap."
-
-
 
         app:layout_constraintEnd_toEndOf="@id/ti_email"
         app:layout_constraintStart_toStartOf="@id/ti_email"

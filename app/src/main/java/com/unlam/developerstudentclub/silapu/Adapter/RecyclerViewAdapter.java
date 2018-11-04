@@ -1,19 +1,17 @@
 package com.unlam.developerstudentclub.silapu.Adapter;
 
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,12 +22,12 @@ import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
 import com.unlam.developerstudentclub.silapu.R;
 import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
 
-import java.io.File;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
 
+import static android.view.Gravity.START;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.ADMIN_REPLY;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.EXT_BMP;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.EXT_DOC;
@@ -41,7 +39,6 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PENGADUA
 import static com.unlam.developerstudentclub.silapu.Utils.Util.URL_File;
 
 public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.Adapter<RecyclerViewAdapter.RecylerViewAdapterHolder> {
-//            implements Filterable {
 
         private Context context;
         private UserPreference userPreference;
@@ -90,8 +87,9 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
 
                 if(item.getKet().equals(ADMIN_REPLY)){
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.gravity = Gravity.START;
+                    params.gravity = START;
                     holder.view.setLayoutParams(params);
+                    params.topMargin = 20;
                     holder.tv_log.setLayoutParams(params);
                     holder.tv_sender.setText(ADMIN_REPLY);
                 } else {
@@ -110,20 +108,30 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                         /*Catching Errors Without Print it in Anywhere*/
                     }
 
+                    /*https://www.flaticon.com/packs/file-formats-icons*/
                     switch (item.getExtFile().toLowerCase()){
                         case EXT_DOC :
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.doc_file_format_symbol))
+                                    .into(holder.file_preview);
+                            break;
                         case EXT_DOCX :
-                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a002_doc))
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.docx_file_format))
                                     .into(holder.file_preview);
                             break;
                         case EXT_PDF :
-                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a001_pdf))
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.pdf_file_format_symbol))
                                     .into(holder.file_preview);
                             break;
                         case EXT_JPG :
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.jpg_image_file_format))
+                                    .into(holder.file_preview);
+                            break;
                         case EXT_PNG :
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.png_file_extension_interface_symbol))
+                                    .into(holder.file_preview);
+                            break;
                         case EXT_BMP :
-                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.a003_jpeg))
+                            Glide.with(context).load(context.getResources().getDrawable(R.drawable.bmp_file_format_symbol))
                                     .into(holder.file_preview);
                             break;
                     }
@@ -132,15 +140,25 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                     holder.file_preview.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String url = URL_File + item.getNamaFile();
-                            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-                            request.setTitle("Mengunduh");  //set title for notification in status_bar
-                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);  //flag for if you want to show notification in status or not
-                            String nameOfFile = URLUtil.guessFileName(url, null, MimeTypeMap.getFileExtensionFromUrl(url)); //fetching name of file and type from server
-                            request.setDestinationInExternalPublicDir("", nameOfFile);
-                            DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-                            downloadManager.enqueue(request);
 
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Unduh ?")
+                                    .setPositiveButton("UNDUH", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            String url = URL_File + item.getNamaFile();
+                                            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                                            request.setTitle("Mengunduh");  //set title for notification in status_bar
+                                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);  //flag for if you want to show notification in status or not
+                                            String nameOfFile = URLUtil.guessFileName(url, null, MimeTypeMap.getFileExtensionFromUrl(url)); //fetching name of file and type from server
+                                            request.setDestinationInExternalPublicDir("", nameOfFile);
+                                            DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+                                            downloadManager.enqueue(request);
+                                        }
+                                    })
+                                    .setNegativeButton("TIDAK", null);
+                                    AlertDialog alertDialog  =  builder.create();
+                                    alertDialog.show();
                         }
                     });
                 } else {
@@ -150,7 +168,13 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                 holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
+
                         // Open Detail Dialog Fragment.
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                        builder.setView(view)
+//                                .setPositiveButton("SELESAI", null);
+//                        builder.create();
+
                         return false;
                     }
                 });
@@ -179,57 +203,6 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                 return getFilteredPerdataItem().size() == 0 ? 0 : getFilteredPerdataItem().size();
         }
 
-//    @Override
-//    public Filter getFilter() {
-//        return new Filter() {
-//            @Override
-//            protected FilterResults performFiltering(CharSequence charSequence) {
-//
-//                String charString = charSequence.toString();
-//                FilterResults filterResults = new FilterResults();
-//
-//                if(IDENTIFIER == FRAGMENT_PENGADUAN){
-//                    if (charString.isEmpty())
-//                        filteredPengaduanItem = listPengaduanItem;
-//                    else {
-//                        ArrayList<PengaduanItem> filteredList = new ArrayList<>();
-//                        for (PengaduanItem row : listPengaduanItem) {
-//                            if(row.getAduan().toLowerCase().contains(charString.toLowerCase())
-//                                    || row.getPerihal().toLowerCase().contains(charString.toLowerCase()))
-//                                filteredList.add(row);
-//                        }
-//                        filteredPengaduanItem = filteredList;
-//                    }
-//                    filterResults.values = filteredPengaduanItem;
-//                } else {
-//                    if (charString.isEmpty())
-//                        filteredPerdataItem = listPerdataitem;
-//                    else {
-//                        ArrayList<PerdataItem> filteredList = new ArrayList<>();
-//                        for (PerdataItem row : listPerdataitem) {
-//                            if(row.getCara().toLowerCase().contains(charString.toLowerCase())
-//                                    || row.getTujuan().toLowerCase().contains(charString.toLowerCase())
-//                                    || row.getPermintaan().toLowerCase().contains(charString.toLowerCase()))
-//                                filteredList.add(row);
-//                        }
-//                        filteredPerdataItem = filteredList;
-//                    }
-//                    filterResults.values = filteredPerdataItem;
-//                }
-//
-//                return filterResults;
-//            }
-//
-//            @Override
-//            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-//                if(IDENTIFIER == FRAGMENT_PENGADUAN)
-//                    filteredPengaduanItem = (ArrayList<PengaduanItem>) filterResults.values;
-//                else
-//                    filteredPerdataItem = (ArrayList<PerdataItem>) filterResults.values;
-//                notifyDataSetChanged();
-//            }
-//        };
-//    }
 
     class RecylerViewAdapterHolder extends android.support.v7.widget.RecyclerView.ViewHolder{
 

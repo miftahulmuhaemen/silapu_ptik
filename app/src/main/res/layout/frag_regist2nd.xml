@@ -39,7 +39,6 @@
         android:layout_height="wrap_content"
         android:focusable="false"
 
-
         app:endIcon="@drawable/ic_settings_black_24dp"
         app:labelText="Tanggal Lahir"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:focusable="false"
+            android:enabled="false"
             />
 
     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
@@ -110,6 +110,7 @@
             android:layout_height="wrap_content"
             android:lines="1"
             android:maxLines="1"
+            android:inputType="number"
             />
 
     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
@@ -125,7 +126,7 @@
         app:primaryColor="@color/EggYellow"
         app:hasClearButton="true"
         app:useDenseSpacing="true"
-        app:maxCharacters="16"
+        app:minCharacters="10"
 
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -137,6 +138,7 @@
             android:layout_height="wrap_content"
             android:lines="1"
             android:maxLines="1"
+            android:inputType="number"
             />
 
     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>

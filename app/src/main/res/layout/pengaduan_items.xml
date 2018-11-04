@@ -47,7 +47,7 @@
                     android:id="@+id/file_preview"
                     android:layout_width="50dp"
                     android:layout_height="55dp"
-                    tools:src="@drawable/a002_doc"
+                    android:src="@drawable/pdf_file_format_symbol"
 
                     android:layout_marginLeft="@dimen/medium_margin_globally"
                     android:layout_marginTop="@dimen/small_margin_globally"
@@ -123,14 +123,14 @@
 
     <TextView
         android:id="@+id/tv_log"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="12-12-2018 12:00:20"
         android:textSize="10sp"
 
         android:layout_marginRight="@dimen/small_margin_globally"
         android:layout_marginTop="@dimen/small_margin_globally"
-        android:layout_gravity="end"
+        android:gravity="end"
         />
 
 </LinearLayout>

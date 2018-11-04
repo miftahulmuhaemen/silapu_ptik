@@ -1,45 +1,30 @@
 package com.unlam.developerstudentclub.silapu;
 
-import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
-import android.net.Uri;
-import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.rd.PageIndicatorView;
 import com.unlam.developerstudentclub.silapu.API.ApiDefaultResponse;
 import com.unlam.developerstudentclub.silapu.API.ApiGenerator;
 import com.unlam.developerstudentclub.silapu.API.ApiInterface;
-import com.unlam.developerstudentclub.silapu.API.ApiResponseUser;
 import com.unlam.developerstudentclub.silapu.Adapter.FragementAdapter;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
-import com.unlam.developerstudentclub.silapu.Fragment.Confirmation;
 import com.unlam.developerstudentclub.silapu.Fragment.Global;
 import com.unlam.developerstudentclub.silapu.Utils.ImplicitlyListenerComposite;
 import com.unlam.developerstudentclub.silapu.Utils.Implictly;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,13 +37,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGEMENT_IDENTITY;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_CONFIRM;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_CONFIRM;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_FIRST;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_FORTH;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_SECOND;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_THIRD;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE_REGISTER;
 
 public class RegisterActivity extends AppCompatActivity implements Implictly, Global.onCompleteResponse {
 
@@ -129,20 +111,21 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
                 int totalPage = viewPager.getAdapter().getCount();
 
                 if(currentPage == totalPage - 2){
-                    Confirmation confirmationDialog = new Confirmation();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(FRAGMENT_CONFIRM,FRAGMENT_REGISTER_CONFIRM);
-                    confirmationDialog.setArguments(bundle);
-                    confirmationDialog.setOnOptionDialogListener(new Confirmation.OnOptionDialogListener() {
-                        @Override
-                        public void onOptionChoosen(Boolean text) {
-                            if(text){
-                                implicitlyListenerComposite.onRegisterActivityResponse(true);
-                            }
-                        }
-                    });
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    confirmationDialog.show(fragmentManager,Confirmation.class.getSimpleName());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    builder.setTitle(R.string.kirim_data)
+                            .setMessage(R.string.dialog_register)
+                            .setPositiveButton(R.string.kirim, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    implicitlyListenerComposite.onRegisterActivityResponse(true);
+                                }
+                            })
+                            .setNegativeButton(R.string.tidak, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User cancelled the dialog
+                                }
+                            });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
                 }
                 else{
                     viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);

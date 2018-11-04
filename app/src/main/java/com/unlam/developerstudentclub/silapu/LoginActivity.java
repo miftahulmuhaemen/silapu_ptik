@@ -79,13 +79,6 @@ public class LoginActivity extends AppCompatActivity {
         pengaduanItemBox = ((App) getApplication()).getBoxStore().boxFor(PengaduanItem.class);
         perdataItemBox = ((App) getApplication()).getBoxStore().boxFor(PerdataItem.class);
 
-
-//        if(!userPreference.getNama().isEmpty()){
-//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
-
         ti_password.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

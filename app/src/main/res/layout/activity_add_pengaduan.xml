@@ -21,11 +21,12 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <Spinner
+    <EditText
     android:id="@+id/spinner_aduan"
     android:layout_width="0dp"
     android:layout_height="@dimen/edittext_height_natural"
         android:background="@color/White"
+        android:focusable="false"
     app:layout_constraintStart_toEndOf="@id/aduan"
     app:layout_constraintTop_toBottomOf="@id/appbar"
     app:layout_constraintEnd_toEndOf="parent"

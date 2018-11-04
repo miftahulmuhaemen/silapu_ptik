@@ -1,42 +1,38 @@
 package com.unlam.developerstudentclub.silapu;
 
-import android.Manifest;
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsProvider;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.CursorLoader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.obsez.android.lib.filechooser.ChooserDialog;
-import com.unlam.developerstudentclub.silapu.Adapter.SpinnerCostumeAdapter;
-import com.unlam.developerstudentclub.silapu.Entity.SpinnerCostumeItem;
+import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
+import com.unlam.developerstudentclub.silapu.Entity.UserData;
+import com.unlam.developerstudentclub.silapu.Fragment.GantiOrang;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
+import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
+import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_ATTACHMENT;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_CODE;
@@ -44,29 +40,27 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_GOAL;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_MESSAGE;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_PERDATA;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_SPINNER;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE_FILE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_EMAIL_NOTVALID;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_KOSONG;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.PARCELABLE_GANTI_ORANG;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PERDATA;
 
-public class AddActivity extends AppCompatActivity {
+public class AddActivity extends AppCompatActivity implements GantiOrang.NoticeDialogListener {
 
     @Nullable @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @Nullable @BindView(R.id.spinner_aduan)
-    Spinner spinner_aduan;
-
+    EditText spinner_aduan;
     @Nullable @BindView(R.id.spinner_cara)
-    MaterialSpinner spinner_cara;
-
+    EditText spinner_cara;
     @Nullable @BindView(R.id.edt_message)
     EditText edt_message;
-
     @Nullable @BindView(R.id.tujuan)
     EditText edt_tujuan;
 
 
-    SpinnerCostumeAdapter myAdapter;
+    PerdataItem perdataItem;
     private String filepath = "";
 
     @Override
@@ -76,25 +70,65 @@ public class AddActivity extends AppCompatActivity {
         if(getIntent().getStringExtra(COMPOSE_CODE).equals(COMPOSE_PERDATA)){
             setContentView(R.layout.activity_add_perdata);
             ButterKnife.bind(this);
+            perdataItem = new PerdataItem();
+
             setTitle(getResources().getString(R.string.compose_perdata));
-            spinner_cara.setItems(getResources().getStringArray(R.array.informasi));
+            spinner_cara.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddActivity.this);
+                    builder.setItems(R.array.informasi, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String [] temp;
+                            temp = getResources().getStringArray(R.array.informasi);
+                            spinner_cara.setText(temp[i]);
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            });
         } else {
             setContentView(R.layout.activity_add_pengaduan);
             ButterKnife.bind(this);
             setTitle(getResources().getString(R.string.compose_pengaduan));
 
-            ArrayList<SpinnerCostumeItem> listVOs = new ArrayList<>();
-            for (int i = 0; i < getResources().getStringArray(R.array.aduan).length; i++) {
-                SpinnerCostumeItem spinnerCostumeItem = new SpinnerCostumeItem();
-                spinnerCostumeItem.setTitle(getResources().getStringArray(R.array.aduan)[i]);
-                spinnerCostumeItem.setSelected(false);
-                listVOs.add(spinnerCostumeItem);
-            }
-
-            myAdapter = new SpinnerCostumeAdapter(this, 0,  listVOs);
-            spinner_aduan.setAdapter(myAdapter);
+            spinner_aduan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final ArrayList <Integer> mSelectedItems = new ArrayList();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddActivity.this);
+                    builder.setMultiChoiceItems(R.array.aduan, null,
+                            new DialogInterface.OnMultiChoiceClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                    if (isChecked) {
+                                        mSelectedItems.add(which);
+                                    } else if (mSelectedItems.contains(which)) {
+                                        mSelectedItems.remove(Integer.valueOf(which));
+                                    }
+                                }
+                            })
+                            .setPositiveButton(R.string.kirim, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    String [] temp = {};
+                                    String text = "";
+                                    temp = getResources().getStringArray(R.array.aduan);
+                                    for(Integer i : mSelectedItems)
+                                        text = text + temp[i] + ", ";
+                                    if(!text.isEmpty())
+                                        text = text.substring(0, text.length()-2);
+                                    spinner_aduan.setText(text);
+                                }
+                            })
+                            .setNegativeButton(R.string.tidak, null);
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            });
         }
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -116,16 +150,30 @@ public class AddActivity extends AppCompatActivity {
         Boolean isValid = true;
         switch (item.getItemId()){
             case R.id.send_perdata :
-                resultIntent.putExtra(COMPOSE_SPINNER,spinner_cara.getText());
-                resultIntent.putExtra(COMPOSE_GOAL,edt_tujuan.getText());
-                resultIntent.putExtra(COMPOSE_MESSAGE,edt_message.getText());
-                setResult(RESULT_CODE_PERDATA,resultIntent);
-                finish();
+
+                if(edt_message.getText().toString().isEmpty()){
+                    isValid = false;
+                    Snackbar.make(getCurrentFocus(), "Pesan masih kosong.", Snackbar.LENGTH_SHORT).show();
+                }
+
+                else if(edt_tujuan.getText().toString().isEmpty()){
+                    isValid = false;
+                    Snackbar.make(getCurrentFocus(), "Tujuan masih kosong.", Snackbar.LENGTH_SHORT).show();
+                }
+
+                if(isValid) {
+                    perdataItem.setPermintaan(edt_message.getText().toString());
+                    perdataItem.setTujuan(edt_tujuan.getText().toString());
+                    perdataItem.setCara(spinner_cara.getText().toString());
+                    resultIntent.putExtra(PARCELABLE_GANTI_ORANG,perdataItem);
+                    setResult(RESULT_CODE_PERDATA,resultIntent);
+                    finish();
+                }
+
                 break;
 
             case R.id.send_pengaduan :
-
-                if(myAdapter.GetData().isEmpty()){
+                if(spinner_aduan.getText().toString().isEmpty()){
                     isValid = false;
                     Snackbar.make(getCurrentFocus(), "Aduan masih kosong.", Snackbar.LENGTH_SHORT).show();
                 }
@@ -140,7 +188,7 @@ public class AddActivity extends AppCompatActivity {
 
                 if(isValid) {
                     resultIntent.putExtra(COMPOSE_ATTACHMENT, filepath);
-                    resultIntent.putExtra(COMPOSE_SPINNER, myAdapter.GetData());
+                    resultIntent.putExtra(COMPOSE_SPINNER, spinner_aduan.getText().toString());
                     resultIntent.putExtra(COMPOSE_MESSAGE, edt_message.getText().toString());
                     setResult(RESULT_CODE_PENGADUAN, resultIntent);
                     finish();
@@ -159,7 +207,11 @@ public class AddActivity extends AppCompatActivity {
                     .enableOptions(false)
                     .build()
                     .show();
+                break;
 
+            case R.id.add_person :
+                DialogFragment dialog = new GantiOrang();
+                dialog.show(getFragmentManager(), GantiOrang.class.getSimpleName());
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -170,6 +222,12 @@ public class AddActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+
+    @Override
+    public void onDialogPositiveClick(PerdataItem dialog) {
+        perdataItem = dialog;
     }
 
 }

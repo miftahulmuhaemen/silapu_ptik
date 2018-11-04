@@ -1,13 +1,10 @@
 package com.unlam.developerstudentclub.silapu;
 
-import android.app.Fragment;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,7 +23,6 @@ import com.unlam.developerstudentclub.silapu.Box.App;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
-import com.unlam.developerstudentclub.silapu.Fragment.Confirmation;
 import com.unlam.developerstudentclub.silapu.Fragment.Global;
 import com.unlam.developerstudentclub.silapu.Utils.ImplicitlyListenerComposite;
 import com.unlam.developerstudentclub.silapu.Utils.Implictly;
@@ -42,9 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import devlight.io.library.ntb.NavigationTabBar;
 import io.objectbox.Box;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -56,11 +50,9 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_ATTACHMEN
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_MESSAGE;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_SPINNER;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGEMENT_IDENTITY;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_CLOSE;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_CONFIRM;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PERDATA;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PROFIL;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.PARCELABLE_GANTI_ORANG;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PERDATA;
@@ -88,18 +80,6 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
 
     Implictly implictly; // Interface Composite GLOBAL_FRAGMENT
     ImplicitlyListenerComposite implicitlyListenerComposite = new ImplicitlyListenerComposite(); // Composite Listener
-
-
-//    @Override
-//    public void onAttachFragment(Fragment fragment) {
-//        super.onAttachFragment(fragment);
-//        try {
-//            response = (onAddActivityResponse) fragment;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(this.toString()
-//                    + " Needs to implement the methods");
-//        }
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,24 +116,25 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.logout :
-                Confirmation confirmationDialog = new Confirmation();
-                Bundle bundle = new Bundle();
-                bundle.putInt(FRAGMENT_CONFIRM,FRAGMENT_CLOSE);
-                confirmationDialog.setArguments(bundle);
-                confirmationDialog.setOnOptionDialogListener(new Confirmation.OnOptionDialogListener() {
-                    @Override
-                    public void onOptionChoosen(Boolean text) {
-                        if(text){
-                            userPreference.clearePreference();
-                            pengaduanItemBox.removeAll();
-                            perdataItemBox.removeAll();
-                            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-                });
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                confirmationDialog.show(fragmentManager,Confirmation.class.getSimpleName());
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(R.string.dialog_logout)
+                        .setPositiveButton(R.string.Keluar, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                userPreference.clearePreference();
+                                pengaduanItemBox.removeAll();
+                                perdataItemBox.removeAll();
+                                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.tidak, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
                 break;
         }
 
@@ -172,17 +153,11 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                 .build());
 
         models.add(new NavigationTabBar.Model.Builder(
-                getResources().getDrawable(R.drawable.ic_pan_tool_black_24dp),
+                getResources().getDrawable(R.drawable.ic_chat_bubble_outline_white_24dp),
                 R.color.White)
+                .selectedIcon(getResources().getDrawable(R.drawable.ic_chat_black_24dp))
                 .title("Pengaduan")
                 .build());
-
-//        models.add(new NavigationTabBar.Model.Builder(
-//                getResources().getDrawable(R.drawable.ic_person_outline_black_24dp),
-//                R.color.White)
-//                .selectedIcon(getResources().getDrawable(R.drawable.ic_person_black_24dp))
-//                .title("Profil")
-//                .build());
 
         return models;
     }
@@ -205,13 +180,6 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         adapter.addFragment(mFragment, "Part6");
         attachListenerOnFragment(mFragment);
         implicitlyListenerComposite.registerListener(implictly);
-
-//        bundle = new Bundle();
-//        mFragment = new Global();
-//        bundle.putInt(FRAGEMENT_IDENTITY,FRAGMENT_PROFIL);
-//        mFragment.setArguments(bundle);
-//        adapter.addFragment(mFragment, "Part3");
-
         viewPager.setAdapter(adapter);
     }
 
@@ -225,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE){
             if(resultCode == RESULT_CODE_PENGADUAN){
@@ -252,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                     @Override
                     public void onFailure(Call<ApiDefaultResponse> call, Throwable t) {
                         if (t instanceof IOException) {
-                            implicitlyListenerComposite.onAddActivityResponse();
                             Toast.makeText(MainActivity.this, "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -262,7 +229,71 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                 });
             }
             else if(resultCode == RESULT_CODE_PERDATA){
-                Toast.makeText(this,"Perdata",Toast.LENGTH_SHORT).show();
+
+                PerdataItem perdataItem = data.getParcelableExtra(PARCELABLE_GANTI_ORANG);
+//                perdataItem.setKey(BuildConfig.API_KEY);
+//                perdataItem.setId(userPreference.getID());
+//                perdataItem.setEmail(userPreference.getEmail());
+//
+//                Call<ApiDefaultResponse> call = api.postPerdataDump(perdataItem);
+//                call.enqueue(new Callback<ApiDefaultResponse>() {
+//                    @Override
+//                    public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ApiDefaultResponse> call, Throwable t) {
+//
+//                    }
+//                });
+
+                HashMap<String, RequestBody> map = new HashMap<>();
+                map.put("key", createPartFromString(BuildConfig.API_KEY));
+                map.put("id", createPartFromString(String.valueOf(userPreference.getID())));
+                map.put("email", createPartFromString(userPreference.getEmail()));
+                map.put("permintaan", createPartFromString(perdataItem.getPermintaan()));
+                map.put("tujuan", createPartFromString(perdataItem.getTujuan()));
+                map.put("cara", createPartFromString(perdataItem.getCara()));
+
+                /* API doesn't match with the perquisite*/
+                try{
+                    map.put("nama2", createPartFromString(perdataItem.getNama2()));
+                    map.put("gender2", createPartFromString(perdataItem.getGender2()));
+                    map.put("tmptlhr2", createPartFromString(perdataItem.getTmptlhr2()));
+                    map.put("tgllhr2", createPartFromString(perdataItem.getTgllhr2()));
+                    map.put("alamat2", createPartFromString(perdataItem.getAlamat2()));
+                    map.put("identitas2", createPartFromString(perdataItem.getIdentitas2()));
+                    map.put("noIdentitas2", createPartFromString(perdataItem.getNoIdentitas2()));
+                    map.put("telp2", createPartFromString(perdataItem.getTelp2()));
+                    map.put("email2", createPartFromString(perdataItem.getEmail2()));
+                } catch (Exception e){
+                    Log.d("EXCEPTION", e.toString());
+                }
+
+
+                Call<ApiDefaultResponse> call = api.postPerdata(map);
+                call.enqueue(new Callback<ApiDefaultResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
+                        if(response.isSuccessful()){
+                            implicitlyListenerComposite.onAddActivityResponse();
+                            Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiDefaultResponse> call, Throwable t) {
+                        if (t instanceof IOException) {
+                            Toast.makeText(MainActivity.this, "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
             }
         }
     }

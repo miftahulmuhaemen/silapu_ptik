@@ -10,7 +10,7 @@
         android:id="@+id/tv_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kirim Data?"
+        android:text="@string/kirim_data"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textStyle="bold"/>
 

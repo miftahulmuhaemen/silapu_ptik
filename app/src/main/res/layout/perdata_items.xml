@@ -40,6 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Untuk permohonan KTM"
+                android:maxWidth="200dp"
 
                 android:layout_below="@id/tv_sender"
                 />
@@ -62,9 +63,10 @@
                 android:id="@+id/tv_cara"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Mengambil langsung ke ULM"
+                tools:text="Mengambil langsung ke ULM asdasdasdsadasdsadasdasdsadsadsadsadsadsa"
                 android:textColor="@android:color/black"
-                android:textSize="8sp"
+                android:textSize="12sp"
+                android:maxWidth="200dp"
                 android:layout_below="@id/tv_permintaan"
                 android:drawableLeft="@drawable/ic_fiber_manual_record_black_24dp"
                 />

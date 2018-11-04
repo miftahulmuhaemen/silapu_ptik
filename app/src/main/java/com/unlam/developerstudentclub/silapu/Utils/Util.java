@@ -20,11 +20,8 @@ public class Util {
     final public static int FRAGMENT_PENGADUAN = 5;
     final public static int FRAGMENT_PERDATA = 6;
     final public static int FRAGMENT_PROFIL = 7;
-    public static String FRAGEMENT_IDENTITY = "identity";
-    public static String FRAGMENT_CONFIRM = "confirm_logout";
-    final public static int FRAGMENT_CLOSE = 99;
-    final public static int FRAGMENT_REGISTER_CONFIRM = 66;
 
+    public static String FRAGEMENT_IDENTITY = "identity";
 
     /**
      * Validation
@@ -40,11 +37,8 @@ public class Util {
     public static final int PERMISSION_IMAGE_CODE = 1111;
     public static Integer   REQUEST_CODE_REGISTER = 110;
     public static int       REQUEST_CODE = 113;
-    public static final int       REQUEST_CODE_FILE = 234;
-
     public static int       RESULT_CODE_PENGADUAN = 111;
     public static int       RESULT_CODE_PERDATA = 222;
-    public static final int PERMISSION_FILE_ATTACHMENT_CODE = 123;
 
     /**
      * Dodemoii CODE
@@ -66,5 +60,7 @@ public class Util {
     public static String COMPOSE_SPINNER = "compose_spinner";
     public static String COMPOSE_PENGADUAN = "COMPOSE_PENGADUAN";
     public static String COMPOSE_PERDATA = "COMPOSE_PERDATA";
+
+    public static String PARCELABLE_GANTI_ORANG = "gantiorang";
 
 }
