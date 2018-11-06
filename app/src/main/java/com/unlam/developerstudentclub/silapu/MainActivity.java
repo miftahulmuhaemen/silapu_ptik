@@ -1,10 +1,19 @@
 package com.unlam.developerstudentclub.silapu;
 
 import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +42,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +52,7 @@ import lombok.NonNull;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -103,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         navigationTabBar.setViewPager(viewPager);
         navigationTabBar.setModels(tabModel());
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -230,22 +242,6 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
             else if(resultCode == RESULT_CODE_PERDATA){
 
                 PerdataItem perdataItem = data.getParcelableExtra(PARCELABLE_GANTI_ORANG);
-//                perdataItem.setKey(BuildConfig.API_KEY);
-//                perdataItem.setId(userPreference.getID());
-//                perdataItem.setEmail(userPreference.getEmail());
-//
-//                Call<ApiDefaultResponse> call = api.postPerdataDump(perdataItem);
-//                call.enqueue(new Callback<ApiDefaultResponse>() {
-//                    @Override
-//                    public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ApiDefaultResponse> call, Throwable t) {
-//
-//                    }
-//                });
 
                 HashMap<String, RequestBody> map = new HashMap<>();
                 map.put("key", createPartFromString(BuildConfig.API_KEY));
@@ -255,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                 map.put("tujuan", createPartFromString(perdataItem.getTujuan()));
                 map.put("cara", createPartFromString(perdataItem.getCara()));
 
-                /* API doesn't match with the perquisite*/
+                /* Using Catch Error for Perdata Pribadi*/
 
                 try{
                     map.put("nama2", createPartFromString(perdataItem.getNama2()));
@@ -316,5 +312,69 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     public void onCompleteFormResponse(UserData text, int Fragment) {
         //empty needed
     }
+
+//
+//    private void openDownloadedAttachment(final Context context, final long downloadId) {
+//        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+//        DownloadManager.Query query = new DownloadManager.Query();
+//        query.setFilterById(downloadId);
+//        Cursor cursor = downloadManager.query(query);
+//        if (cursor.moveToFirst()) {
+//            int downloadStatus = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+//            String downloadLocalUri = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+//            String downloadMimeType = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_MEDIA_TYPE));
+//            if ((downloadStatus == DownloadManager.STATUS_SUCCESSFUL) && downloadLocalUri != null) {
+//                openDownloadedAttachment(context, Uri.parse(downloadLocalUri), downloadMimeType);
+//            }
+//        }
+//        cursor.close();
+//    }
+//
+//    /**
+//     * Used to open the downloaded attachment.
+//     * <p/>
+//     * 1. Fire intent to open download file using external application.
+//     *
+//     * 2. Note:
+//     * 2.a. We can't share fileUri directly to other application (because we will get FileUriExposedException from Android7.0).
+//     * 2.b. Hence we can only share content uri with other application.
+//     * 2.c. We must have declared FileProvider in manifest.
+//     * 2.c. Refer - https://developer.android.com/reference/android/support/v4/content/FileProvider.html
+//     *
+//     * @param context            Context.
+//     * @param attachmentUri      Uri of the downloaded attachment to be opened.
+//     * @param attachmentMimeType MimeType of the downloaded attachment.
+//     */
+//    private void openDownloadedAttachment(final Context context, Uri attachmentUri, final String attachmentMimeType) {
+//        if(attachmentUri!=null) {
+//            // Get Content Uri.
+//            if (ContentResolver.SCHEME_FILE.equals(attachmentUri.getScheme())) {
+//                // FileUri - Convert it to contentUri.
+//                File file = new File(attachmentUri.getPath());
+//                attachmentUri = FileProvider.getUriForFile(this, "com.freshdesk.helpdesk.provider", file);;
+//            }
+//
+//            Intent openAttachmentIntent = new Intent(Intent.ACTION_VIEW);
+//            openAttachmentIntent.setDataAndType(attachmentUri, attachmentMimeType);
+//            openAttachmentIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            try {
+//                context.startActivity(openAttachmentIntent);
+//            } catch (ActivityNotFoundException e) {
+//                Toast.makeText(context, "Ga Bisa Buka", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//    }
+
+//    BroadcastReceiver onComplete = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            String action = intent.getAction();
+//            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+//                long downloadId = intent.getLongExtra(
+//                        DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+//                openDownloadedAttachment(context, downloadId);
+//            }
+//        }
+//    };
 
 }

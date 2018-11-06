@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
-import com.unlam.developerstudentclub.silapu.Entity.UserData;
 import com.unlam.developerstudentclub.silapu.R;
 
 import java.text.SimpleDateFormat;
@@ -43,7 +42,6 @@ public class GantiOrang extends DialogFragment {
     @Nullable @BindView(R.id.edt_email)  ExtendedEditText edt_email;
     @Nullable @BindView(R.id.edt_alamat) ExtendedEditText edt_alamat;
     @Nullable @BindView(R.id.edt_nama) ExtendedEditText edt_nama;
-    @Nullable @BindView(R.id.edt_password) ExtendedEditText edt_password;
     @Nullable @BindView(R.id.edt_numberPhone) ExtendedEditText edt_phoneNumber;
     @Nullable @BindView(R.id.edt_kotaLahir) ExtendedEditText edt_kotaLahir;
     @Nullable @BindView(R.id.edt_tanggalLahir) ExtendedEditText edt_tanggalLahir;

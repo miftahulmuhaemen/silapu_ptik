@@ -1,16 +1,15 @@
 package com.unlam.developerstudentclub.silapu.Fragment;
 
-import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,8 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -36,7 +33,6 @@ import com.unlam.developerstudentclub.silapu.BuildConfig;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
-import com.unlam.developerstudentclub.silapu.MainActivity;
 import com.unlam.developerstudentclub.silapu.R;
 import com.unlam.developerstudentclub.silapu.Utils.Implictly;
 import com.unlam.developerstudentclub.silapu.Utils.NpaLiniearLayoutManager;
@@ -56,8 +52,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import io.objectbox.Box;
 import lombok.Getter;
 import lombok.Setter;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,12 +61,12 @@ import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_CODE;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_PERDATA;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_PERDATA_PRIBADI;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_EMAIL_NOTVALID;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_KOSONG;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGEMENT_IDENTITY;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PERDATA;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PROFIL;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_FIRST;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_FORTH;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_SECOND;
@@ -352,7 +346,7 @@ public class  Global extends Fragment implements Implictly {
 
     public void onThrowToBox(int Fragment){
         if(Fragment == FRAGMENT_PENGADUAN){
-            Call<ApiResponseData<PengaduanItem>> call = api.getPengaduan(BuildConfig.API_KEY, 3);
+            Call<ApiResponseData<PengaduanItem>> call = api.getPengaduan(BuildConfig.API_KEY, userPreference.getID());
             call.enqueue(new Callback<ApiResponseData<PengaduanItem>>() {
                 @Override
                 public void onResponse(Call<ApiResponseData<PengaduanItem>> call, Response<ApiResponseData<PengaduanItem>> response) {
@@ -387,7 +381,7 @@ public class  Global extends Fragment implements Implictly {
             });
 
         } else if(Fragment == FRAGMENT_PERDATA){
-            Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,3);
+            Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,userPreference.getID());
             call.enqueue(new Callback<ApiResponseData<PerdataItem>>() {
                 @Override
                 public void onResponse(Call<ApiResponseData<PerdataItem>> call, Response<ApiResponseData<PerdataItem>> response) {
@@ -454,17 +448,28 @@ public class  Global extends Fragment implements Implictly {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent();
+                final Intent intent = new Intent(getActivity(),AddActivity.class);
 
-                if(Fragment == FRAGMENT_PENGADUAN){
-                    intent = new Intent(getActivity(),AddActivity.class);
+                if(Fragment == FRAGMENT_PENGADUAN) {
                     intent.putExtra(COMPOSE_CODE, COMPOSE_PENGADUAN);
-                } else if(Fragment == FRAGMENT_PERDATA) {
-                    intent = new Intent(getActivity(),AddActivity.class);
-                    intent.putExtra(COMPOSE_CODE,COMPOSE_PERDATA);
+                    getActivity().startActivityForResult(intent,REQUEST_CODE);
                 }
 
-                getActivity().startActivityForResult(intent,REQUEST_CODE);
+                else if(Fragment == FRAGMENT_PERDATA) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setItems(R.array.add_perdata_array, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if(i == 0)
+                                intent.putExtra(COMPOSE_CODE,COMPOSE_PERDATA_PRIBADI);
+                            else if(i == 1)
+                                intent.putExtra(COMPOSE_CODE,COMPOSE_PERDATA);
+
+                            getActivity().startActivityForResult(intent,REQUEST_CODE);
+                        }
+                    }).show();
+                }
+
             }
         });
 

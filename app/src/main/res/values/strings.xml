@@ -1,24 +1,27 @@
 <resources>
     <string name="app_name">Silapu</string>
+
+    <!--Login - Register String-->
+
     <string name="daftar">Anda tidak punya akun? <b>Daftar</b>.</string>
     <string name="masuk">Anda sudah punya akun? <b>Masuk</b></string>
     <string name="lupa_katasandi">Lupa Katasandi?</string>
     <string name="logo">Logo</string>
 
+    <!--Error Validation String-->
+
     <string name="ERROR_EMAIL">Surel Tidak Sah</string>
     <string name="ERROR_PASSWORD">Katakunci Tidak Sah</string>
     <string name="ERROR_KOSONG">Kosong</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
     <string name="silahkan_tekan_tombol_selesai_untuk_n_melanjutkan">Silahkan tekan tombol `Selesai` untuk  melanjutkan</string>
     <string name="data_sudah_lengkap">Data sudah lengkap!</string>
     <string name="atau">atau</string>
-    <string name="actionSearch">Contoh : nama pengirim, isi berita, sub-judul, ...</string>
-    <string name="jalan">Jalan Belitung Darat RT.20 No.71 Aselole Jos Jos</string>
     <string name="profil">Profil</string>
     <string name="bahasa">Bahasa</string>
-    <string name="Keluar">Keluar</string>
+    <string name="Keluar">KELUAR</string>
     <string name="dialog_logout">Keluar ?</string>
     <string name="dialog_register">Pastikan data yang anda masukkan sudah benar. Data akan kami gunakan untuk mempermudah keperluan anda nantinya di aplikasi ini.</string>
     <string name="kirim">Kirim</string>

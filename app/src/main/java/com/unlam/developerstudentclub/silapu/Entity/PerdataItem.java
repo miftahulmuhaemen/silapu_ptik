@@ -116,6 +116,7 @@ public class PerdataItem implements Parcelable {
         dest.writeString(this.telp2);
         dest.writeString(this.email2);
         dest.writeString(this.email);
+        dest.writeString(this.key);
     }
 
     public PerdataItem() {
@@ -137,6 +138,7 @@ public class PerdataItem implements Parcelable {
         this.telp2 = in.readString();
         this.email2 = in.readString();
         this.email = in.readString();
+        this.key = in.readString();
     }
 
     public static final Parcelable.Creator<PerdataItem> CREATOR = new Parcelable.Creator<PerdataItem>() {

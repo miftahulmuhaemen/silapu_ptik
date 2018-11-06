@@ -38,7 +38,6 @@
         android:id="@+id/caraPeroleh"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-
         android:paddingLeft="@dimen/medium_margin_globally"
         android:paddingRight="@dimen/medium_margin_globally"
 

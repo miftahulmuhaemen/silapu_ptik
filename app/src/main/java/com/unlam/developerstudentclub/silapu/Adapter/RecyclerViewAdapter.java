@@ -1,11 +1,15 @@
 package com.unlam.developerstudentclub.silapu.Adapter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
+import com.unlam.developerstudentclub.silapu.Fragment.DetailItem;
 import com.unlam.developerstudentclub.silapu.R;
 import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
 
@@ -26,9 +31,15 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.view.Gravity.START;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.ADMIN_REPLY;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_DETIL;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_PARCABLE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_PENGADUAN_DETAIL;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_PERDATA_DETAIL;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.EXT_BMP;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.EXT_DOC;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.EXT_DOCX;
@@ -36,12 +47,14 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.EXT_JPG;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.EXT_PDF;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.EXT_PNG;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PENGADUAN;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PERMISSION_DOWNLOAD;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.URL_File;
 
 public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.Adapter<RecyclerViewAdapter.RecylerViewAdapterHolder> {
 
         private Context context;
         private UserPreference userPreference;
+        private Activity activity;
 
         @Getter  private ArrayList<PengaduanItem> listPengaduanItem = new ArrayList<>();
         @Getter  private ArrayList<PerdataItem> listPerdataitem = new ArrayList<>();
@@ -65,6 +78,7 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
             this.context = context;
             IDENTIFIER = Identifier;
             userPreference = new UserPreference(context);
+            activity = (Activity) context;
         }
 
         @Override
@@ -80,7 +94,7 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
         }
 
         @Override
-        public void onBindViewHolder(RecylerViewAdapterHolder holder, int position) {
+        public void onBindViewHolder(final RecylerViewAdapterHolder holder, int position) {
 
             if(IDENTIFIER == FRAGMENT_PENGADUAN) {
                 final PengaduanItem item = getFilteredPengaduanItem().get(position);
@@ -101,6 +115,7 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                 holder.tv_log.setText(item.getLog());
 
                 if(!item.getNamaFile().isEmpty()){
+
                     try{
                         String [] bit = item.getNamaFile().split("\\.");
                         item.setExtFile(bit[1]);
@@ -139,21 +154,37 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                     holder.tv_filename.setText(item.getNamaFile());
                     holder.file_preview.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View view) {
+                        public void onClick(final View view) {
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
                             builder.setTitle("Unduh ?")
                                     .setPositiveButton("UNDUH", new DialogInterface.OnClickListener() {
+
+                                        @AfterPermissionGranted(RESULT_CODE_PERMISSION_DOWNLOAD)
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            String url = URL_File + item.getNamaFile();
-                                            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-                                            request.setTitle("Mengunduh");  //set title for notification in status_bar
-                                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);  //flag for if you want to show notification in status or not
-                                            String nameOfFile = URLUtil.guessFileName(url, null, MimeTypeMap.getFileExtensionFromUrl(url)); //fetching name of file and type from server
-                                            request.setDestinationInExternalPublicDir("", nameOfFile);
-                                            DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-                                            downloadManager.enqueue(request);
+                                            String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                                            if (EasyPermissions.hasPermissions(context, perms)) {
+                                                String url = URL_File + item.getNamaFile();
+                                                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                                                request.setTitle("Mengunduh");  //set title for notification in status_bar
+                                                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);  //flag for if you want to show notification in status or not
+                                                String nameOfFile = URLUtil.guessFileName(url, null, MimeTypeMap.getFileExtensionFromUrl(url)); //fetching name of file and type from server
+                                                request.setDestinationInExternalPublicDir("", nameOfFile);
+                                                DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+                                                downloadManager.enqueue(request);
+                                            } else {
+                                                // Do not have permissions, request them now
+                                                Log.d("XXXX", "Permission denied");
+                                                EasyPermissions.requestPermissions(activity, context.getString(R.string.app_name),
+                                                        RESULT_CODE_PERMISSION_DOWNLOAD, perms);
+                                            }
+//                                            try{
+//
+//                                            } catch (Exception e) {
+//                                                Log.d("ErrorException", e.toString());
+//                                                Snackbar.make(view, "Pesan masih kosong.", Snackbar.LENGTH_SHORT).show();
+//                                            }
                                         }
                                     })
                                     .setNegativeButton("TIDAK", null);
@@ -165,17 +196,17 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                     holder.item_view.setVisibility(View.GONE);
                 }
 
-                holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+                holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onLongClick(View view) {
+                    public void onClick(View view) {
+                        DetailItem detailItem = new DetailItem();
+                        Bundle bundle = new Bundle();
 
-                        // Open Detail Dialog Fragment.
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                        builder.setView(view)
-//                                .setPositiveButton("SELESAI", null);
-//                        builder.create();
+                        bundle.putString(DIALOG_DETIL,DIALOG_PENGADUAN_DETAIL);
+                        bundle.putParcelable(DIALOG_PARCABLE, item);
+                        detailItem.setArguments(bundle);
 
-                        return false;
+                        detailItem.show(activity.getFragmentManager(),DetailItem.class.getSimpleName());
                     }
                 });
 
@@ -186,10 +217,18 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                 holder.tv_tujuan.setText(item.getTujuan());
                 holder.tv_cara.setText(item.getCara());
                 holder.tv_log.setText(item.getLog());
-                holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+
+                holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onLongClick(View view) {
-                        return false;
+                    public void onClick(View view) {
+                        DetailItem detailItem = new DetailItem();
+                        Bundle bundle = new Bundle();
+
+                        bundle.putString(DIALOG_DETIL,DIALOG_PERDATA_DETAIL);
+                        bundle.putParcelable(DIALOG_PARCABLE, item);
+                        detailItem.setArguments(bundle);
+
+                        detailItem.show(activity.getFragmentManager(),DetailItem.class.getSimpleName());
                     }
                 });
             }

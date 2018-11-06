@@ -37,7 +37,11 @@
         android:layout_height="60dp"
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="@color/colorSecondary"
-        android:layout_gravity="end|bottom"
+
+        app:layout_anchor="@id/recylerview"
+        app:layout_anchorGravity="end|bottom"
+        app:layout_behavior="com.unlam.developerstudentclub.silapu.Utils.CustomScrollAwareBehavior"
+
         android:layout_marginBottom="@dimen/fragment_vertical_margin"
         android:layout_marginRight="@dimen/fragment_vertical_margin"
         />

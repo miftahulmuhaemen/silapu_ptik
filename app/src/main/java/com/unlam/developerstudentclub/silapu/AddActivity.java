@@ -9,21 +9,15 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
-import com.unlam.developerstudentclub.silapu.Entity.UserData;
 import com.unlam.developerstudentclub.silapu.Fragment.GantiOrang;
 
 import java.io.File;
@@ -31,17 +25,14 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
-import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_ATTACHMENT;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_CODE;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_GOAL;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_MESSAGE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_PERDATA;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_PERDATA_PRIBADI;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_SPINNER;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_EMAIL_NOTVALID;
-import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_KOSONG;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.PARCELABLE_GANTI_ORANG;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PERDATA;
@@ -62,35 +53,13 @@ public class AddActivity extends AppCompatActivity implements GantiOrang.NoticeD
 
     PerdataItem perdataItem;
     private String filepath = "";
+    private boolean isComplete = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getIntent().getStringExtra(COMPOSE_CODE).equals(COMPOSE_PERDATA)){
-            setContentView(R.layout.activity_add_perdata);
-            ButterKnife.bind(this);
-            perdataItem = new PerdataItem();
-
-            setTitle(getResources().getString(R.string.compose_perdata));
-            spinner_cara.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddActivity.this);
-                    builder.setItems(R.array.informasi, new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            String [] temp;
-                            temp = getResources().getStringArray(R.array.informasi);
-                            spinner_cara.setText(temp[i]);
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-                }
-            });
-        } else {
+        if(getIntent().getStringExtra(COMPOSE_CODE).equals(COMPOSE_PENGADUAN)){
             setContentView(R.layout.activity_add_pengaduan);
             ButterKnife.bind(this);
             setTitle(getResources().getString(R.string.compose_pengaduan));
@@ -128,6 +97,29 @@ public class AddActivity extends AppCompatActivity implements GantiOrang.NoticeD
                     alertDialog.show();
                 }
             });
+        } else {
+            setContentView(R.layout.activity_add_perdata);
+            ButterKnife.bind(this);
+            perdataItem = new PerdataItem();
+
+            setTitle(getResources().getString(R.string.compose_perdata));
+            spinner_cara.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddActivity.this);
+                    builder.setItems(R.array.informasi, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String [] temp;
+                            temp = getResources().getStringArray(R.array.informasi);
+                            spinner_cara.setText(temp[i]);
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            });
         }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -139,6 +131,8 @@ public class AddActivity extends AppCompatActivity implements GantiOrang.NoticeD
         MenuInflater menuInflater = getMenuInflater();
         if(getIntent().getStringExtra(COMPOSE_CODE).equals(COMPOSE_PERDATA))
             menuInflater.inflate(R.menu.add_perdata,menu);
+        else if(getIntent().getStringExtra(COMPOSE_CODE).equals(COMPOSE_PERDATA_PRIBADI))
+            menuInflater.inflate(R.menu.add_perdata_pribadi,menu);
         else
             menuInflater.inflate(R.menu.add_pengaduan,menu);
         return super.onCreateOptionsMenu(menu);
@@ -160,6 +154,7 @@ public class AddActivity extends AppCompatActivity implements GantiOrang.NoticeD
                     isValid = false;
                     Snackbar.make(getCurrentFocus(), "Tujuan masih kosong.", Snackbar.LENGTH_SHORT).show();
                 }
+
 
                 if(isValid) {
                     perdataItem.setPermintaan(edt_message.getText().toString());
@@ -228,6 +223,7 @@ public class AddActivity extends AppCompatActivity implements GantiOrang.NoticeD
     @Override
     public void onDialogPositiveClick(PerdataItem dialog) {
         perdataItem = dialog;
+        isComplete = true;
     }
 
 }
