@@ -19,6 +19,7 @@ public class UserPreference {
     private String KEY_TELP = "telp";
     private String KEY_ACTIVE = "active";
     private String KEY_ID = "id";
+    private String KEY_FILE = "file";
 
     private SharedPreferences preferences;
 
@@ -41,6 +42,7 @@ public class UserPreference {
         editor.putString(KEY_TEMPAT_LAHIR, data.getTmptLhr());
         editor.putString(KEY_TANGGAL_LAHIR, data.getTglLhr());
         editor.putString(KEY_TELP, data.getTelp());
+        editor.putString(KEY_FILE, data.getFile());
         editor.apply();
     }
 
@@ -58,7 +60,12 @@ public class UserPreference {
         editor.putString(KEY_TEMPAT_LAHIR, null);
         editor.putString(KEY_TANGGAL_LAHIR, null);
         editor.putString(KEY_TELP, null);
+        editor.putString(KEY_FILE, null);
         editor.apply();
+    }
+
+    public String getFile(){
+        return preferences.getString(KEY_FILE, "");
     }
 
     public String getTelp(){

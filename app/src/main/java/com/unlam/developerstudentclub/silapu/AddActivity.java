@@ -155,6 +155,12 @@ public class AddActivity extends AppCompatActivity implements GantiOrang.NoticeD
                     Snackbar.make(getCurrentFocus(), "Tujuan masih kosong.", Snackbar.LENGTH_SHORT).show();
                 }
 
+                if(getIntent().getStringExtra(COMPOSE_CODE).equals(COMPOSE_PERDATA)){
+                    if(!isComplete){
+                        isValid = isComplete;
+                        Snackbar.make(getCurrentFocus(), "Data perwakilan masih kosong.", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
 
                 if(isValid) {
                     perdataItem.setPermintaan(edt_message.getText().toString());

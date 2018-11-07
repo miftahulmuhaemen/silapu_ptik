@@ -13,7 +13,6 @@
         android:src="@drawable/base"
 
         android:layout_marginBottom="@dimen/quite_large_margin_globally"
-
         app:layout_constraintEnd_toEndOf="@id/viewpager"
         app:layout_constraintStart_toStartOf="@+id/viewpager"
         app:layout_constraintBottom_toTopOf="@id/viewpager"/>
@@ -24,8 +23,8 @@
         android:layout_width="0dp"
         android:layout_height="450dp"
 
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/fragment_vertical_margin"
+        android:layout_marginRight="@dimen/fragment_vertical_margin"
 
         android:clipToPadding="false"
         android:paddingTop="@dimen/medium_margin_globally"
@@ -42,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="@dimen/viewpager_vertical_margin"
+        android:layout_marginTop="@dimen/fragment_vertical_margin"
 
         app:layout_constraintTop_toBottomOf="@id/viewpager"
         app:layout_constraintEnd_toEndOf="@+id/viewpager"

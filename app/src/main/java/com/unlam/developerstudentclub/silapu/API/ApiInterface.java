@@ -62,5 +62,11 @@ public interface ApiInterface {
             @PartMap Map<String, RequestBody> partMap
     );
 
+    @Multipart
+    @POST("user/updatePass")
+    Call<ApiDefaultResponse> postGantiPassword(
+            @PartMap Map<String, RequestBody> partMap
+    );
+
 
 }

@@ -28,13 +28,19 @@
 
     <string-array name="add_perdata_array">
         <item>Diri Sendiri</item>
-        <item>Mewakili</item>
+        <item>Orang Lain</item>
     </string-array>
 
     <string-array name="color">
         <item>@color/colorPrimary</item>
         <item>@color/colorSecondary</item>
         <item>@color/colorAccent</item>
+    </string-array>
+
+    <string-array name="overflowmenu">
+        <item>Ganti Profil</item>
+        <item>Ganti Kata Sandi</item>
+        <item>Keluar</item>
     </string-array>
 
 </resources>

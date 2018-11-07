@@ -16,7 +16,6 @@ public class Util {
     final public static int FRAGMENT_REGISTER_FIRST = 1;
     final public static int FRAGMENT_REGISTER_SECOND = 2;
     final public static int FRAGMENT_REGISTER_THIRD = 3;
-    final public static int FRAGMENT_REGISTER_THIRD3 = 3;
     final public static int FRAGMENT_REGISTER_FORTH = 4;
     final public static int FRAGMENT_PENGADUAN = 5;
     final public static int FRAGMENT_PERDATA = 6;
@@ -26,6 +25,7 @@ public class Util {
     public static String DIALOG_PARCABLE = "parcable";
     public static String DIALOG_PENGADUAN_DETAIL = "pengaduandetil";
     public static String DIALOG_PERDATA_DETAIL = "perdatadetil";
+    public static String DIALOG_GANTI_PASSWORD = "gantipassword";
 
     /**
      * Validation String
@@ -33,6 +33,7 @@ public class Util {
 
     public static String ERROR_FIELD_KOSONG = "Kosong";
     public static String ERROR_FIELD_EMAIL_NOTVALID = "Surel Tidak Sah";
+    public static String ERROR_NOT_MATCH_PASSWORD = "Tidak Cocok Dengan Kata Sandi Lama";
 
     /**
      * Permission Code

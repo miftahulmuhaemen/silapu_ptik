@@ -1,24 +1,14 @@
 package com.unlam.developerstudentclub.silapu;
 
 import android.app.AlertDialog;
-import android.app.DownloadManager;
-import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
-import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,6 +22,8 @@ import com.unlam.developerstudentclub.silapu.Box.App;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
+import com.unlam.developerstudentclub.silapu.Fragment.DetailItem;
+import com.unlam.developerstudentclub.silapu.Fragment.GantiOrang;
 import com.unlam.developerstudentclub.silapu.Fragment.Global;
 import com.unlam.developerstudentclub.silapu.Utils.ImplicitlyListenerComposite;
 import com.unlam.developerstudentclub.silapu.Utils.Implictly;
@@ -42,7 +34,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +43,6 @@ import lombok.NonNull;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,6 +50,8 @@ import retrofit2.Response;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_ATTACHMENT;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_MESSAGE;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_SPINNER;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_DETIL;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_GANTI_PASSWORD;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGEMENT_IDENTITY;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PERDATA;
@@ -69,7 +61,7 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PENGA
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PERDATA;
 
 
-public class MainActivity extends AppCompatActivity implements Global.onCompleteResponse {
+public class MainActivity extends AppCompatActivity implements Global.onCompleteResponse, DetailItem.NoticeDialogListenerGantiPassword {
 
     @Nullable
     @BindView(R.id.viewpager)
@@ -119,31 +111,39 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.logout,menu);
+        menuInflater.inflate(R.menu.overflowmenu,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.logout :
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle(R.string.dialog_logout)
-                        .setPositiveButton(R.string.Keluar, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
+            case R.id.menu :
+                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setItems(R.array.overflowmenu, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i){
+                            case 0 :
+
+                                break;
+                            case 1 :
+                                DetailItem detailItem = new DetailItem();
+                                Bundle bundle = new Bundle();
+                                bundle.putString(DIALOG_DETIL, DIALOG_GANTI_PASSWORD);
+                                detailItem.setArguments(bundle);
+                                detailItem.show(getFragmentManager(),DetailItem.class.getSimpleName());
+                                break;
+                            case 2 :
                                 userPreference.clearePreference();
                                 pengaduanItemBox.removeAll();
                                 perdataItemBox.removeAll();
                                 Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                                 startActivity(intent);
                                 finish();
-                            }
-                        })
-                        .setNegativeButton(R.string.tidak, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // User cancelled the dialog
-                            }
-                        });
+                                break;
+                        }
+                            }});
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
                 break;
@@ -311,6 +311,43 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     @Override
     public void onCompleteFormResponse(UserData text, int Fragment) {
         //empty needed
+    }
+
+    /**
+     *
+     *  Ganti Password Response
+     *
+     * @param password
+     */
+
+    @Override
+    public void onDialogPositiveClick(String password) {
+
+        HashMap<String, RequestBody> map = new HashMap<>();
+        map.put("key", createPartFromString(BuildConfig.API_KEY));
+        map.put("id", createPartFromString(String.valueOf(userPreference.getID())));
+        map.put("password_baru", createPartFromString(password));
+
+        Call<ApiDefaultResponse> call = api.postGantiPassword(map);
+        call.enqueue(new Callback<ApiDefaultResponse>() {
+            @Override
+            public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
+                if(response.isSuccessful()){
+                    Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiDefaultResponse> call, Throwable t) {
+                if (t instanceof IOException) {
+                    Toast.makeText(MainActivity.this, "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
 //

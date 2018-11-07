@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="4dp"
-        android:text="Unggah foto anda!"
+        android:text="Unggah foto identitas anda!"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textStyle="bold"
 

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="info.androidhive.recyclerviewsearch.MainActivity">
     <item
-        android:id="@+id/logout"
-        android:icon="@drawable/exit_"
+        android:id="@+id/menu"
+        android:icon="@drawable/ic_menu_white_24dp"
         android:orderInCategory="100"
         android:title="@string/logout"
         app:showAsAction="always" />

@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/medium_margin_globally"
 
-        app:endIcon="@drawable/ic_remove_red_eye_white_24dp"
+
 
         app:labelText="Kata Sandi"
         app:primaryColor="@color/EggYellow"
@@ -49,6 +49,7 @@
         app:useDenseSpacing="true"
         app:helperText="Minimal 8 Karakter."
         app:minCharacters="8"
+        app:endIcon="@drawable/ic_remove_red_eye_white_24dp"
 
         app:layout_constraintEnd_toEndOf="@id/ti_email"
         app:layout_constraintStart_toStartOf="@id/ti_email"

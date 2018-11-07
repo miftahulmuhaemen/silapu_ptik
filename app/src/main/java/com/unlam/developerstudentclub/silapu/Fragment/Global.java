@@ -457,7 +457,8 @@ public class  Global extends Fragment implements Implictly {
 
                 else if(Fragment == FRAGMENT_PERDATA) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setItems(R.array.add_perdata_array, new DialogInterface.OnClickListener() {
+                    builder .setTitle(R.string.title_dialog_perdata)
+                            .setItems(R.array.add_perdata_array, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if(i == 0)

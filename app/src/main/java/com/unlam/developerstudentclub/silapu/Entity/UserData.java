@@ -74,4 +74,9 @@ public class UserData {
     @Setter @Getter
     private String filepath;
 
+    @SerializedName("file")
+    @Expose
+    @Setter @Getter
+    private String file;
+
 }
