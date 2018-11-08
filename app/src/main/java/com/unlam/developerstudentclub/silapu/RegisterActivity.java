@@ -9,8 +9,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.rd.PageIndicatorView;
 import com.unlam.developerstudentclub.silapu.API.ApiDefaultResponse;
@@ -24,6 +26,7 @@ import com.unlam.developerstudentclub.silapu.Utils.Implictly;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -262,7 +265,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
                 @Override
                 public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
                     if (response.isSuccessful()) {
-                        if (response.body().getStatus() == true) {
+                        if (response.body().getStatus()) {
                             fab_left.setVisibility(View.INVISIBLE);
                             fab_right.setVisibility(View.INVISIBLE);
                             btn_done.setVisibility(View.VISIBLE);
@@ -270,7 +273,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
                             pageIndicatorView.setVisibility(View.INVISIBLE);
                             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                         } else {
-                            Snackbar.make(getCurrentFocus(), response.body().getMessage(), Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
                         }
                     } else {
                         Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_SHORT).show();
@@ -279,7 +282,12 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
 
                 @Override
                 public void onFailure(Call<ApiDefaultResponse> call, Throwable t) {
-
+                    if (t instanceof IOException) {
+                        Toast.makeText(RegisterActivity.this, "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         } else {

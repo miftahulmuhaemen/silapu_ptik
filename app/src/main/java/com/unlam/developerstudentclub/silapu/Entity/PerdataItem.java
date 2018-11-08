@@ -94,6 +94,11 @@ public class PerdataItem implements Parcelable {
     @Getter @Setter
     String key;
 
+    @SerializedName("ket")
+    @Expose
+    @Getter @Setter
+    String ket;
+
     @Override
     public int describeContents() {
         return 0;
@@ -117,6 +122,7 @@ public class PerdataItem implements Parcelable {
         dest.writeString(this.email2);
         dest.writeString(this.email);
         dest.writeString(this.key);
+        dest.writeString(this.ket);
     }
 
     public PerdataItem() {
@@ -139,6 +145,7 @@ public class PerdataItem implements Parcelable {
         this.email2 = in.readString();
         this.email = in.readString();
         this.key = in.readString();
+        this.ket = in.readString();
     }
 
     public static final Parcelable.Creator<PerdataItem> CREATOR = new Parcelable.Creator<PerdataItem>() {

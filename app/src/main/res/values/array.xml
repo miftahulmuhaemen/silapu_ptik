@@ -13,7 +13,6 @@
     </string-array>
 
     <string-array name="aduan">
-        <item>Pilih Aduan</item>
         <item>Permohonan Informasi yang Ditolak</item>
         <item>Laporan Tentang Kegiatan</item>
         <item>Laporan Pungutan Liar</item>
@@ -39,6 +38,7 @@
 
     <string-array name="overflowmenu">
         <item>Ganti Profil</item>
+        <item>Ganti Identitas</item>
         <item>Ganti Kata Sandi</item>
         <item>Keluar</item>
     </string-array>

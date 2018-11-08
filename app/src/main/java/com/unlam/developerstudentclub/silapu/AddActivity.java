@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
-import com.unlam.developerstudentclub.silapu.Fragment.GantiOrang;
+import com.unlam.developerstudentclub.silapu.Fragment.ModifyUser;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.PARCELABLE_GANTI_
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PERDATA;
 
-public class AddActivity extends AppCompatActivity implements GantiOrang.NoticeDialogListener {
+public class AddActivity extends AppCompatActivity implements ModifyUser.NoticeDialogListener {
 
     @Nullable @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -211,8 +211,8 @@ public class AddActivity extends AppCompatActivity implements GantiOrang.NoticeD
                 break;
 
             case R.id.add_person :
-                DialogFragment dialog = new GantiOrang();
-                dialog.show(getFragmentManager(), GantiOrang.class.getSimpleName());
+                DialogFragment dialog = new ModifyUser();
+                dialog.show(getFragmentManager(), ModifyUser.class.getSimpleName());
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -225,11 +225,17 @@ public class AddActivity extends AppCompatActivity implements GantiOrang.NoticeD
         return super.onSupportNavigateUp();
     }
 
+    /**
+     *
+     *  ModifyUser Callback Listener
+     * @param dialog
+     */
 
     @Override
-    public void onDialogPositiveClick(PerdataItem dialog) {
+    public void onAddGuestConfirmed(PerdataItem dialog) {
         perdataItem = dialog;
         isComplete = true;
     }
+
 
 }

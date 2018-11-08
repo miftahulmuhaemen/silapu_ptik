@@ -9,21 +9,23 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.unlam.developerstudentclub.silapu.API.ApiDefaultResponse;
 import com.unlam.developerstudentclub.silapu.API.ApiGenerator;
 import com.unlam.developerstudentclub.silapu.API.ApiInterface;
+import com.unlam.developerstudentclub.silapu.API.ApiResponseUser;
 import com.unlam.developerstudentclub.silapu.Adapter.FragementAdapter;
 import com.unlam.developerstudentclub.silapu.Box.App;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
 import com.unlam.developerstudentclub.silapu.Entity.UserData;
-import com.unlam.developerstudentclub.silapu.Fragment.DetailItem;
-import com.unlam.developerstudentclub.silapu.Fragment.GantiOrang;
+import com.unlam.developerstudentclub.silapu.Fragment.DialogDetail;
 import com.unlam.developerstudentclub.silapu.Fragment.Global;
 import com.unlam.developerstudentclub.silapu.Utils.ImplicitlyListenerComposite;
 import com.unlam.developerstudentclub.silapu.Utils.Implictly;
@@ -51,7 +53,9 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_ATTACHMEN
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_MESSAGE;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.COMPOSE_SPINNER;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_DETIL;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_GANTI_IDENTITAS;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_GANTI_PASSWORD;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_GANTI_PROFIL;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGEMENT_IDENTITY;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PERDATA;
@@ -61,7 +65,7 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PENGA
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PERDATA;
 
 
-public class MainActivity extends AppCompatActivity implements Global.onCompleteResponse, DetailItem.NoticeDialogListenerGantiPassword {
+public class MainActivity extends AppCompatActivity implements Global.onCompleteResponse, DialogDetail.NoticeDialogListener {
 
     @Nullable
     @BindView(R.id.viewpager)
@@ -117,6 +121,9 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final DialogDetail dialogMainActivity = new DialogDetail();
+        final Bundle bundle = new Bundle();
+
         switch (item.getItemId()){
             case R.id.menu :
                 final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -125,27 +132,40 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
                             case 0 :
-
+                                bundle.putString(DIALOG_DETIL, DIALOG_GANTI_PROFIL);
+                                dialogMainActivity.setArguments(bundle);
+                                dialogMainActivity.show(getFragmentManager(),DialogDetail.class.getSimpleName());
                                 break;
                             case 1 :
-                                DetailItem detailItem = new DetailItem();
-                                Bundle bundle = new Bundle();
-                                bundle.putString(DIALOG_DETIL, DIALOG_GANTI_PASSWORD);
-                                detailItem.setArguments(bundle);
-                                detailItem.show(getFragmentManager(),DetailItem.class.getSimpleName());
+                                bundle.putString(DIALOG_DETIL, DIALOG_GANTI_IDENTITAS);
+                                dialogMainActivity.setArguments(bundle);
+                                dialogMainActivity.show(getFragmentManager(),DialogDetail.class.getSimpleName());
                                 break;
                             case 2 :
-                                userPreference.clearePreference();
-                                pengaduanItemBox.removeAll();
-                                perdataItemBox.removeAll();
-                                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                                startActivity(intent);
-                                finish();
+                                bundle.putString(DIALOG_DETIL, DIALOG_GANTI_PASSWORD);
+                                dialogMainActivity.setArguments(bundle);
+                                dialogMainActivity.show(getFragmentManager(),DialogDetail.class.getSimpleName());
+                                break;
+                            case 3 :
+                                AlertDialog.Builder builder_ = new AlertDialog.Builder(MainActivity.this);
+                                builder_.setTitle(R.string.Keluar)
+                                        .setPositiveButton(R.string.Keluar, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                userPreference.clearePreference();
+                                                pengaduanItemBox.removeAll();
+                                                perdataItemBox.removeAll();
+                                                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        })
+                                        .setNegativeButton(R.string.tidak, null)
+                                        .create()
+                                        .show();
                                 break;
                         }
-                            }});
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+                            }}).create().show();
                 break;
         }
 
@@ -275,7 +295,6 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                     map.put("email2", createPartFromString(userPreference.getEmail()));
                 }
 
-
                 Call<ApiDefaultResponse> call = api.postPerdata(map);
                 call.enqueue(new Callback<ApiDefaultResponse>() {
                     @Override
@@ -296,8 +315,6 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                         }
                     }
                 });
-
-
             }
         }
     }
@@ -315,13 +332,13 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
 
     /**
      *
-     *  Ganti Password Response
+     *  Listener Dialog Ganti
      *
      * @param password
      */
 
     @Override
-    public void onDialogPositiveClick(String password) {
+    public void onPasswordConfirmed(String password) {
 
         HashMap<String, RequestBody> map = new HashMap<>();
         map.put("key", createPartFromString(BuildConfig.API_KEY));
@@ -350,68 +367,104 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
 
     }
 
-//
-//    private void openDownloadedAttachment(final Context context, final long downloadId) {
-//        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-//        DownloadManager.Query query = new DownloadManager.Query();
-//        query.setFilterById(downloadId);
-//        Cursor cursor = downloadManager.query(query);
-//        if (cursor.moveToFirst()) {
-//            int downloadStatus = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
-//            String downloadLocalUri = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-//            String downloadMimeType = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_MEDIA_TYPE));
-//            if ((downloadStatus == DownloadManager.STATUS_SUCCESSFUL) && downloadLocalUri != null) {
-//                openDownloadedAttachment(context, Uri.parse(downloadLocalUri), downloadMimeType);
-//            }
-//        }
-//        cursor.close();
-//    }
-//
-//    /**
-//     * Used to open the downloaded attachment.
-//     * <p/>
-//     * 1. Fire intent to open download file using external application.
-//     *
-//     * 2. Note:
-//     * 2.a. We can't share fileUri directly to other application (because we will get FileUriExposedException from Android7.0).
-//     * 2.b. Hence we can only share content uri with other application.
-//     * 2.c. We must have declared FileProvider in manifest.
-//     * 2.c. Refer - https://developer.android.com/reference/android/support/v4/content/FileProvider.html
-//     *
-//     * @param context            Context.
-//     * @param attachmentUri      Uri of the downloaded attachment to be opened.
-//     * @param attachmentMimeType MimeType of the downloaded attachment.
-//     */
-//    private void openDownloadedAttachment(final Context context, Uri attachmentUri, final String attachmentMimeType) {
-//        if(attachmentUri!=null) {
-//            // Get Content Uri.
-//            if (ContentResolver.SCHEME_FILE.equals(attachmentUri.getScheme())) {
-//                // FileUri - Convert it to contentUri.
-//                File file = new File(attachmentUri.getPath());
-//                attachmentUri = FileProvider.getUriForFile(this, "com.freshdesk.helpdesk.provider", file);;
-//            }
-//
-//            Intent openAttachmentIntent = new Intent(Intent.ACTION_VIEW);
-//            openAttachmentIntent.setDataAndType(attachmentUri, attachmentMimeType);
-//            openAttachmentIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            try {
-//                context.startActivity(openAttachmentIntent);
-//            } catch (ActivityNotFoundException e) {
-//                Toast.makeText(context, "Ga Bisa Buka", Toast.LENGTH_LONG).show();
-//            }
-//        }
-//    }
+    @Override
+    public void onIdentityUpdateConfirmed(UserData data) {
 
-//    BroadcastReceiver onComplete = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            String action = intent.getAction();
-//            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-//                long downloadId = intent.getLongExtra(
-//                        DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-//                openDownloadedAttachment(context, downloadId);
-//            }
-//        }
-//    };
+        MultipartBody.Part body = null;
 
+        if(!data.getFilepath().isEmpty()) {
+            File file = new File(data.getFilepath());
+            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+            body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
+        }
+
+        HashMap<String, RequestBody> map = new HashMap<>();
+        map.put("key", createPartFromString(BuildConfig.API_KEY));
+        map.put("id", createPartFromString(String.valueOf(userPreference.getID())));
+        map.put("identitas", createPartFromString(data.getIdentitas()));
+        map.put("no_identitas", createPartFromString(data.getNoIdentitas()));
+
+        Call<ApiDefaultResponse> call = api.postGantiIdentitas(map,body);
+        call.enqueue(new Callback<ApiDefaultResponse>() {
+            @Override
+            public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
+                if(response.isSuccessful()){
+                    if(response.body().getStatus()) {
+                        onSharedPreferenceUpdate();
+                        Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiDefaultResponse> call, Throwable t) {
+                if (t instanceof IOException) {
+                    Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onProfileUpdateConfirmed(UserData data){
+        HashMap<String, RequestBody> map = new HashMap<>();
+        map.put("key", createPartFromString(BuildConfig.API_KEY));
+        map.put("id", createPartFromString(String.valueOf(userPreference.getID())));
+        map.put("alamat_baru", createPartFromString(data.getAlamat()));
+        map.put("nama_baru", createPartFromString(data.getNama()));
+        map.put("jk_baru", createPartFromString(data.getJk()));
+        map.put("tmptLhr_baru", createPartFromString(data.getTmptLhr()));
+        map.put("tglLhr_baru", createPartFromString(data.getTglLhr()));
+        map.put("telp_baru", createPartFromString(data.getTelp()));
+
+        Call<ApiDefaultResponse> call = api.postGantiProfile(map);
+        call.enqueue(new Callback<ApiDefaultResponse>() {
+            @Override
+            public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
+                if (response.isSuccessful()) {
+                    if(response.body().getStatus()) {
+                        onSharedPreferenceUpdate();
+                        Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiDefaultResponse> call, Throwable t) {
+                if (t instanceof IOException) {
+                    Toast.makeText(MainActivity.this, "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void onSharedPreferenceUpdate(){
+        Call<ApiResponseUser<UserData>> call = api.getLogin(BuildConfig.API_KEY, userPreference.getEmail(), userPreference.getPassword());
+        call.enqueue(new Callback<ApiResponseUser<UserData>>() {
+            @Override
+            public void onResponse(Call<ApiResponseUser<UserData>> call, Response<ApiResponseUser<UserData>> response) {
+                if (response.isSuccessful()) {
+                    userPreference.setPreference(response.body().getAccount());
+                } else {
+                    Snackbar.make(getCurrentFocus(), "Email dan Password Salah", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponseUser<UserData>> call, Throwable t) {
+                if (t instanceof IOException) {
+                    Toast.makeText(MainActivity.this, "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 }

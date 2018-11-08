@@ -35,38 +35,51 @@ public interface ApiInterface {
             @Part MultipartBody.Part file
     );
 
-    /*Data API*/
-
-    @GET("http://silapu.ulm.ac.id/service/api/permintaan/data")
-    Call<ApiResponseData<PerdataItem>> getPerdata(
-            @Query("key") String key,
-            @Query("id") int id
-    );
-
-    @GET("http://silapu.ulm.ac.id/service/api/pengaduan/data")
-    Call<ApiResponseData<PengaduanItem>> getPengaduan(
-            @Query("key") String key,
-            @Query("id") int id
-    );
-
-    @Multipart
-    @POST("http://silapu.ulm.ac.id/service/api/pengaduan/insert")
-    Call<ApiDefaultResponse> postPengaduan(
-            @PartMap Map<String, RequestBody> partMap,
-            @Part MultipartBody.Part file
-    );
-
-    @Multipart
-    @POST("http://silapu.ulm.ac.id/service/api/permintaan/insert")
-    Call<ApiDefaultResponse> postPerdata(
-            @PartMap Map<String, RequestBody> partMap
-    );
-
     @Multipart
     @POST("user/updatePass")
     Call<ApiDefaultResponse> postGantiPassword(
             @PartMap Map<String, RequestBody> partMap
     );
 
+    @Multipart
+    @POST("user/updateProfil")
+    Call<ApiDefaultResponse> postGantiProfile(
+            @PartMap Map<String, RequestBody> partMap
+    );
+
+    @Multipart
+    @POST("user/updateIdentitas")
+    Call<ApiDefaultResponse> postGantiIdentitas(
+            @PartMap Map<String, RequestBody> partMap,
+            @Part MultipartBody.Part file
+    );
+
+
+    /*Data API*/
+
+    @GET("permintaan/data")
+    Call<ApiResponseData<PerdataItem>> getPerdata(
+            @Query("key") String key,
+            @Query("id") int id
+    );
+
+    @GET("pengaduan/data")
+    Call<ApiResponseData<PengaduanItem>> getPengaduan(
+            @Query("key") String key,
+            @Query("id") int id
+    );
+
+    @Multipart
+    @POST("pengaduan/insert")
+    Call<ApiDefaultResponse> postPengaduan(
+            @PartMap Map<String, RequestBody> partMap,
+            @Part MultipartBody.Part file
+    );
+
+    @Multipart
+    @POST("permintaan/insert")
+    Call<ApiDefaultResponse> postPerdata(
+            @PartMap Map<String, RequestBody> partMap
+    );
 
 }

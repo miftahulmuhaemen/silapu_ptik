@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.unlam.developerstudentclub.silapu.Entity.PengaduanItem;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
-import com.unlam.developerstudentclub.silapu.Fragment.DetailItem;
+import com.unlam.developerstudentclub.silapu.Fragment.DialogDetail;
 import com.unlam.developerstudentclub.silapu.R;
 import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
 
@@ -36,6 +35,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.view.Gravity.START;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.ADMIN_REPLY;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.ADMIN_REPLY__;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_DETIL;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_PARCABLE;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_PENGADUAN_DETAIL;
@@ -175,16 +175,8 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                                                 downloadManager.enqueue(request);
                                             } else {
                                                 // Do not have permissions, request them now
-                                                Log.d("XXXX", "Permission denied");
-                                                EasyPermissions.requestPermissions(activity, context.getString(R.string.app_name),
-                                                        RESULT_CODE_PERMISSION_DOWNLOAD, perms);
+                                                EasyPermissions.requestPermissions(activity, context.getString(R.string.app_name), RESULT_CODE_PERMISSION_DOWNLOAD, perms);
                                             }
-//                                            try{
-//
-//                                            } catch (Exception e) {
-//                                                Log.d("ErrorException", e.toString());
-//                                                Snackbar.make(view, "Pesan masih kosong.", Snackbar.LENGTH_SHORT).show();
-//                                            }
                                         }
                                     })
                                     .setNegativeButton("TIDAK", null);
@@ -199,36 +191,47 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                 holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        DetailItem detailItem = new DetailItem();
+                        DialogDetail dialogMainActivity = new DialogDetail();
                         Bundle bundle = new Bundle();
 
                         bundle.putString(DIALOG_DETIL,DIALOG_PENGADUAN_DETAIL);
                         bundle.putParcelable(DIALOG_PARCABLE, item);
-                        detailItem.setArguments(bundle);
+                        dialogMainActivity.setArguments(bundle);
 
-                        detailItem.show(activity.getFragmentManager(),DetailItem.class.getSimpleName());
+                        dialogMainActivity.show(activity.getFragmentManager(),DialogDetail.class.getSimpleName());
                     }
                 });
 
             } else {
                 final PerdataItem item = getFilteredPerdataItem().get(position);
-                holder.tv_sender.setText(userPreference.getNama());
+
                 holder.tv_permintaan.setText(item.getPermintaan());
                 holder.tv_tujuan.setText(item.getTujuan());
                 holder.tv_cara.setText(item.getCara());
-                holder.tv_log.setText(item.getLog());
 
+                if(item.getKet().equals(ADMIN_REPLY__)){
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.gravity = START;
+                    holder.view.setLayoutParams(params);
+                    params.topMargin = 20;
+                    holder.tv_log.setLayoutParams(params);
+                    holder.tv_sender.setText(ADMIN_REPLY);
+                } else {
+                    holder.tv_sender.setText(userPreference.getNama());
+                }
+
+                holder.tv_log.setText(item.getLog());
                 holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        DetailItem detailItem = new DetailItem();
+                        DialogDetail dialogMainActivity = new DialogDetail();
                         Bundle bundle = new Bundle();
 
                         bundle.putString(DIALOG_DETIL,DIALOG_PERDATA_DETAIL);
                         bundle.putParcelable(DIALOG_PARCABLE, item);
-                        detailItem.setArguments(bundle);
+                        dialogMainActivity.setArguments(bundle);
 
-                        detailItem.show(activity.getFragmentManager(),DetailItem.class.getSimpleName());
+                        dialogMainActivity.show(activity.getFragmentManager(),DialogDetail.class.getSimpleName());
                     }
                 });
             }

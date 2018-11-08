@@ -64,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
     private Box<PengaduanItem> pengaduanItemBox;
     private Box<PerdataItem> perdataItemBox;
 
-
     private boolean isValidEmail(CharSequence email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }

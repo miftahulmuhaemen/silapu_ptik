@@ -10,15 +10,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.unlam.developerstudentclub.silapu.Entity.PerdataItem;
@@ -37,7 +33,7 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_EMAIL
 import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_KOSONG;
 
 
-public class GantiOrang extends DialogFragment {
+public class ModifyUser extends DialogFragment {
 
     @Nullable @BindView(R.id.edt_email)  ExtendedEditText edt_email;
     @Nullable @BindView(R.id.edt_alamat) ExtendedEditText edt_alamat;
@@ -58,7 +54,7 @@ public class GantiOrang extends DialogFragment {
     @Nullable @BindView(R.id.ti_identity)   MaterialSpinner spinner_identityCard;
     final Calendar myCalendar = Calendar.getInstance();
 
-    public GantiOrang() {
+    public ModifyUser() {
         // Required empty public constructor
     }
 
@@ -176,7 +172,7 @@ public class GantiOrang extends DialogFragment {
                         perdataItem.setGender2(jenisKelamin);
                         perdataItem.setIdentitas2(identityCard);
                         perdataItem.setNoIdentitas2(noIdentity);
-                        mListener.onDialogPositiveClick(perdataItem);
+                        mListener.onAddGuestConfirmed(perdataItem);
                         alertDialog.dismiss();
                     }
                 }
@@ -198,7 +194,7 @@ public class GantiOrang extends DialogFragment {
 
     NoticeDialogListener mListener;
     public interface NoticeDialogListener {
-         void onDialogPositiveClick(PerdataItem data);
+         void onAddGuestConfirmed(PerdataItem data);
     }
 
     @Override

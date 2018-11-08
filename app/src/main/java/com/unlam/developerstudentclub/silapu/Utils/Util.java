@@ -7,7 +7,7 @@ public class Util {
      * API URL
      **/
 
-    public static String URL_File = "http://silapu.ulm.ac.id/assets/upload/";
+    public static String URL_File = "https://git.ulm.ac.id/silapu/assets/upload/";
 
     /**
      * Fragment Identifier CODE
@@ -26,6 +26,8 @@ public class Util {
     public static String DIALOG_PENGADUAN_DETAIL = "pengaduandetil";
     public static String DIALOG_PERDATA_DETAIL = "perdatadetil";
     public static String DIALOG_GANTI_PASSWORD = "gantipassword";
+    public static String DIALOG_GANTI_PROFIL = "gantiprofil";
+    public static String DIALOG_GANTI_IDENTITAS = "gantiidentitas";
 
     /**
      * Validation String
@@ -57,6 +59,7 @@ public class Util {
     public static final String EXT_BMP = "bmp";
 
     public static String ADMIN_REPLY = "Administrator";
+    public static String ADMIN_REPLY__ = "Adminis";
     public static String COMPOSE_CODE = "COMPOSECODE";
     public static String COMPOSE_MESSAGE = "compose_message";
     public static String COMPOSE_ATTACHMENT = "compose_attachment";

@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_margin_globally"
-        android:text="Silahkan mengambil gambar dari kamera\n atau galeri anda."
+        android:text="Silahkan mengambil gambar dari galeri anda."
 
         android:textAlignment="center"
 
