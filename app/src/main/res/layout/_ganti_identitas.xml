@@ -53,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/medium_margin_globally"
+            app:hasClearButton="true"
             app:labelText="Nomor Identitas"
             app:useDenseSpacing="true">
 
@@ -61,6 +62,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/Black"
+                android:text=""
+                android:lines="1"
+                android:maxLines="1"
+                android:inputType="number"
                 />
 
         </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>

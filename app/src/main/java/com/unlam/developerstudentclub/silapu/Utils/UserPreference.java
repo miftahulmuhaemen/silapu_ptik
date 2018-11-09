@@ -38,7 +38,7 @@ public class UserPreference {
         editor.putString(KEY_ALAMAT, data.getAlamat());
         editor.putString(KEY_IDENTITAS,data.getIdentitas());
         editor.putString(KEY_NO_IDENTITAS, data.getNoIdentitas());
-        editor.putString(KEY_JENIS_KELAMIN, data.getNoIdentitas());
+        editor.putString(KEY_JENIS_KELAMIN, data.getJk());
         editor.putString(KEY_TEMPAT_LAHIR, data.getTmptLhr());
         editor.putString(KEY_TANGGAL_LAHIR, data.getTglLhr());
         editor.putString(KEY_TELP, data.getTelp());

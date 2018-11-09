@@ -381,8 +381,10 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         HashMap<String, RequestBody> map = new HashMap<>();
         map.put("key", createPartFromString(BuildConfig.API_KEY));
         map.put("id", createPartFromString(String.valueOf(userPreference.getID())));
-        map.put("identitas", createPartFromString(data.getIdentitas()));
-        map.put("no_identitas", createPartFromString(data.getNoIdentitas()));
+        map.put("identitas_baru", createPartFromString(data.getIdentitas()));
+        map.put("no_identitas_baru", createPartFromString(data.getNoIdentitas()));
+
+        Log.d("KENTOD", data.getIdentitas());
 
         Call<ApiDefaultResponse> call = api.postGantiIdentitas(map,body);
         call.enqueue(new Callback<ApiDefaultResponse>() {
@@ -451,8 +453,6 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
             public void onResponse(Call<ApiResponseUser<UserData>> call, Response<ApiResponseUser<UserData>> response) {
                 if (response.isSuccessful()) {
                     userPreference.setPreference(response.body().getAccount());
-                } else {
-                    Snackbar.make(getCurrentFocus(), "Email dan Password Salah", Snackbar.LENGTH_SHORT).show();
                 }
             }
 

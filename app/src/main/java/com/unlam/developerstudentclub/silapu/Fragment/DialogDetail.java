@@ -223,10 +223,8 @@ public class DialogDetail extends DialogFragment {
             view = inflater.inflate(R.layout._detil_pengaduan,null);
             ButterKnife.bind(this,view);
             PengaduanItem pengaduanItem = getArguments().getParcelable(DIALOG_PARCABLE);
-
             edt_aduan.setText(pengaduanItem.getAduan());
             edt_perihal.setText(pengaduanItem.getPerihal());
-
 
         } else if (whichDialog.equals(DIALOG_PERDATA_DETAIL)) {
             view = inflater.inflate(R.layout._detil_perdata,null);
@@ -312,7 +310,6 @@ public class DialogDetail extends DialogFragment {
             spinner_jenisKelamin.setSelectedIndex(itemSpinner(R.array.jeniskelamin,userPreference.getJenisKelamin()));
             edt_kotaLahir.setText(userPreference.getTempatLahir());
             edt_phoneNumber.setText(userPreference.getTelp());
-
             builder.setPositiveButton("GANTI", null);
 
         }
@@ -350,7 +347,7 @@ public class DialogDetail extends DialogFragment {
         String [] temp = getResources().getStringArray(resource);
 
         for(int i = 0; i < temp.length ; i++)
-            if (temp[i].equals(match))
+            if (temp[i].substring(0,1).equals(match.substring(0,1)))
                 value = i;
 
         return  value;
