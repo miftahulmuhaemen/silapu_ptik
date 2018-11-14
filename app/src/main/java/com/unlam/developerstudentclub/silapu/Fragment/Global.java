@@ -316,6 +316,7 @@ public class  Global extends Fragment implements Implictly {
                     isComplete = false;
                 } else {
                     data.setFilepath(filepath);
+                    Log.d("NOTIFY", data.getFilepath());
                 }
 
                 break;

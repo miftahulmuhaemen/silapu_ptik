@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                     public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
                         if(response.isSuccessful()){
                             implicitlyListenerComposite.onAddActivityResponse();
-                            Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_SHORT).show();
                         }
                     }
 

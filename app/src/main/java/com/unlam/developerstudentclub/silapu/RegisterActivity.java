@@ -231,14 +231,12 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         }
 
         if(Fragment == FRAGMENT_REGISTER_THIRD){
+            form.setFilepath(data.getFilepath());
             FRAGMENT_thirdSeal = true;
         }
 
         if(FRAGMENT_firstSeal && FRAGMENT_secondSeal && FRAGMENT_thirdSeal){
 
-            File file = new File(data.getFilepath());
-            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
 
             RequestBody key = createPartFromString(BuildConfig.API_KEY);
             RequestBody email = createPartFromString(form.getEmail());
@@ -251,6 +249,11 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
             RequestBody no_identitas = createPartFromString(form.getNoIdentitas());
             RequestBody telp = createPartFromString(form.getTelp());
             RequestBody jk = createPartFromString(form.getJk());
+
+
+            File file = new File(form.getFilepath());
+            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
 
             HashMap<String, RequestBody> map = new HashMap<>();
             map.put("email",email);
