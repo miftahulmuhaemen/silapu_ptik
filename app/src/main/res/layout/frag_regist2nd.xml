@@ -74,9 +74,38 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
+
+    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+        android:id="@+id/ti_phone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="@dimen/medium_margin_globally"
+
+        app:labelText="Nomor Telepon"
+        app:primaryColor="@color/EggYellow"
+        app:hasClearButton="true"
+        app:useDenseSpacing="true"
+        app:minCharacters="10"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ti_jenisKelamin">
+
+        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+            android:id="@+id/edt_numberPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:maxLines="1"
+            android:inputType="number"
+            />
+
+    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/ti_identity"
-        android:layout_width="0dp"
+        android:layout_width="130dp"
         android:layout_height="@dimen/edittext_height_natural"
 
         android:hint="@string/kartu_identitas"
@@ -84,7 +113,7 @@
         app:ms_text_color="@color/Black"
         android:layout_marginTop="@dimen/medium_margin_globally"
         android:layout_marginRight="@dimen/medium_margin_globally"
-        app:layout_constraintTop_toBottomOf="@id/ti_jenisKelamin"
+        app:layout_constraintTop_toBottomOf="@id/ti_phone"
         app:layout_constraintEnd_toStartOf="@id/ti_idt"
         app:layout_constraintStart_toStartOf="parent"
         />
@@ -104,7 +133,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ti_identity"
-        app:layout_constraintTop_toBottomOf="@id/ti_jenisKelamin">
+        app:layout_constraintTop_toBottomOf="@id/ti_phone">
 
         <studio.carbonylgroup.textfieldboxes.ExtendedEditText
             android:id="@+id/edt_nomorIdentitas"
@@ -117,33 +146,6 @@
 
     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
-    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-    android:id="@+id/ti_phone"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-
-        android:layout_marginTop="@dimen/medium_margin_globally"
-
-        app:labelText="Nomor Telepon"
-        app:primaryColor="@color/EggYellow"
-        app:hasClearButton="true"
-        app:useDenseSpacing="true"
-        app:minCharacters="10"
-
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/ti_idt">
-
-        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
-            android:id="@+id/edt_numberPhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:maxLines="1"
-            android:inputType="number"
-            />
-
-    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
 
 </android.support.constraint.ConstraintLayout>

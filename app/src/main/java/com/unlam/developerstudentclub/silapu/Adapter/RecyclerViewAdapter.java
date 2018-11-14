@@ -207,7 +207,6 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
 
                 holder.tv_permintaan.setText(item.getPermintaan());
                 holder.tv_tujuan.setText(item.getTujuan());
-                holder.tv_cara.setText(item.getCara());
 
                 if(item.getKet().equals(ADMIN_REPLY__)){
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -216,7 +215,9 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
                     params.topMargin = 20;
                     holder.tv_log.setLayoutParams(params);
                     holder.tv_sender.setText(ADMIN_REPLY);
+                    holder.tv_cara.setVisibility(View.GONE);
                 } else {
+                    holder.tv_cara.setText(item.getCara());
                     holder.tv_sender.setText(userPreference.getNama());
                 }
 

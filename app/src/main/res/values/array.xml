@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="identitas">
-        <item>KTP / Identity Card</item>
-        <item>Paspor / Passport</item>
-        <item>SIM / Drivers License</item>
-        <item>Akta / Certificate of Birth</item>
+        <item>KTP</item>
+        <item>Paspor</item>
+        <item>SIM</item>
+        <item>Aktah</item>
     </string-array>
 
     <string-array name="jeniskelamin">
@@ -20,9 +20,9 @@
     </string-array>
 
     <string-array name="informasi">
-        <item>Mengambil langsung ke ULM/ Take directly to ULM</item>
-        <item>Melalui Email / Through E-Mail</item>
-        <item>Melalui Faksimile / Through Fax</item>
+        <item>Mengambil langsung ke ULM</item>
+        <item>Melalui Email</item>
+        <item>Melalui Faksimile</item>
     </string-array>
 
     <string-array name="add_perdata_array">
