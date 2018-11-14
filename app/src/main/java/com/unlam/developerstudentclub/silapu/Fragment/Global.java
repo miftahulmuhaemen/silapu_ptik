@@ -381,6 +381,7 @@ public class  Global extends Fragment implements Implictly {
             });
 
         } else if(Fragment == FRAGMENT_PERDATA){
+
             Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,userPreference.getID());
             call.enqueue(new Callback<ApiResponseData<PerdataItem>>() {
                 @Override
@@ -420,6 +421,12 @@ public class  Global extends Fragment implements Implictly {
     @Override
     public void onAddActivityResponse() {
         onThrowToBox(getArguments().getInt(FRAGEMENT_IDENTITY,0));
+    }
+
+    @Override
+    public void onUpdateSharedPreference() {
+        Log.d("NOTIFY", "EN");
+        rvAdapter.notifyDataSetChanged();
     }
 
     private void RecyclerViewAdapterConnect(int Fragment){

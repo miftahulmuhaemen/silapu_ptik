@@ -203,6 +203,11 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         //needs to be empty
     }
 
+    @Override
+    public void onUpdateSharedPreference() {
+        //needs to be Empty
+    }
+
 
     @Override
     public void onCompleteFormResponse(UserData data, int Fragment) {
