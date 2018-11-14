@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
             @Override
             public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
                 if(response.isSuccessful()){
-                    Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_SHORT).show();
                 }
                 progressbar.setVisibility(View.GONE);
             }
@@ -412,7 +412,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                 if(response.isSuccessful()){
                     if(response.body().getStatus()) {
                         onSharedPreferenceUpdate();
-                        Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_SHORT).show();
                     }
                 }
                 progressbar.setVisibility(View.GONE);
@@ -451,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                 if (response.isSuccessful()) {
                     if(response.body().getStatus()) {
                         onSharedPreferenceUpdate();
-                        Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_SHORT).show();
                     }
                 }
                 progressbar.setVisibility(View.GONE);
