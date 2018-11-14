@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.rd.PageIndicatorView;
@@ -65,6 +66,9 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
 
     @BindView(R.id.pageIndicatorView)
     PageIndicatorView pageIndicatorView;
+
+    @BindView(R.id.progressbar_Register)
+    ProgressBar progressbar;
 
     /* Validation of Each Global Fragment to the Upload Session */
     boolean FRAGMENT_firstSeal = false;
@@ -236,8 +240,6 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         }
 
         if(FRAGMENT_firstSeal && FRAGMENT_secondSeal && FRAGMENT_thirdSeal){
-
-
             RequestBody key = createPartFromString(BuildConfig.API_KEY);
             RequestBody email = createPartFromString(form.getEmail());
             RequestBody password = createPartFromString(form.getPassword());
@@ -269,6 +271,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
             map.put("key", key);
 
             Call<ApiDefaultResponse> call = api.postRegister(map,body);
+            progressbar.setVisibility(View.VISIBLE);
             call.enqueue(new Callback<ApiDefaultResponse>() {
                 @Override
                 public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
@@ -286,6 +289,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
                     } else {
                         Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_SHORT).show();
                     }
+                    progressbar.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -296,10 +300,11 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
                     else {
                         Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                    progressbar.setVisibility(View.GONE);
                 }
             });
         } else {
-//            Snackbar.make(getCurrentFocus(), "Data Tidak Lengkap.", Snackbar.LENGTH_LONG).show();
+//            Snackbar.make(getCurrentFocus(), "Data Tidak Lengkap.", Snackbar.LENGTH_SHORT).show();
         }
     }
 

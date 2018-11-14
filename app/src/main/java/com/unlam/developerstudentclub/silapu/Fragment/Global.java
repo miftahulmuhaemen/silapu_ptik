@@ -312,13 +312,10 @@ public class  Global extends Fragment implements Implictly {
                 }
                 break;
             case FRAGMENT_REGISTER_THIRD :
-                if(plate_img.getDrawable() == null){
+                if(filepath.isEmpty())
                     isComplete = false;
-                } else {
+                else
                     data.setFilepath(filepath);
-                    Log.d("NOTIFY", data.getFilepath());
-                }
-
                 break;
         }
 

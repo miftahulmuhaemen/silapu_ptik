@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.unlam.developerstudentclub.silapu.API.ApiDefaultResponse;
@@ -78,6 +79,10 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     @Nullable
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @Nullable
+    @BindView(R.id.progressbar_MainActivity)
+    ProgressBar progressbar;
 
     ApiInterface api = ApiGenerator.createService(ApiInterface.class); // Interface Retrofit
     private UserPreference userPreference;
@@ -226,6 +231,8 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        progressbar.setVisibility(View.VISIBLE);
+
         if(requestCode == REQUEST_CODE){
             if(resultCode == RESULT_CODE_PENGADUAN){
 
@@ -251,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                     public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
                             implicitlyListenerComposite.onAddActivityResponse();
                             Snackbar.make(getCurrentFocus(), response.body().getMessage(), Snackbar.LENGTH_LONG).show();
+                            progressbar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -262,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                         else {
                             Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+                        progressbar.setVisibility(View.GONE);
                     }
                 });
             }
@@ -309,6 +318,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                             implicitlyListenerComposite.onAddActivityResponse();
                             Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_SHORT).show();
                         }
+                        progressbar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -319,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                         else {
                             Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+                        progressbar.setVisibility(View.GONE);
                     }
                 });
             }
@@ -352,12 +363,14 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         map.put("password_baru", createPartFromString(password));
 
         Call<ApiDefaultResponse> call = api.postGantiPassword(map);
+        progressbar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ApiDefaultResponse>() {
             @Override
             public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
                 if(response.isSuccessful()){
                     Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
                 }
+                progressbar.setVisibility(View.GONE);
             }
 
             @Override
@@ -368,6 +381,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                 else {
                     Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+                progressbar.setVisibility(View.GONE);
             }
         });
 
@@ -391,6 +405,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         map.put("no_identitas_baru", createPartFromString(data.getNoIdentitas()));
 
         Call<ApiDefaultResponse> call = api.postGantiIdentitas(map,body);
+        progressbar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ApiDefaultResponse>() {
             @Override
             public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
@@ -400,6 +415,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                         Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
                     }
                 }
+                progressbar.setVisibility(View.GONE);
             }
 
             @Override
@@ -410,6 +426,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                 else {
                     Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+                progressbar.setVisibility(View.GONE);
             }
         });
     }
@@ -427,6 +444,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         map.put("telp_baru", createPartFromString(data.getTelp()));
 
         Call<ApiDefaultResponse> call = api.postGantiProfile(map);
+        progressbar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ApiDefaultResponse>() {
             @Override
             public void onResponse(Call<ApiDefaultResponse> call, Response<ApiDefaultResponse> response) {
@@ -436,6 +454,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                         Snackbar.make(getCurrentFocus(), response.body().getMsg(), Snackbar.LENGTH_LONG).show();
                     }
                 }
+                progressbar.setVisibility(View.GONE);
             }
 
             @Override
@@ -446,12 +465,14 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                 else {
                     Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+                progressbar.setVisibility(View.GONE);
             }
         });
     }
 
     public void onSharedPreferenceUpdate(){
         Call<ApiResponseUser<UserData>> call = api.getLogin(BuildConfig.API_KEY, userPreference.getEmail(), userPreference.getPassword());
+        progressbar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ApiResponseUser<UserData>>() {
             @Override
             public void onResponse(Call<ApiResponseUser<UserData>> call, Response<ApiResponseUser<UserData>> response) {
@@ -459,6 +480,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                     userPreference.setPreference(response.body().getAccount());
                     implicitlyListenerComposite.onUpdateSharedPreference();
                 }
+                progressbar.setVisibility(View.GONE);
             }
 
             @Override
@@ -469,6 +491,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                 else {
                     Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+                progressbar.setVisibility(View.GONE);
             }
         });
     }
