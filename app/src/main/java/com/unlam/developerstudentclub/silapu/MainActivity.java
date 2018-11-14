@@ -229,9 +229,14 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         if(requestCode == REQUEST_CODE){
             if(resultCode == RESULT_CODE_PENGADUAN){
 
-                File file = new File(data.getStringExtra(COMPOSE_ATTACHMENT));
-                final RequestBody reqFile = RequestBody.create(MediaType.parse("*/*"), file);
-                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
+                String filepath = data.getStringExtra(COMPOSE_ATTACHMENT);
+                MultipartBody.Part body = null;
+
+                if(!filepath.isEmpty()) {
+                    File file = new File(filepath);
+                    final RequestBody reqFile = RequestBody.create(MediaType.parse("*/*"), file);
+                    body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
+                }
 
                 HashMap<String, RequestBody> map = new HashMap<>();
                 map.put("key",createPartFromString(BuildConfig.API_KEY));
@@ -251,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                     @Override
                     public void onFailure(Call<ApiDefaultResponse> call, Throwable t) {
                         if (t instanceof IOException) {
+                            Log.d("CALLOF", call.toString() + "/" + call.request());
                             Toast.makeText(MainActivity.this, "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
                         }
                         else {

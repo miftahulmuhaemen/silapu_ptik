@@ -12,14 +12,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:layout_marginRight="@dimen/medium_margin_globally"
 
         app:labelText="Kota Lahir"
         app:primaryColor="@color/EggYellow"
         app:hasClearButton="true"
         app:useDenseSpacing="true"
 
-        app:layout_constraintEnd_toStartOf="@id/ti_tanggalLahir"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -35,14 +34,17 @@
 
     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
         android:id="@+id/ti_tanggalLahir"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:focusable="false"
 
         app:endIcon="@drawable/ic_settings_black_24dp"
         app:labelText="Tanggal Lahir"
+        android:layout_marginTop="@dimen/medium_margin_globally"
+
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ti_kotaLahir"
 
 
         app:primaryColor="@color/EggYellow"
@@ -81,8 +83,9 @@
         app:ms_background_color="#e8e8e8"
         app:ms_text_color="@color/Black"
         android:layout_marginTop="@dimen/medium_margin_globally"
+        android:layout_marginRight="@dimen/medium_margin_globally"
         app:layout_constraintTop_toBottomOf="@id/ti_jenisKelamin"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ti_idt"
         app:layout_constraintStart_toStartOf="parent"
         />
 
@@ -98,11 +101,10 @@
         app:primaryColor="@color/EggYellow"
         app:hasClearButton="true"
         app:useDenseSpacing="true"
-        app:helperText="Pastikan Inputan Benar."
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ti_identity">
+        app:layout_constraintStart_toEndOf="@id/ti_identity"
+        app:layout_constraintTop_toBottomOf="@id/ti_jenisKelamin">
 
         <studio.carbonylgroup.textfieldboxes.ExtendedEditText
             android:id="@+id/edt_nomorIdentitas"

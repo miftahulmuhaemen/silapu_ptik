@@ -8,11 +8,11 @@
     <ImageView
         android:id="@+id/bg_logo"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:contentDescription="@string/logo"
         android:src="@drawable/base"
 
-        android:layout_marginBottom="@dimen/quite_large_margin_globally"
+        android:layout_marginBottom="@dimen/medium_margin_globally"
         app:layout_constraintEnd_toEndOf="@id/viewpager"
         app:layout_constraintStart_toStartOf="@+id/viewpager"
         app:layout_constraintBottom_toTopOf="@id/viewpager"/>
@@ -21,7 +21,7 @@
     <com.unlam.developerstudentclub.silapu.Utils.LockableViewPager
         android:id="@+id/viewpager"
         android:layout_width="0dp"
-        android:layout_height="450dp"
+        android:layout_height="400dp"
 
         android:layout_marginLeft="@dimen/fragment_vertical_margin"
         android:layout_marginRight="@dimen/fragment_vertical_margin"
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="@dimen/fragment_vertical_margin"
+        android:layout_marginTop="@dimen/medium_margin_globally"
 
         app:layout_constraintTop_toBottomOf="@id/viewpager"
         app:layout_constraintEnd_toEndOf="@+id/viewpager"

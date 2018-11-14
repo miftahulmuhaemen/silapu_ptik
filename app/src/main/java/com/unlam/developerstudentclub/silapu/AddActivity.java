@@ -80,7 +80,7 @@ public class AddActivity extends AppCompatActivity implements ModifyUser.NoticeD
                                     }
                                 }
                             })
-                            .setPositiveButton(R.string.kirim, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.pilih, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     String [] temp = {};
                                     String text = "";
@@ -178,10 +178,6 @@ public class AddActivity extends AppCompatActivity implements ModifyUser.NoticeD
                     isValid = false;
                     Snackbar.make(getCurrentFocus(), "Aduan masih kosong.", Snackbar.LENGTH_SHORT).show();
                 }
-                else if(filepath.isEmpty()) {
-                    isValid = false;
-                    Snackbar.make(getCurrentFocus(), "Bukti masih kosong.", Snackbar.LENGTH_SHORT).show();
-                }
                 else if(edt_message.getText().toString().isEmpty()) {
                     isValid = false;
                     Snackbar.make(getCurrentFocus(), "Pesan masih kosong.", Snackbar.LENGTH_SHORT).show();
@@ -202,7 +198,7 @@ public class AddActivity extends AppCompatActivity implements ModifyUser.NoticeD
                 .withChosenListener(new ChooserDialog.Result() {
                 @Override
                 public void onChoosePath(String path, File pathFile) {
-                    Toast.makeText(AddActivity.this, "FOLDER: " + path, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddActivity.this, "FILE: " + path, Toast.LENGTH_SHORT).show();
                     filepath = path;
                 }})
                     .enableOptions(false)

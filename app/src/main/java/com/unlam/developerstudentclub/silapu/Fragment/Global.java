@@ -381,7 +381,7 @@ public class  Global extends Fragment implements Implictly {
             });
 
         } else if(Fragment == FRAGMENT_PERDATA){
-            Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,3);
+            Call<ApiResponseData<PerdataItem>> call = api.getPerdata(BuildConfig.API_KEY,userPreference.getID());
             call.enqueue(new Callback<ApiResponseData<PerdataItem>>() {
                 @Override
                 public void onResponse(Call<ApiResponseData<PerdataItem>> call, Response<ApiResponseData<PerdataItem>> response) {

@@ -33,7 +33,7 @@ public class Util {
      * Validation String
      **/
 
-    public static String ERROR_FIELD_KOSONG = "Kosong";
+    public static String ERROR_FIELD_KOSONG = "";
     public static String ERROR_FIELD_EMAIL_NOTVALID = "Surel Tidak Sah";
     public static String ERROR_NOT_MATCH_PASSWORD = "Tidak Cocok Dengan Kata Sandi Lama";
 

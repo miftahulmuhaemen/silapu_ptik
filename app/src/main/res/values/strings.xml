@@ -25,6 +25,7 @@
     <string name="dialog_register">Pastikan data yang anda masukkan sudah benar. Data akan kami gunakan untuk mempermudah keperluan anda nantinya di aplikasi ini.</string>
     <string name="kirim">Kirim</string>
     <string name="tidak">Tidak</string>
+    <string name="pilih">Pilih</string>
     <string name="perempuan">Perempuan</string>
     <string name="laki_laki">Laki-Laki</string>
     <string name="kartu_identitas">Kartu Identitas</string>
