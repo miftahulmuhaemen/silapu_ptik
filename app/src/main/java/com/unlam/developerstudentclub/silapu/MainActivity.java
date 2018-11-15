@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                                                 finish();
                                             }
                                         })
-                                        .setNegativeButton(R.string.tidak, null)
+                                        .setNegativeButton(R.string.Tidak, null)
                                         .create()
                                         .show();
                                 break;
@@ -231,11 +231,11 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        progressbar.setVisibility(View.VISIBLE);
 
         if(requestCode == REQUEST_CODE){
             if(resultCode == RESULT_CODE_PENGADUAN){
 
+                progressbar.setVisibility(View.VISIBLE);
                 String filepath = data.getStringExtra(COMPOSE_ATTACHMENT);
                 MultipartBody.Part body = null;
 
@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
             }
             else if(resultCode == RESULT_CODE_PERDATA){
 
+                progressbar.setVisibility(View.VISIBLE);
                 PerdataItem perdataItem = data.getParcelableExtra(PARCELABLE_GANTI_ORANG);
 
                 HashMap<String, RequestBody> map = new HashMap<>();
