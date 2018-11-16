@@ -92,7 +92,7 @@ public class AddActivity extends AppCompatActivity implements ModifyUser.NoticeD
                                     spinner_aduan.setText(text);
                                 }
                             })
-                            .setNegativeButton(R.string.tidak, null);
+                            .setNegativeButton(R.string.Tidak, null);
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }

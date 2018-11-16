@@ -348,6 +348,11 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         //empty needed
     }
 
+    @Override
+    public void onErrorFieldResponses(int FragmentIdentifier) {
+        //empty needed
+    }
+
     /**
      *
      *  Listener Dialog Ganti

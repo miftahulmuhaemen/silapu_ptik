@@ -25,6 +25,7 @@ public class ImplicitlyListenerComposite implements Implictly {
         }
     }
 
+
     private List<Implictly> registeredListeners = new ArrayList<Implictly>();
 
     public void registerListener (Implictly listener) {

@@ -122,6 +122,7 @@ public class  Global extends Fragment implements Implictly {
 
     public interface onCompleteResponse {
         void onCompleteFormResponse(UserData data, int FragmentIdentifier);
+        void onErrorFieldResponses(int FragmentIdentifier);
     }
 
     @Override
@@ -274,8 +275,6 @@ public class  Global extends Fragment implements Implictly {
                     data.setPassword(password);
                     data.setAlamat(alamat);
                     data.setNama(nama);
-                } else {
-                    Snackbar.make(getActivity().getCurrentFocus(), getResources().getString(R.string.register_not_complete), Snackbar.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -313,15 +312,12 @@ public class  Global extends Fragment implements Implictly {
                     data.setTelp(phone);
                     data.setJk(jenisKelamin);
                     data.setIdentitas(identityCard);
-                } else {
-                    Snackbar.make(getActivity().getCurrentFocus(), getResources().getString(R.string.register_not_complete), Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case FRAGMENT_REGISTER_THIRD :
                 if(filepath.isEmpty()){
                     isComplete = false;
-                    Snackbar.make(getActivity().getCurrentFocus(), getResources().getString(R.string.register_not_complete), Snackbar.LENGTH_SHORT).show();
-                 }
+                }
                 else
                     data.setFilepath(filepath);
                 break;
@@ -330,6 +326,8 @@ public class  Global extends Fragment implements Implictly {
         if(isComplete){
             getResponses().onCompleteFormResponse(data, Fragment);
         }
+
+        getResponses().onErrorFieldResponses(Fragment);
     }
 
     private void updateLabel() {

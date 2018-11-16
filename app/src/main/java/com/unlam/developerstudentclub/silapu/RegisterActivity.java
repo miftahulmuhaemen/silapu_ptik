@@ -126,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
                                     implicitlyListenerComposite.onRegisterActivityResponse(true);
                                 }
                             })
-                            .setNegativeButton(R.string.tidak, new DialogInterface.OnClickListener() {
+                            .setNegativeButton(R.string.Tidak, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // User cancelled the dialog
                                 }
@@ -303,9 +303,26 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
                     progressbar.setVisibility(View.GONE);
                 }
             });
-        } else {
-//            Snackbar.make(getCurrentFocus(), "Data Tidak Lengkap.", Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onErrorFieldResponses(int FragmentIdentifier) {
+
+        if(FragmentIdentifier == FRAGMENT_REGISTER_THIRD){
+            if(!FRAGMENT_thirdSeal)
+                Toast.makeText(RegisterActivity.this, "Unggah foto identitas Anda terlebih dahulu", Toast.LENGTH_SHORT).show();
+            else {
+                if(!FRAGMENT_secondSeal)
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+                else {
+                    if(!FRAGMENT_firstSeal)
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() - 2);
+                }
+                Toast.makeText(RegisterActivity.this, "Tolong pastikan anda mengisi data dengan benar.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     @NonNull
