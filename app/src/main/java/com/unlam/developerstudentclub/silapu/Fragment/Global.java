@@ -73,6 +73,7 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_SECOND;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_THIRD;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE_REGISTER;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -115,7 +116,6 @@ public class  Global extends Fragment implements Implictly {
     private Box<PengaduanItem> pengaduanItemBox;
     private Box<PerdataItem> perdataItemBox;
 
-    String filepath = "";
 
     @Getter @Setter
     onCompleteResponse Responses;
@@ -194,18 +194,9 @@ public class  Global extends Fragment implements Implictly {
                         btn_galeri.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                new ChooserDialog(getActivity())
-                                        .withFilter(false, false, "jpg", "jpeg", "png")
-                                        .withChosenListener(new ChooserDialog.Result() {
-                                            @Override
-                                            public void onChoosePath(String path, File pathFile) {
-                                                filepath = path;
-                                                Glide.with(getContext()).load(pathFile).into(plate_img);
-                                                Toast.makeText(getContext(), "FILE: " + path, Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .build()
-                                        .show();
+                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                                intent.setType("image/*");
+                                getActivity().startActivityForResult(Intent.createChooser(intent,"Select Image"), REQUEST_CODE_REGISTER);
                             }
                         });
                         break;
@@ -315,11 +306,8 @@ public class  Global extends Fragment implements Implictly {
                 }
                 break;
             case FRAGMENT_REGISTER_THIRD :
-                if(filepath.isEmpty()){
+                if(plate_img.getDrawable() == null)
                     isComplete = false;
-                }
-                else
-                    data.setFilepath(filepath);
                 break;
         }
 
@@ -331,12 +319,11 @@ public class  Global extends Fragment implements Implictly {
     }
 
     private void updateLabel() {
-        String myFormat = "yyyy-MM-dd"; //In which you need put here
+        String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
         edt_tanggalLahir.setText(sdf.format(myCalendar.getTime()));
     }
 
-    /*Double Method in LoginActivity, needs to be simplified later*/
     private boolean isValidEmail(CharSequence email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -489,10 +476,6 @@ public class  Global extends Fragment implements Implictly {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-//                if (!recyclerView.canScrollVertically(1))
-//                    btn_add.setVisibility(View.INVISIBLE);
-//                else
-//                    btn_add.setVisibility(View.VISIBLE);
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.unlam.developerstudentclub.silapu;
 
 import android.content.Intent;
+import android.location.Location;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -98,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                 String password = edt_password.getText().toString().trim();
                 String email = edt_email.getText().toString().trim();
                 boolean isEmpty = false;
+
 
                 if(TextUtils.isEmpty(email)){
                     isEmpty = true;

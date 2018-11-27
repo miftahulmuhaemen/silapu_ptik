@@ -3,6 +3,11 @@ package com.unlam.developerstudentclub.silapu;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
@@ -14,9 +19,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.unlam.developerstudentclub.silapu.API.ApiDefaultResponse;
 import com.unlam.developerstudentclub.silapu.API.ApiGenerator;
 import com.unlam.developerstudentclub.silapu.API.ApiInterface;
@@ -33,8 +40,12 @@ import com.unlam.developerstudentclub.silapu.Utils.Implictly;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -62,6 +73,7 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PENGADUA
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_PERDATA;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.PARCELABLE_GANTI_ORANG;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE_REGISTER;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PERDATA;
 
@@ -88,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     private UserPreference userPreference;
     private Box<PengaduanItem> pengaduanItemBox;
     private Box<PerdataItem> perdataItemBox;
+    Bitmap bitmap;
 
     Implictly implictly; // Interface Composite GLOBAL_FRAGMENT
     ImplicitlyListenerComposite implicitlyListenerComposite = new ImplicitlyListenerComposite(); // Composite Listener
@@ -337,6 +350,24 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         }
     }
 
+
+    private File createTempFile(Bitmap bitmap) {
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                , System.currentTimeMillis() +"_image.webp");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.WEBP,0, bos);
+        byte[] bitmapdata = bos.toByteArray();
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
     @NonNull
     private RequestBody createPartFromString(String descriptionString) {
         return RequestBody.create(
@@ -398,8 +429,8 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
 
         MultipartBody.Part body = null;
 
-        if(!data.getFilepath().isEmpty()) {
-            File file = new File(data.getFilepath());
+        if(data.getBitmap()!=null) {
+            File file = createTempFile(data.getBitmap());
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
             body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
         }

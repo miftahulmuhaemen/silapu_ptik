@@ -1,5 +1,7 @@
 package com.unlam.developerstudentclub.silapu.Entity;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.unlam.developerstudentclub.silapu.BuildConfig;
@@ -72,7 +74,7 @@ public class UserData {
     private Integer active;
 
     @Setter @Getter
-    private String filepath;
+    private Bitmap bitmap;
 
     @SerializedName("file")
     @Expose

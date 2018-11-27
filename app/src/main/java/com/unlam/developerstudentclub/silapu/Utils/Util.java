@@ -45,6 +45,7 @@ public class Util {
     public static int       RESULT_CODE_PENGADUAN = 111;
     public static int       RESULT_CODE_PERDATA = 222;
     public final static int       RESULT_CODE_PERMISSION_DOWNLOAD = 444;
+    public static int REQUEST_CODE_REGISTER = 556;
 
     /**
      * Dodemoii CODE

@@ -7,7 +7,13 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -16,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -27,7 +34,12 @@ import com.unlam.developerstudentclub.silapu.Entity.UserData;
 import com.unlam.developerstudentclub.silapu.R;
 import com.unlam.developerstudentclub.silapu.Utils.UserPreference;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -38,6 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
+import static android.app.Activity.RESULT_OK;
 import static com.unlam.developerstudentclub.silapu.API.ApiGenerator.BASE_URL;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_DETIL;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_GANTI_IDENTITAS;
@@ -49,6 +62,7 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.DIALOG_PERDATA_DE
 import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_EMAIL_NOTVALID;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_FIELD_KOSONG;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.ERROR_NOT_MATCH_PASSWORD;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE_REGISTER;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.URL_File;
 
 /**
@@ -90,6 +104,7 @@ public class DialogDetail extends DialogFragment {
     private UserPreference userPreference;
     private String filepath = "";
     final Calendar myCalendar = Calendar.getInstance();
+    Bitmap bitmap;
 
     NoticeDialogListener mListener;
     public interface NoticeDialogListener {
@@ -150,7 +165,7 @@ public class DialogDetail extends DialogFragment {
                                 if(isComplete) {
                                     UserData userData = new UserData();
                                     userData.setNoIdentitas(nomorIdentitas);
-                                    userData.setFilepath(filepath);
+                                    userData.setBitmap(bitmap);
                                     userData.setIdentitas(spinner_identityCard.getText().toString());
                                     mListener.onIdentityUpdateConfirmed(userData);
                                     alertDialog.dismiss();
@@ -260,18 +275,10 @@ public class DialogDetail extends DialogFragment {
             btn_galeri.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new ChooserDialog(getActivity())
-                            .withFilter(false, false, "jpg", "jpeg", "png")
-                            .withChosenListener(new ChooserDialog.Result() {
-                                @Override
-                                public void onChoosePath(String path, File pathFile) {
-                                    filepath = path;
-                                    Glide.with(getActivity()).load(pathFile).into(plate_img);
-                                    Toast.makeText(getActivity(), "FILE: " + path, Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .build()
-                            .show();
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    startActivityForResult(Intent.createChooser(intent,"Select Image"), REQUEST_CODE_REGISTER);
+
                 }
             });
             spinner_identityCard.setSelectedIndex(itemSpinner(R.array.identitas,userPreference.getIdentitas()));
@@ -328,6 +335,34 @@ public class DialogDetail extends DialogFragment {
             }
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CODE_REGISTER) {
+            if(resultCode == RESULT_OK){
+                bitmap = getDecodedImageFromUri(data.getData());
+                Glide.with(this)
+                        .load(bitmap)
+                        .into(plate_img);
+            }
+        }
+    }
+
+
+    private Bitmap getDecodedImageFromUri(Uri uri) {
+        InputStream inputStream = null;
+        try {
+            inputStream = this.getActivity().getContentResolver().openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Rect rect = new Rect(0, 0, 0, 0);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = false;
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream, rect, options); //HERE IS PROBLEM - bitmap = null.
+        return bitmap;
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -345,7 +380,6 @@ public class DialogDetail extends DialogFragment {
 
         int value = 0;
         String [] temp = getResources().getStringArray(resource);
-
         for(int i = 0; i < temp.length ; i++)
             if (temp[i].substring(0,1).equals(match.substring(0,1)))
                 value = i;

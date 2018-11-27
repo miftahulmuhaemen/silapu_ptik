@@ -4,6 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
@@ -12,9 +16,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.rd.PageIndicatorView;
 import com.unlam.developerstudentclub.silapu.API.ApiDefaultResponse;
 import com.unlam.developerstudentclub.silapu.API.ApiGenerator;
@@ -26,8 +32,12 @@ import com.unlam.developerstudentclub.silapu.Utils.ImplicitlyListenerComposite;
 import com.unlam.developerstudentclub.silapu.Utils.Implictly;
 import com.unlam.developerstudentclub.silapu.Utils.LockableViewPager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -45,6 +55,7 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_FORTH;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_SECOND;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.FRAGMENT_REGISTER_THIRD;
+import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE_REGISTER;
 
 public class RegisterActivity extends AppCompatActivity implements Implictly, Global.onCompleteResponse {
 
@@ -152,6 +163,52 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CODE_REGISTER) {
+            if(resultCode == RESULT_OK){
+                bitmap = getDecodedImageFromUri(data.getData());
+                ImageView imageView = findViewById(R.id.plate_img);
+                Glide.with(this)
+                        .load(bitmap)
+                        .into(imageView);
+            }
+        }
+    }
+
+
+    private Bitmap getDecodedImageFromUri(Uri uri) {
+        InputStream inputStream = null;
+        try {
+            inputStream = getContentResolver().openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Rect rect = new Rect(0, 0, 0, 0);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = false;
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream, rect, options); //HERE IS PROBLEM - bitmap = null.
+        return bitmap;
+    }
+
+    private File createTempFile(Bitmap bitmap) {
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                , System.currentTimeMillis() +"_image.webp");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.WEBP,0, bos);
+        byte[] bitmapdata = bos.toByteArray();
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+
     private void setupViewPager(ViewPager viewPager) {
         FragementAdapter adapter = new FragementAdapter(getSupportFragmentManager());
         Global mFragment = new Global();
@@ -235,7 +292,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
         }
 
         if(Fragment == FRAGMENT_REGISTER_THIRD){
-            form.setFilepath(data.getFilepath());
+//            form.setFilepath(data.getFilepath());
             FRAGMENT_thirdSeal = true;
         }
 
@@ -253,7 +310,7 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
             RequestBody jk = createPartFromString(form.getJk());
 
 
-            File file = new File(form.getFilepath());
+            File file = createTempFile(bitmap);
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
             MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
 
@@ -313,16 +370,18 @@ public class RegisterActivity extends AppCompatActivity implements Implictly, Gl
             if(!FRAGMENT_thirdSeal)
                 Toast.makeText(RegisterActivity.this, "Unggah foto identitas Anda terlebih dahulu", Toast.LENGTH_SHORT).show();
             else {
-                if(!FRAGMENT_secondSeal)
+                if(!FRAGMENT_secondSeal){
+                    Toast.makeText(RegisterActivity.this, "Tolong pastikan anda mengisi data dengan benar.", Toast.LENGTH_SHORT).show();
                     viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-                else {
-                    if(!FRAGMENT_firstSeal)
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() - 2);
                 }
-                Toast.makeText(RegisterActivity.this, "Tolong pastikan anda mengisi data dengan benar.", Toast.LENGTH_SHORT).show();
+                else {
+                    if(!FRAGMENT_firstSeal){
+                        Toast.makeText(RegisterActivity.this, "Tolong pastikan anda mengisi data dengan benar.", Toast.LENGTH_SHORT).show();
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() - 2);
+                    }
+                }
             }
         }
-
     }
 
     @NonNull
