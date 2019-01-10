@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.ti_email)
     TextFieldBoxes ti_email;
 
-    ApiInterface api = ApiGenerator.createService(ApiInterface.class);
+        ApiInterface api = ApiGenerator.createService(ApiInterface.class);
     private UserPreference userPreference;
     private Box<PengaduanItem> pengaduanItemBox;
     private Box<PerdataItem> perdataItemBox;

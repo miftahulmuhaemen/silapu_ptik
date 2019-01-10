@@ -280,6 +280,7 @@ public class RecyclerViewAdapter extends android.support.v7.widget.RecyclerView.
         RecylerViewAdapterHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+
         }
     }
 }

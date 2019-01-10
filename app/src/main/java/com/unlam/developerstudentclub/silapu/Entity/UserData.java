@@ -4,10 +4,6 @@ import android.graphics.Bitmap;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.unlam.developerstudentclub.silapu.BuildConfig;
-
-import java.io.File;
-
 import lombok.Getter;
 import lombok.Setter;
 
