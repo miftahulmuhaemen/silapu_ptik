@@ -145,45 +145,42 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         switch (item.getItemId()){
             case R.id.menu :
                 final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setItems(R.array.overflowmenu, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i){
-                            case 0 :
-                                bundle.putString(DIALOG_DETIL, DIALOG_GANTI_PROFIL);
-                                dialogMainActivity.setArguments(bundle);
-                                dialogMainActivity.show(getFragmentManager(),DialogDetail.class.getSimpleName());
-                                break;
-                            case 1 :
-                                bundle.putString(DIALOG_DETIL, DIALOG_GANTI_IDENTITAS);
-                                dialogMainActivity.setArguments(bundle);
-                                dialogMainActivity.show(getFragmentManager(),DialogDetail.class.getSimpleName());
-                                break;
-                            case 2 :
-                                bundle.putString(DIALOG_DETIL, DIALOG_GANTI_PASSWORD);
-                                dialogMainActivity.setArguments(bundle);
-                                dialogMainActivity.show(getFragmentManager(),DialogDetail.class.getSimpleName());
-                                break;
-                            case 3 :
-                                AlertDialog.Builder builder_ = new AlertDialog.Builder(MainActivity.this);
-                                builder_.setTitle(R.string.Keluar)
-                                        .setPositiveButton(R.string.Keluar, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                userPreference.clearePreference();
-                                                pengaduanItemBox.removeAll();
-                                                perdataItemBox.removeAll();
-                                                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })
-                                        .setNegativeButton(R.string.Tidak, null)
-                                        .create()
-                                        .show();
-                                break;
-                        }
-                            }}).create().show();
+                builder.setItems(R.array.overflowmenu, (dialogInterface, i) -> {
+                    switch (i){
+                        case 0 :
+                            bundle.putString(DIALOG_DETIL, DIALOG_GANTI_PROFIL);
+                            dialogMainActivity.setArguments(bundle);
+                            dialogMainActivity.show(getFragmentManager(),DialogDetail.class.getSimpleName());
+                            break;
+                        case 1 :
+                            bundle.putString(DIALOG_DETIL, DIALOG_GANTI_IDENTITAS);
+                            dialogMainActivity.setArguments(bundle);
+                            dialogMainActivity.show(getFragmentManager(),DialogDetail.class.getSimpleName());
+                            break;
+                        case 2 :
+                            bundle.putString(DIALOG_DETIL, DIALOG_GANTI_PASSWORD);
+                            dialogMainActivity.setArguments(bundle);
+                            dialogMainActivity.show(getFragmentManager(),DialogDetail.class.getSimpleName());
+                            break;
+                        case 3 :
+                            AlertDialog.Builder builder_ = new AlertDialog.Builder(MainActivity.this);
+                            builder_.setTitle(R.string.Keluar)
+                                    .setPositiveButton(R.string.Keluar, (dialogInterface1, i1) -> {
+                                        userPreference.clearePreference();
+                                        pengaduanItemBox.removeAll();
+                                        perdataItemBox.removeAll();
+                                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    })
+                                    .setNegativeButton(R.string.Tidak, null)
+                                    .create()
+                                    .show();
+                            break;
+                    }
+                        }).create().show();
+                break;
+            case R.id.web_view :
                 break;
         }
 
@@ -248,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
         if(requestCode == REQUEST_CODE){
             if(resultCode == RESULT_CODE_PENGADUAN){
 
+                assert progressbar != null;
                 progressbar.setVisibility(View.VISIBLE);
                 String filepath = data.getStringExtra(COMPOSE_ATTACHMENT);
                 MultipartBody.Part body = null;

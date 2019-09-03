@@ -67,7 +67,7 @@ public class AddActivity extends AppCompatActivity implements ModifyUser.NoticeD
             spinner_aduan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final ArrayList <Integer> mSelectedItems = new ArrayList();
+                    final ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
                     AlertDialog.Builder builder = new AlertDialog.Builder(AddActivity.this);
                     builder.setMultiChoiceItems(R.array.aduan, null,
                             new DialogInterface.OnMultiChoiceClickListener() {
@@ -103,6 +103,7 @@ public class AddActivity extends AppCompatActivity implements ModifyUser.NoticeD
             perdataItem = new PerdataItem();
 
             setTitle(getResources().getString(R.string.compose_perdata));
+            assert spinner_cara != null;
             spinner_cara.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -165,6 +166,7 @@ public class AddActivity extends AppCompatActivity implements ModifyUser.NoticeD
                 if(isValid) {
                     perdataItem.setPermintaan(edt_message.getText().toString());
                     perdataItem.setTujuan(edt_tujuan.getText().toString());
+                    assert spinner_cara != null;
                     perdataItem.setCara(spinner_cara.getText().toString());
                     resultIntent.putExtra(PARCELABLE_GANTI_ORANG,perdataItem);
                     setResult(RESULT_CODE_PERDATA,resultIntent);
@@ -174,6 +176,7 @@ public class AddActivity extends AppCompatActivity implements ModifyUser.NoticeD
                 break;
 
             case R.id.send_pengaduan :
+                assert spinner_aduan != null;
                 if(spinner_aduan.getText().toString().isEmpty()){
                     isValid = false;
                     Snackbar.make(getCurrentFocus(), "Aduan masih kosong.", Snackbar.LENGTH_SHORT).show();
