@@ -173,7 +173,7 @@ public class DialogDetail extends DialogFragment {
 
                             } else if (getArguments().getString(DIALOG_DETIL).equals(DIALOG_GANTI_PROFIL)) {
 
-                                Boolean isComplete = true;
+                                boolean isComplete = true;
                                 String alamat = edt_alamat.getText().toString().trim();
                                 String nama = edt_nama.getText().toString().trim();
                                 String phone = edt_phoneNumber.getText().toString().trim();
@@ -270,16 +270,17 @@ public class DialogDetail extends DialogFragment {
             view = inflater.inflate(R.layout._ganti_identitas,null);
             ButterKnife.bind(this,view);
 
+            assert spinner_identityCard != null;
+            assert plate_img != null;
+            assert btn_galeri != null;
+
             spinner_identityCard.setItems(getResources().getStringArray(R.array.identitas));
             Glide.with(this).load(URL_File + userPreference.getFile()).into(plate_img);
-            btn_galeri.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("image/*");
-                    startActivityForResult(Intent.createChooser(intent,"Select Image"), REQUEST_CODE_REGISTER);
+            btn_galeri.setOnClickListener(view1 -> {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(Intent.createChooser(intent,"Select Image"), REQUEST_CODE_REGISTER);
 
-                }
             });
             spinner_identityCard.setSelectedIndex(itemSpinner(R.array.identitas,userPreference.getIdentitas()));
             edt_nomorIdentitas.setText(userPreference.getNoIdentitas());
@@ -290,25 +291,21 @@ public class DialogDetail extends DialogFragment {
             view = inflater.inflate(R.layout._ganti_profil,null);
             ButterKnife.bind(this,view);
 
+            assert spinner_jenisKelamin != null;
+            assert edt_tanggalLahir != null;
+            assert ti_tanggalLahir != null;
             spinner_jenisKelamin.setItems(getResources().getStringArray(R.array.jeniskelamin));
             edt_tanggalLahir.setEnabled(false);
-            ti_tanggalLahir.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                              int dayOfMonth) {
-                            myCalendar.set(Calendar.YEAR, year);
-                            myCalendar.set(Calendar.MONTH, monthOfYear);
-                            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                            updateLabel();
-                        }
-                    };
-                    new DatePickerDialog(getActivity(), date, myCalendar
-                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-                }
+            ti_tanggalLahir.getEndIconImageButton().setOnClickListener(view12 -> {
+                DatePickerDialog.OnDateSetListener date = (view121, year, monthOfYear, dayOfMonth) -> {
+                    myCalendar.set(Calendar.YEAR, year);
+                    myCalendar.set(Calendar.MONTH, monthOfYear);
+                    myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    updateLabel();
+                };
+                new DatePickerDialog(getActivity(), date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             });
 
             edt_tanggalLahir.setText(userPreference.getTanggalLahir());
@@ -370,6 +367,7 @@ public class DialogDetail extends DialogFragment {
     }
 
     private void updateLabel() {
+        assert edt_tanggalLahir != null;
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
         edt_tanggalLahir.setText(sdf.format(myCalendar.getTime()));

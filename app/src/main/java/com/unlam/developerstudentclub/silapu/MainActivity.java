@@ -76,6 +76,11 @@ import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.REQUEST_CODE_REGISTER;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PENGADUAN;
 import static com.unlam.developerstudentclub.silapu.Utils.Util.RESULT_CODE_PERDATA;
+import static com.unlam.developerstudentclub.silapu.WebViewActivity.INFORMASI;
+import static com.unlam.developerstudentclub.silapu.WebViewActivity.KEGIATAN;
+import static com.unlam.developerstudentclub.silapu.WebViewActivity.LAPOR;
+import static com.unlam.developerstudentclub.silapu.WebViewActivity.PENGUMUMAN;
+import static com.unlam.developerstudentclub.silapu.WebViewActivity.WebViewIdentifier;
 
 
 public class MainActivity extends AppCompatActivity implements Global.onCompleteResponse, DialogDetail.NoticeDialogListener {
@@ -141,10 +146,10 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
     public boolean onOptionsItemSelected(MenuItem item) {
         final DialogDetail dialogMainActivity = new DialogDetail();
         final Bundle bundle = new Bundle();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
         switch (item.getItemId()){
             case R.id.menu :
-                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setItems(R.array.overflowmenu, (dialogInterface, i) -> {
                     switch (i){
                         case 0 :
@@ -181,6 +186,27 @@ public class MainActivity extends AppCompatActivity implements Global.onComplete
                         }).create().show();
                 break;
             case R.id.web_view :
+                builder.setItems(R.array.overflowmenu, (dialogInterface, i) -> {
+                    final Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+                    switch (i){
+                        case 0 :
+                            intent.putExtra(WebViewIdentifier, LAPOR);
+                            startActivity(intent);
+                            break;
+                        case 1 :
+                            intent.putExtra(WebViewIdentifier, PENGUMUMAN);
+                            startActivity(intent);
+                            break;
+                        case 2 :
+                            intent.putExtra(WebViewIdentifier, KEGIATAN);
+                            startActivity(intent);
+                            break;
+                        case 3 :
+                            intent.putExtra(WebViewIdentifier, INFORMASI);
+                            startActivity(intent);
+                            break;
+                    }
+                }).create().show();
                 break;
         }
 

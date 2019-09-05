@@ -43,4 +43,11 @@
         <item>Keluar</item>
     </string-array>
 
+    <string-array name="webViewMenu">
+        <item>Web 1</item>
+        <item>Web 2</item>
+        <item>Web</item>
+        <item>Web</item>
+    </string-array>
+
 </resources>

@@ -2,7 +2,6 @@ package com.unlam.developerstudentclub.silapu.Utils;
 
 public class Util {
 
-
     /**
      * API URL
      **/
