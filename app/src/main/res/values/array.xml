@@ -44,10 +44,10 @@
     </string-array>
 
     <string-array name="webViewMenu">
-        <item>Web 1</item>
-        <item>Web 2</item>
-        <item>Web</item>
-        <item>Web</item>
+        <item>Lapor</item>
+        <item>Pengumuman</item>
+        <item>Kegiatan</item>
+        <item>Daftar Informasi Publik DIP</item>
     </string-array>
 
 </resources>

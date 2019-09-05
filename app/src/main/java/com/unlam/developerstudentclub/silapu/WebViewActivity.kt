@@ -13,7 +13,7 @@ class WebViewActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v) {
-            backBtn -> {}
+            backBtn -> finish()
         }
     }
 
@@ -31,7 +31,6 @@ class WebViewActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_web_view)
 
         val url = intent?.getStringExtra(WebViewIdentifier)
-
         webview.webViewClient = WebClient()
         webview.settings.javaScriptEnabled = true
         webview.settings.loadsImagesAutomatically = true
@@ -40,7 +39,6 @@ class WebViewActivity : AppCompatActivity(), View.OnClickListener {
         webview.settings.setAppCacheEnabled(true)
         webview.scrollBarSize = View.SCROLLBARS_INSIDE_OVERLAY
         webview.loadUrl(url)
-
         backBtn.setOnClickListener(this)
     }
 

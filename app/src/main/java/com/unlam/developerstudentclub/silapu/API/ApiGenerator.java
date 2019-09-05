@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiGenerator {
 
-    public static String BASE_URL = "https://silapu.ulm.ac.id/silapu/service/api/";
+    public static String BASE_URL = "https://silapu.ulm.ac.id/service/api/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     private static Retrofit.Builder builder = new Retrofit.Builder().baseUrl(BASE_URL)
